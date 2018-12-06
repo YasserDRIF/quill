@@ -149,7 +149,7 @@ angular.module('reg')
               rules: [
                 {
                   type: 'allowMinors',
-                  prompt: 'You must be an adult, or an MIT student.'
+                  prompt: 'You must be an adult, or an ESI student.'
                 }
               ]
             }
