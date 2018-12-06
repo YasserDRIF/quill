@@ -87,6 +87,10 @@ angular.module('reg')
         return $http.post(base + id + '/checkout');
       },
 
+      removeUser: function(id){
+        return $http.post(base + id + '/removeuser');
+      },
+
       makeAdmin: function(id){
         return $http.post(base + id + '/makeadmin');
       },

@@ -173,6 +173,73 @@ angular.module('reg')
         });
       };
 
+
+      $scope.removeUser = function($event, user, index) {
+        $event.stopPropagation();
+
+        console.log(user);
+
+        swal({
+          buttons: {
+            cancel: {
+              text: "Cancel",
+              value: null,
+              visible: true
+            },
+            accept: {
+              className: "danger-button",
+              closeModal: false,
+              text: "Yes, remove them",
+              value: true,
+              visible: true
+            }
+          },
+          dangerMode: true,
+          icon: "warning",
+          text: "You are about to remove " + user.profile.name + "!",
+          title: "Whoa, wait a minute!"
+        }).then(value => {
+          if (!value) {
+            return;
+          }
+
+          swal({
+            buttons: {
+              cancel: {
+                text: "Cancel",
+                value: null,
+                visible: true
+              },
+              yes: {
+                className: "danger-button",
+                closeModal: false,
+                text: "Yes, remove this user",
+                value: true,
+                visible: true
+              }
+            },
+            dangerMode: true,
+            title: "Are you sure?",
+            text: "Your account will be logged as having removed this user. " +
+              "Remember, this power is a privilege.",
+            icon: "warning"
+          }).then(value => {
+            if (!value) {
+              return;
+            }
+
+            UserService
+              .removeUser(user._id)
+              .then(response => {
+                $scope.users[index] = response.data;
+                swal("Removed", response.data.profile.name + ' has been removed.', "success");
+              });
+          });
+        });
+      };
+
+
+
       $scope.toggleAdmin = function($event, user, index) {
         $event.stopPropagation();
 

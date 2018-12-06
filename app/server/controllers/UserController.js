@@ -716,6 +716,7 @@ UserController.makeAdminById = function(id, user, callback){
   callback);
 };
 
+
 /**
  * [ADMIN ONLY]
  *
@@ -737,6 +738,24 @@ UserController.removeAdminById = function(id, user, callback){
   },
   callback);
 };
+
+
+
+/**
+ * [ADMIN ONLY]
+ *
+ * Remove User
+ * @param  {String}   userId   User id of the user being removed
+ * @param  {String}   user     User Removing this user
+ * @param  {Function} callback args(err, user)
+ */
+UserController.removeUserById = function(id, user, callback){
+  User.findOneAndDelete({
+    _id: id,
+  },
+  callback);
+};
+
 
 /**
  * [ADMIN ONLY]

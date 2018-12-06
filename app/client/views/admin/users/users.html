@@ -220,23 +220,28 @@
             <td
               class="right aligned collapsing">
 
-              <button
+              <button 
+                title="Accept User"
                 class="accept ui circular mini basic green icon button"
                 ng-click="acceptUser($event, user, $index)">
                 <i class="add user icon"></i>
+                
               </button>
 
               <button
+                
                 ng-click="toggleCheckIn($event, user, $index)"
                 class="ui circular mini basic green icon button">
 
                 <i
+                  title="Check-In User"
                   ng-if="!user.status.checkedIn"
-                  class="flag outline icon"></i>
+                  class="green flag icon"></i>
 
                 <i
+                  title="Check-Out User"
                   ng-if="user.status.checkedIn"
-                  class="green flag icon"></i>
+                  class="red flag icon"></i>
 
               </button>
 
@@ -245,14 +250,24 @@
                 class="ui circular mini basic green icon button">
 
                 <i
+                  title="Make Admin"
                   ng-if="!user.admin"
-                  class="spy icon"></i>
-
-                <i
-                  ng-if="user.admin"
                   class="green spy icon"></i>
 
+                <i
+                  title="Remove Admin"
+                  ng-if="user.admin"
+                  class="red spy icon"></i>
+
               </button>
+
+              <button 
+              title="Remove User"
+              class="delete ui circular mini basic red icon button"
+              ng-click="removeUser($event, user, $index)">
+              <i class="red x icon"></i>
+              
+            </button>
 
             </td>
           </tr>

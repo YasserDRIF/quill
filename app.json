@@ -21,9 +21,9 @@
         "ADMIN_PASS": "party",
         "EMAIL_ADDRESS": {
             "description": "The email address that is included in the 'email us' link at the bottom of emails.",
-            "value": "team@example.com"
+            "value": "hack@esi.dz"
         },
-        "HACKATHON_NAME": "Hackathon",
+        "HACKATHON_NAME": "ESIHack",
         "TWITTER_HANDLE": {
             "description": "Everything after https://twitter.com/",
             "value": "hackathon"
