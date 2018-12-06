@@ -68,6 +68,7 @@
             <option value="">Gender</option>
             <option value="M">Male</option>
             <option value="F">Female</option>
+            <option value="O">Other</option>
             <option value="N">I prefer not to answer.</option>
           </select>
         </div>
@@ -81,17 +82,17 @@
 
         <div class="field">
           <label>
-              What would you like to learn or get out of ESIHack? (optional)
+              What would you like to learn or get out of HackMIT? (optional)
           </label>
           <textarea ng-model="user.profile.essay">
           </textarea>
         </div>
 
-        <div class="field"
+        <!-- <div class="field"
              ng-hide="isMitStudent">
           <p>
             Because of limitations imposed by MIT, we are not legally allowed to host
-            non-ESI minors (those under 18) for ESIHack 2018. Checking the box below affirms that you are or will be 18 years or older by September 19th, 2018.
+            non-MIT minors (those under 18) for ESIHack 2018. Checking the box below affirms that you are or will be 18 years or older by September 19th, 2015.
           </p>
           <p>
             <strong>
@@ -103,8 +104,57 @@
             <label for="adult">I am 18 or older.</label>
           </div>
         </div>
-
+ -->
         <br>
+
+        <div class="divided title"> Skills & Accomplishments </div>
+
+        <div class="field">
+          <label> What are you studying? </label>
+          <input type="text"
+                 name="study"
+                 placeholder="Computer Science, Product Design, Basket Weaving, etc."
+                 ng-model="user.confirmation.major">
+        </div>
+
+        <div class="field">
+          <label> Github </label>
+          <input type="text"
+                 name="github"
+                 placeholder="https://github.com/foobar"
+                 ng-model="user.confirmation.github">
+        </div>
+
+        <div class="field">
+          <label> Facebook </label>
+          <input type="text"
+                 name="facebook"
+                 placeholder="https://facebook.com/foobar"
+                 ng-model="user.confirmation.facebook">
+        </div>
+
+        <div class="field">
+          <label> Linkedin </label>
+          <input type="text"
+                 name="linkedin"
+                 placeholder="https://linkedin.com/in/foobar"
+                 ng-model="user.confirmation.linkedin">
+        </div>
+
+        <div class="field">
+          <label> Skill Sheet (required) </label>
+          <p>
+            Upload a document outlining any skills or experience you'd like to share (ex. resume). PDF preferred!
+          </p>
+          <a
+            target="_blank"
+            href="https://go.hackmit.org/skill-sheets"
+            class="ui pink button">
+            Upload
+          </a>
+        </div>
+
+
 
         <div class="field" ng-hide="regIsClosed">
           <button type="submit"
