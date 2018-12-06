@@ -140,7 +140,7 @@ angular.module('reg')
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please select a gender.'
+                  prompt: 'Please select a gender. '
                 }
               ]
             },
