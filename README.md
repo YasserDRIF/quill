@@ -125,7 +125,7 @@ If you want stats for your new fields:
 # Features added for ESIHack
 - Auto send mails (Application/Confirmation/admmittance)
 - Ability to remove user from Admin/users view
-- SoftAccepted feature and send Acceptance emails
+- SoftAccepted status and send Acceptance emails button
 
 
 

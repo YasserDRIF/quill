@@ -107,6 +107,9 @@ function calculateStats(){
         // Count submitted
         newStats.submitted += user.status.completedProfile ? 1 : 0;
 
+        // Count softAccepted
+        newStats.softAdmitted += user.status.softAdmitted ? 1 : 0;
+
         // Count accepted
         newStats.admitted += user.status.admitted ? 1 : 0;
 
