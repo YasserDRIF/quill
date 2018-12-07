@@ -144,6 +144,11 @@ function calculateStats(){
           newStats.demo.year[user.profile.graduationYear] += 1;
         }
 
+        // Count Hackathon participations
+        if (user.profile.howManyHackathons){
+          newStats.demo.howManyHackathons[user.profile.howManyHackathons] += 1;
+        }
+
         // Grab the team name if there is one
         // if (user.teamCode && user.teamCode.length > 0){
         //   if (!newStats.teams[user.teamCode]){

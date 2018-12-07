@@ -37,6 +37,15 @@ var profile = {
     max: 300
   },
 
+
+  howManyHackathons: {
+    type: String,
+    enum : {
+      values: '0,1,2,4,7'.split(',')
+    }
+  },
+
+
   essay: {
     type: String,
     min: 0,
@@ -202,6 +211,8 @@ var schema = new mongoose.Schema({
     default: Date.now(),
     select: false
   },
+
+
 
   /**
    * User Profile.

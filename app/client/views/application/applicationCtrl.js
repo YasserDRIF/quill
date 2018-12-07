@@ -145,6 +145,15 @@ angular.module('reg')
                 }
               ]
             },
+            howManyHackathons: {
+              identifier: 'howManyHackathons',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please select how many hackathons you have attended.'
+                }
+              ]
+            },
             adult: {
               identifier: 'adult',
               rules: [

@@ -388,6 +388,9 @@ angular.module('reg')
                 name: 'Graduation Year',
                 value: user.profile.graduationYear
               },{
+                name: 'Hackathons visited',
+                value: user.profile.howManyHackathons
+              },{
                 name: 'Description',
                 value: user.profile.description
               },{
