@@ -187,7 +187,6 @@ controller.sendApplicationEmail = function(user, callback) {
 }
 
 
-
 controller.sendConfirmationEmail = function(user, callback) {
   var options = {
     to: user.email,
@@ -195,15 +194,12 @@ controller.sendConfirmationEmail = function(user, callback) {
   };
 
   var locals = {
-    title: 'Application received',
-    subtitle: 'Thanks for confirming your attendance to Junction 2018. Some important information can be found in this email!',
-    body: 'Your application for '+HACKATHON_NAME+' has been successfully submitted.'+
-      'A big thank you for the interest and enthusiasm! Next, we look forward reading it and informing you of the final decision. '+
-      'Processing your application will take some time. While waiting for the news,'+
-      'you can still edit your information or check your status at your Dashboard',
+    name: user.profile.name,
+    url: ROOT_URL,
+    userId : user.id,
   };
 
-  sendOne('email-basic', options, locals, function(err, info){
+  sendOne('email-confirmation', options, locals, function(err, info){
     if (err){
       console.log(err);
     }
@@ -216,7 +212,35 @@ controller.sendConfirmationEmail = function(user, callback) {
   });
 }
 
+/*
+* Send a status update email for admittance.
+* @param  {[type]}   email    [description]
+* @param  {Function} callback [description]
+* @return {[type]}            [description]
+*/
+controller.sendAdmittanceEmail = function(user, callback) {
 
+  var options = {
+    to: user.email,
+    subject: "["+HACKATHON_NAME+"] - You have been admitted!"
+  };
+  var locals = {
+    name: user.profile.name,
+    url: ROOT_URL,
+  };
+ 
+  sendOne('email-admittance', options, locals, function(err, info){
+    if (err){
+      console.log(err);
+    }
+    if (info){
+      console.log(info.message);
+    }
+    if (callback){
+      callback(err, info);
+    }
+  });
+ };
 
 
 

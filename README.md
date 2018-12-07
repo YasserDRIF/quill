@@ -120,11 +120,20 @@ If you want stats for your new fields:
 - Recalculate them in `server/services/stats.js`
 - Display them on the admin panel by editing `client/views/admin/stats/`
 
+
+
+# Features added for ESIHack
+- Auto send mails (Application/Confirmation/admmittance)
+- Ability to remove user from Admin/users view
+
+
+
 ### Email Templates
-To customize the verification and confirmation emails for your event, put your new email templates in `server/templates/` and edit `server/services/email.js`
+To customize the verification and confirmation emails for your event, put your new email templates in `server/emails/` and edit `server/services/email.js`
 
 # Contributing
 Contributions to Quill are welcome and appreciated! Please take a look at [`CONTRIBUTING.md`][contribute] first.
+
 
 # Feedback / Questions
 If you have any questions about this software, please contact [quill@hackmit.org][email].

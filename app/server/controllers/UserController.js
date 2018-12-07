@@ -440,6 +440,13 @@ UserController.updateConfirmationById = function (id, confirmation, callback){
       }, {
         new: true
       },
+      function(err, user) {
+        if (err || !user) {
+          return callback(err);
+        }
+        Mailer.sendConfirmationEmail(user);
+        return callback(err, user);
+      },
       callback);
 
   });
@@ -730,6 +737,13 @@ UserController.admitUser = function(id, user, callback){
         }
       }, {
         new: true
+      },
+      function(err, user) {
+        if (err || !user) {
+          return callback(err);
+        }
+        Mailer.sendAdmittanceEmail(user);
+        return callback(err, user);
       },
       callback);
   });
