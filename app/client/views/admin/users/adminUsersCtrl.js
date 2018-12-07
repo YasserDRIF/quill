@@ -164,7 +164,7 @@ angular.module('reg')
             }
 
             UserService
-              .admitUser(user._id)
+              .softAdmittUser(user._id)
               .then(response => {
                 $scope.users[index] = response.data;
                 swal("Accepted", response.data.profile.name + ' has been admitted.', "success");
@@ -240,15 +240,13 @@ angular.module('reg')
 
 
       $scope.sendAcceptanceEmails = function() {
-        const filterAccepted = $scope.users.filter(u => u.status.admitted)
-        console.log(filterAccepted);
-
+        const filterSoftAccepted = $scope.users.filter(u => u.status.softAdmitted && !u.status.admitted)
 
         var message = $(this).data('confirm');
 
       swal({
           title: "Whoa, wait a minute!",
-          text: `You're about to send acceptance emails (and accept) ${filterAccepted.length} user(s).`, 
+          text: `You're about to send acceptance emails (and accept) ${filterSoftAccepted.length} user(s).`, 
           icon: "warning",
           buttons: ["Cancel","Yes, accept them and send the emails"],
           dangerMode: true,
@@ -257,12 +255,12 @@ angular.module('reg')
         if (willSend) {
 
           
-          if(filterAccepted.length){
-            filterAccepted.forEach(user => {
+          if(filterSoftAccepted.length){
+            filterSoftAccepted.forEach(user => {
               UserService
                 .admitUser(user._id)
             })
-            swal("Sending!", `Accepting and sending emails to ${filterAccepted.length} users!`, "success");
+            swal("Sending!", `Accepting and sending emails to ${filterSoftAccepted.length} users!`, "success");
           } else {
             swal("Whoops", "You can't send or accept 0 users!", "error");
           }

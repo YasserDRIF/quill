@@ -723,6 +723,27 @@ UserController.resetPassword = function(token, password, callback){
  * @param  {String}   user     User doing the admitting
  * @param  {Function} callback args(err, user)
  */
+
+UserController.softAdmitUser = function(id, user, callback){
+  Settings.getRegistrationTimes(function(err, times){
+    User
+      .findOneAndUpdate({
+        _id: id,
+        verified: true
+      },{
+        $set: {
+          'status.softAdmitted': true,
+          'status.admittedBy': user.email,
+          'status.confirmBy': times.timeConfirm
+        }
+      }, {
+        new: true
+      },
+      callback);
+  });
+};
+
+
 UserController.admitUser = function(id, user, callback){
   Settings.getRegistrationTimes(function(err, times){
     User
@@ -743,11 +764,14 @@ UserController.admitUser = function(id, user, callback){
           return callback(err);
         }
         Mailer.sendAdmittanceEmail(user);
+        console.log("Sent acceptence Mail to"+user.profile.name);
         return callback(err, user);
       },
       callback);
   });
 };
+
+
 
 /**
  * [ADMIN ONLY]

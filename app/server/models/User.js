@@ -117,6 +117,11 @@ var status = {
     required: true,
     default: false,
   },
+  softAdmitted: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   admitted: {
     type: Boolean,
     required: true,
@@ -147,6 +152,11 @@ var status = {
   },
   checkInTime: {
     type: Number,
+  },
+  rejected: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
   confirmBy: {
     type: Number

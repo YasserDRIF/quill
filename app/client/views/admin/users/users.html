@@ -94,7 +94,7 @@
             <th>E-mail address</th>
             <th>School</th>
             <th>Grad</th>
-            <th>V/S/A/C</th>
+            <th>V/S/sA/A/C</th>
             <th>Link</th>
             <th>Actions</th>
           </tr>
@@ -138,6 +138,16 @@
               <i
                 ng-if="!user.status.completedProfile"
                 class="red remove circle icon">
+              </i>
+
+              <!-- Soft Admitted -->
+              <i
+                ng-if="user.status.softAdmitted"
+                class="green check circle icon">
+              </i>
+              <i
+                ng-if="!user.status.softAdmitted"
+                class="thin circle icon">
               </i>
 
               <!-- Admitted -->

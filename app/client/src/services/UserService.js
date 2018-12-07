@@ -85,6 +85,11 @@ angular.module('reg')
       admitUser: function(id){
         return $http.post(base + id + '/admit');
       },
+      softAdmittUser: function(id){
+        return $http.post(base + id + '/softAdmit');
+      },
+
+
 
       checkIn: function(id){
         return $http.post(base + id + '/checkin');

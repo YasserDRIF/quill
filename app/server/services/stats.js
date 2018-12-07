@@ -24,16 +24,25 @@ function calculateStats(){
         '2021': 0,
         '2022': 0,
         '2023': 0,
+      },
+      howManyHackathons: {
+        '0': 0,
+        '1': 0,
+        '2': 0,
+        '4': 0,
+        '7': 0,
       }
     },
 
     teams: {},
     verified: 0,
     submitted: 0,
+    softAdmitted: 0,
     admitted: 0,
     confirmed: 0,
     confirmedMit: 0,
     declined: 0,
+    rejected: 0,
 
     confirmedFemale: 0,
     confirmedMale: 0,
