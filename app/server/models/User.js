@@ -51,6 +51,12 @@ var profile = {
     }
   },
 
+  major: String,
+  github: String,
+  facebook: String,
+  linkedin: String,
+  resume: String,
+
 };
 
 // Only after confirmed
@@ -65,12 +71,6 @@ var confirmation = {
   },
   wantsHardware: Boolean,
   hardware: String,
-
-  major: String,
-  github: String,
-  twitter: String,
-  website: String,
-  resume: String,
 
   needsReimbursement: Boolean,
   address: {

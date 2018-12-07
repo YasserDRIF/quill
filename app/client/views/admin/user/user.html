@@ -147,23 +147,26 @@
         </textarea>
       </div>
 
-      <div class="field"
-           ng-hide="isMitStudent">
-        <p>
-          Because of limitations imposed by MIT, we are not legally allowed to host
-          non-MIT minors (those under 18) for ESIHack 2019. Checking the box below affirms that you are or will be 18 years or older by September 19th, 2015.
-        </p>
-        <p>
-          <strong>
-          We will be checking ID. If you are a non-MIT minor, you will be turned away at the door.
-          </strong>
-        </p>
-        <div class="ui checkbox">
-          <input type="checkbox" id="adult" ng-model="selectedUser.profile.adult">
-          <label for="adult">I am 18 or older.</label>
-        </div>
+      <div class="field">
+        <label> Major </label>
+        <input type="text" ng-model="selectedUser.profile.major" />
       </div>
 
+      <div class="field">
+        <label> Github </label>
+        <input type="url" ng-model="selectedUser.profile.github" />
+      </div>
+
+      <div class="field">
+        <label> Facebook </label>
+        <input type="url" ng-model="selectedUser.profile.facebook" />
+      </div>
+
+      <div class="field">
+        <label> Linkedin </label>
+        <input type="url" ng-model="selectedUser.profile.linkedin" />
+      </div>
+      
       <div class="field">
         <div
           ng-click="updateProfile()"
@@ -200,26 +203,6 @@
       <div class="field">
         <label> Shirt Size </label>
         <input type="text" ng-model="selectedUser.profile.shirtSize" />
-      </div>
-
-      <div class="field">
-        <label> Major </label>
-        <input type="text" ng-model="selectedUser.profile.major" />
-      </div>
-
-      <div class="field">
-        <label> Github </label>
-        <input type="url" ng-model="selectedUser.profile.github" />
-      </div>
-
-      <div class="field">
-        <label> Website </label>
-        <input type="url" ng-model="selectedUser.profile.website" />
-      </div>
-
-      <div class="field">
-        <label> Resume </label>
-        <input type="url" ng-model="selectedUser.profile.resume" />
       </div>
 
       <div class="ui divider"></div>

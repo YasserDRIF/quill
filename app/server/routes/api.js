@@ -272,7 +272,7 @@ module.exports = function(router) {
   });
 
       /**
-   * Remove User
+   * Remove User. ADMIN ONLY
    */
   router.post('/users/:id/removeuser', isAdmin, function(req, res){
     var id = req.params.id;
@@ -280,7 +280,7 @@ module.exports = function(router) {
     UserController.removeUserById(id, user, defaultResponse(req, res));
   });
 
-  
+
   /**
    * Make user an admin
    */

@@ -96,7 +96,7 @@ angular.module('reg')
               .checkIn(user._id)
               .then(response => {
                 $scope.users[index] = response.data;
-                swal("Accepted", response.data.profile.name + " has been checked in.", "success");
+                swal("Checked in", response.data.profile.name + " has been checked in.", "success");
               });
           });
         } else {
@@ -104,7 +104,7 @@ angular.module('reg')
             .checkOut(user._id)
             .then(response => {
               $scope.users[index] = response.data;
-              swal("Accepted", response.data.profile.name + ' has been checked out.', "success");
+              swal("Checked out", response.data.profile.name + ' has been checked out.', "success");
             });
         }
       };
@@ -356,6 +356,18 @@ angular.module('reg')
               },{
                 name: 'Essay',
                 value: user.profile.essay
+              },{
+                name: 'Major',
+                value: user.profile.major
+              },{
+                name: 'Github',
+                value: user.profile.github
+              },{
+                name: 'Facebook',
+                value: user.profile.facebook
+              },{
+                name: 'Linkedin',
+                value: user.profile.linkedin
               }
             ]
           },{
@@ -370,15 +382,6 @@ angular.module('reg')
               },{
                 name: 'Shirt Size',
                 value: user.confirmation.shirtSize
-              },{
-                name: 'Major',
-                value: user.confirmation.major
-              },{
-                name: 'Github',
-                value: user.confirmation.github
-              },{
-                name: 'Website',
-                value: user.confirmation.website
               },{
                 name: 'Needs Hardware',
                 value: user.confirmation.wantsHardware,

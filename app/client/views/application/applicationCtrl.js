@@ -15,6 +15,7 @@ angular.module('reg')
 
       // Set up the user
       $scope.user = currentUser.data;
+      console.log(currentUser.data);
 
       // Is the student from MIT (ESI in our case)?
       $scope.isMitStudent = $scope.user.email.split('@')[1] == 'esi.dz';
