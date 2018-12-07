@@ -42,4 +42,35 @@ angular.module('reg')
             swal("Oops, you forgot something.");
           });
       };
+
+
+      $scope.updateConfirmation = function(){
+        UserService
+          .updateConfirmation($scope.selectedUser._id, $scope.selectedUser.confirmation)
+          .then(response => {
+            $selectedUser = response.data;
+            swal("Updated!", "Confirmation updated.", "success");
+          }, response => {
+            swal("Oops, you forgot something.");
+          });
+      };
+
+
+      $scope.updateAllUser = function(){
+        console.log($scope.selectedUser);
+
+        UserService
+          .updateAll($scope.selectedUser._id, $scope.selectedUser)
+          .then(response => {
+            $selectedUser = response.data;
+            swal("Updated!", "ALL Profile updated.", "success");
+          }, response => {
+            swal("Oops, you forgot something.");
+          });  
+      };
+
+
+
+
+
     }]);

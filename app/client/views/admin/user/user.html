@@ -167,24 +167,6 @@
         <input type="url" ng-model="selectedUser.profile.linkedin" />
       </div>
       
-      <div class="field">
-        <div
-          ng-click="updateProfile()"
-          class="ui positive right labeled icon button">
-          Update Profile
-          <i class="checkmark icon"></i>
-        </div>
-      </div>
-
-    </fieldset>
-  </div>
-
-  <div class="ui divider"></div>
-
-  <div class="ui form">
-
-    <fieldset ng-disabled="false">
-
       <div class="ui header">
         Confirmation
       </div>
@@ -226,7 +208,28 @@
 
       <div class="ui divider"></div>
 
-      <div class="ui header">
+      <div class="field">
+        <div
+          ng-click="updateAllUser()"
+          class="ui positive right labeled icon button">
+          Update All
+          <i class="checkmark icon"></i>
+        </div>
+      </div>
+
+
+
+    </fieldset>
+  </div>
+
+  <div class="ui divider"></div>
+
+  <div class="ui form">
+
+    <fieldset ng-disabled="false">
+
+
+      <!-- <div class="ui header">
         Hosting
       </div>
 
@@ -375,7 +378,7 @@
       <div class="field">
         <label> Additional Notes </label>
         <textarea ng-model="selectedUser.confirmation.notes"></textarea>
-      </div>
+      </div> -->
 
     </fieldset>
 

@@ -175,6 +175,24 @@ module.exports = function(router) {
     UserController.updateConfirmationById(id, confirmation, defaultResponse(req, res));
   });
 
+
+
+  /**
+   * [OWNER/ADMIN]
+   *
+   * PUT - Update a specific user's profile/confirmation information.
+   */
+  router.put('/users/:id/updateall', isOwnerOrAdmin, function(req, res){
+    var profile = req.body.user.profile;
+    var confirmation = req.body.user.confirmation;
+    var id = req.params.id;
+
+
+    UserController.updateAllById(id, profile, confirmation , defaultResponse(req, res));
+  });
+
+
+
   /**
    * [OWNER/ADMIN]
    *

@@ -258,6 +258,76 @@ UserController.getById = function (id, callback){
   User.findById(id).exec(callback);
 };
 
+
+
+
+
+
+
+/**
+ * Update a user's profile/confirmation objects, given an id and a profile.
+ *
+ * @param  {String}   id       Id of the user
+ * @param  {Object}   profile  Profile object
+ * @param  {Function} callback Callback with args (err, user)
+ */
+UserController.updateAllById = function (id, profile, confirmation, callback){
+
+  // Validate the user profile, and mark the user as profile completed
+  // when successful.
+  User.validateProfile(profile, function(err){
+
+    if (err){
+      return callback({message: 'invalid profile'});
+    }
+
+    // Check if its within the registration window.
+    Settings.getRegistrationTimes(function(err, times){
+      if (err) {
+        callback(err);
+      }
+
+      var now = Date.now();
+
+      if (now < times.timeOpen){
+        return callback({
+          message: "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+        });
+      }
+
+      if (now > times.timeClose){
+        return callback({
+          message: "Sorry, registration is closed."
+        });
+      }
+    });
+
+    User.findOneAndUpdate({
+      _id: id,
+      verified: true
+    },
+      {
+        $set: {
+          'lastUpdated': Date.now(),
+          'profile': profile,
+          'confirmation': confirmation,
+          'status.completedProfile': true
+        }
+      },
+      {
+        new: true
+      },
+      callback);
+
+  });
+};
+
+
+
+
+
+
+
 /**
  * Update a user's profile object, given an id and a profile.
  *

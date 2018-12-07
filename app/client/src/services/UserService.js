@@ -46,6 +46,13 @@ angular.module('reg')
         });
       },
 
+
+      updateAll: function(id, user){
+        return $http.put(base + id + '/updateall', {
+          user: user
+        });
+      },
+
       declineAdmission: function(id){
         return $http.post(base + id + '/decline');
       },

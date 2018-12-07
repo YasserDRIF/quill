@@ -75,7 +75,8 @@ angular.module('reg')
         AuthService
           .resendVerificationEmail()
           .then(response => {
-            swal("Your email has been sent.");
+            swal("Check your Inbox!", "Your email has been sent.", "success"); 
+            
           });
       };
 

@@ -1,7 +1,7 @@
 <div class="ui segment">
 
   <div class="ui stackable grid">
-    <div class="three wide column">
+    <div class="sixteen wide column">
       <div class="ui header">
         Search
       </div>
@@ -20,16 +20,8 @@
 
       <div class="ui divider"></div>
 
-      <button
-        ng-repeat="page in pages"
-        ng-class="page == currentPage ? 'active pink' : ''"
-        ng-click="goToPage(page)"
-        class="ui icon basic page button">
-        {{page}}
-      </button>
-
     </div>
-    <div id="table-container" class="thirteen wide column">
+    <div id="table-container" class="sixteen wide column">
       <div class="ui header">
         Users
       </div>
@@ -209,10 +201,10 @@
             <td
               class="collapsing">
               <button
-                title="Edit"
+                title="Edit user"
                 ng-click="goUser($event, user)"
                 class="ui circular mini basic icon button">
-                <i class="linkify icon"></i>
+                <i class="edit icon"></i>
               </button>
             </td>
 
@@ -272,6 +264,14 @@
           </tr>
         </tbody>
       </table>
+
+      <button
+      ng-repeat="page in pages"
+      ng-class="page == currentPage ? 'active pink' : ''"
+      ng-click="goToPage(page)"
+      class="ui icon basic page button">
+      {{page}}
+      </button>
 
     </div>
   </div>
