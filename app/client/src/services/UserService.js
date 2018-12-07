@@ -29,7 +29,7 @@ angular.module('reg')
           {
             text: text,
             page: page ? page : 0,
-            size: size ? size : 50
+            size: size ? size : 20
           })
         );
       },
