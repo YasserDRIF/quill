@@ -142,6 +142,37 @@ module.exports = function(router) {
     UserController.getStats(defaultResponse(req, res));
   });
 
+  router.post('/users/massReject', isAdmin, function(req, res){
+    UserController.massReject(defaultResponse(req, res));
+  });
+
+  router.get('/users/rejectionCount', isAdmin, function(req, res){
+    UserController.getRejectionCount(defaultResponse(req, res));
+  });
+
+  router.post('/users/massRejectRest', isAdmin, function(req, res){
+    UserController.massRejectRest(defaultResponse(req, res));
+  });
+
+  router.get('/users/rejectionCountRest', isAdmin, function(req, res){
+    UserController.getRejectionRestCount(defaultResponse(req, res));
+  });
+
+  router.get('/users/laterRejectCount', isAdmin, function(req, res) {
+    UserController.getLaterRejectionCount(defaultResponse(req, res));
+  })
+
+  router.post('/users/sendResetEmail', isAdmin, function(req, res) {
+    const email = req.body.email
+    UserController.sendPasswordResetEmail(email, defaultResponse(req, res));
+  })
+
+
+
+
+
+
+
   /**
    * [OWNER/ADMIN]
    *

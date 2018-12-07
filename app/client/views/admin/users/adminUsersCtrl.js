@@ -239,6 +239,43 @@ angular.module('reg')
       };
 
 
+      $scope.sendAcceptanceEmails = function() {
+        const filterAccepted = $scope.users.filter(u => u.status.admitted)
+        console.log(filterAccepted);
+
+
+        var message = $(this).data('confirm');
+
+      swal({
+          title: "Whoa, wait a minute!",
+          text: `You're about to send acceptance emails (and accept) ${filterAccepted.length} user(s).`, 
+          icon: "warning",
+          buttons: ["Cancel","Yes, accept them and send the emails"],
+          dangerMode: true,
+      })
+      .then((willSend) => {
+        if (willSend) {
+
+          
+          if(filterAccepted.length){
+            filterAccepted.forEach(user => {
+              UserService
+                .admitUser(user._id)
+            })
+            swal("Sending!", `Accepting and sending emails to ${filterAccepted.length} users!`, "success");
+          } else {
+            swal("Whoops", "You can't send or accept 0 users!", "error");
+          }
+        
+
+
+
+        }
+      });
+
+      }
+
+
 
       $scope.toggleAdmin = function($event, user, index) {
         $event.stopPropagation();

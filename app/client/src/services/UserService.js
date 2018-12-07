@@ -105,6 +105,62 @@ angular.module('reg')
       removeAdmin: function(id){
         return $http.post(base + id + '/removeadmin');
       },
+
+      massReject: function() {
+        return $http.post(base + 'massReject')
+      },
+
+      getRejectionCount: function() {
+        return $http.get(base + 'rejectionCount')
+      },
+
+      getLaterRejectedCount: function() {
+        return $http.get(base + 'laterRejectCount')
+      },
+
+      massRejectRest: function() {
+        return $http.post(base + 'massRejectRest')
+      },
+
+      getRestRejectionCount: function() {
+        return $http.get(base + 'rejectionCountRest')
+      },
+
+      rateUser: function(id, rating) {
+        return $http.post(base + id + '/rate', {
+          rating
+        })
+      },
+
+      reject: function(id){
+        return $http.post(base + id + '/reject');
+      },
+
+      unReject: function(id){
+        return $http.post(base + id + '/unreject');
+      },
+
+      sendLaggerEmails: function() {
+        return $http.post(base + 'sendlagemails');
+      },
+
+      sendRejectEmails: function() {
+        return $http.post(base + 'sendRejectEmails');
+      },
+
+      sendRejectEmailsRest: function() {
+        return $http.post(base + 'sendRejectEmailsRest');
+      },
+
+      sendRejectEmail: function(id) {
+        return $http.post(base + id + '/rejectEmail')
+      },
+
+      sendPasswordResetEmail: function(email) {
+        return $http.post(base + 'sendResetEmail', {email: email})
+      },
+
+
     };
   }
   ]);

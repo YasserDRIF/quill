@@ -158,6 +158,108 @@ controller.sendPasswordResetEmail = function(email, token, callback) {
 
 };
 
+
+
+
+
+controller.sendApplicationEmail = function(user, callback) {
+  var options = {
+    to: user.email,
+    subject: "["+HACKATHON_NAME+"] - We have received your application!"
+  };
+
+  var locals = {
+    title: 'Application received',
+    subtitle: 'Hello '+user.profile.name+',',
+    body: 'Your application for '+HACKATHON_NAME+' has been successfully submitted.'+
+      'A big thank you for the interest and enthusiasm! Next, we look forward reading it and informing you of the final decision. '+
+      'Processing your application will take some time. While waiting for the news,'+
+      'you can still edit your information or check your status at your Dashboard',
+  };
+
+  sendOne('email-basic', options, locals, function(err, info){
+    if (err){
+      console.log(err);
+    }
+    if (info){
+      console.log(info.message);
+    }
+    if (callback){
+      callback(err, info);
+    }
+  });
+}
+
+
+
+controller.sendApplicationEmail = function(user, callback) {
+  var options = {
+    to: user.email,
+    subject: "["+HACKATHON_NAME+"] - We have received your application!"
+  };
+
+  var locals = {
+    title: 'Application received',
+    subtitle: 'Hello '+user.profile.name+',',
+    body: 'Your application for '+HACKATHON_NAME+' has been successfully submitted.'+
+      'A big thank you for the interest and enthusiasm! Next, we look forward reading it and informing you of the final decision. '+
+      'Processing your application will take some time. While waiting for the news,'+
+      'you can still edit your information or check your status at your Dashboard',
+  };
+
+  sendOne('email-basic', options, locals, function(err, info){
+    if (err){
+      console.log(err);
+    }
+    if (info){
+      console.log(info.message);
+    }
+    if (callback){
+      callback(err, info);
+    }
+  });
+}
+
+
+
+controller.sendConfirmationEmail = function(user, callback) {
+  var options = {
+    to: user.email,
+    subject: "["+HACKATHON_NAME+"] - You are confirmed!"
+  };
+
+  var locals = {
+    title: 'Application received',
+    subtitle: 'Hello '+user.profile.name+',',
+    body: 'Your application for '+HACKATHON_NAME+' has been successfully submitted.'+
+      'A big thank you for the interest and enthusiasm! Next, we look forward reading it and informing you of the final decision. '+
+      'Processing your application will take some time. While waiting for the news,'+
+      'you can still edit your information or check your status at your Dashboard',
+  };
+
+  sendOne('email-basic', options, locals, function(err, info){
+    if (err){
+      console.log(err);
+    }
+    if (info){
+      console.log(info.message);
+    }
+    if (callback){
+      callback(err, info);
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
 /**
  * Send a password recovery email.
  * @param  {[type]}   email    [description]
