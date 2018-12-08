@@ -1,9 +1,9 @@
-var path = require('path');
-var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
-
-var templatesDir = path.join(__dirname, '../templates');
-var Email = require('email-templates');
+var path = require("path");
+var nodemailer = require("nodemailer");
+var smtpTransport = require("nodemailer-smtp-transport");
+var getQRCode = require("./qr");
+var templatesDir = path.join(__dirname, "../templates");
+var Email = require("email-templates");
 
 var ROOT_URL = process.env.ROOT_URL;
 
@@ -18,7 +18,7 @@ var EMAIL_PASS = process.env.EMAIL_PASS;
 var EMAIL_PORT = process.env.EMAIL_PORT;
 var EMAIL_CONTACT = process.env.EMAIL_CONTACT;
 var EMAIL_HEADER_IMAGE = process.env.EMAIL_HEADER_IMAGE;
-if(EMAIL_HEADER_IMAGE.indexOf("https") == -1){
+if (EMAIL_HEADER_IMAGE.indexOf("https") == -1) {
   EMAIL_HEADER_IMAGE = ROOT_URL + EMAIL_HEADER_IMAGE;
 }
 
@@ -60,22 +60,25 @@ function sendOne(templateName, options, data, callback) {
   data.twitterHandle = TWITTER_HANDLE;
   data.facebookHandle = FACEBOOK_HANDLE;
 
-  email.send({
-    locals: data,
-    message: {
-      subject: options.subject,
-      to: options.to
-    },
-    template: path.join(__dirname, "..", "emails", templateName),
-  }).then(res => {
-    if (callback) {
-      callback(undefined, res)
-    }
-  }).catch(err => {
-    if (callback) {
-      callback(err, undefined);
-    }
-  });
+  email
+    .send({
+      locals: data,
+      message: {
+        subject: options.subject,
+        to: options.to
+      },
+      template: path.join(__dirname, "..", "emails", templateName)
+    })
+    .then(res => {
+      if (callback) {
+        callback(undefined, res);
+      }
+    })
+    .catch(err => {
+      if (callback) {
+        callback(err, undefined);
+      }
+    });
 }
 
 /**
@@ -86,14 +89,13 @@ function sendOne(templateName, options, data, callback) {
  * @return {[type]}            [description]
  */
 controller.sendVerificationEmail = function(email, token, callback) {
-
   var options = {
     to: email,
-    subject: "["+HACKATHON_NAME+"] - Verify your email"
+    subject: "[" + HACKATHON_NAME + "] - Verify your email"
   };
 
   var locals = {
-    verifyUrl: ROOT_URL + '/verify/' + token
+    verifyUrl: ROOT_URL + "/verify/" + token
   };
 
   /**
@@ -102,18 +104,17 @@ controller.sendVerificationEmail = function(email, token, callback) {
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-verify', options, locals, function(err, info){
-    if (err){
+  sendOne("email-verify", options, locals, function(err, info) {
+    if (err) {
       console.log(err);
     }
-    if (info){
+    if (info) {
       console.log(info.message);
     }
-    if (callback){
+    if (callback) {
       callback(err, info);
     }
   });
-
 };
 
 /**
@@ -123,18 +124,18 @@ controller.sendVerificationEmail = function(email, token, callback) {
  * @param  {Function} callback [description]
  */
 controller.sendPasswordResetEmail = function(email, token, callback) {
-
   var options = {
     to: email,
-    subject: "["+HACKATHON_NAME+"] - Password reset requested!"
+    subject: "[" + HACKATHON_NAME + "] - Password reset requested!"
   };
 
   var locals = {
-    title: 'Password Reset Request',
-    subtitle: '',
-    description: 'Somebody (hopefully you!) has requested that your password be reset. If ' +
-      'this was not you, feel free to disregard this email. This link will expire in one hour.',
-    actionUrl: ROOT_URL + '/reset/' + token,
+    title: "Password Reset Request",
+    subtitle: "",
+    description:
+      "Somebody (hopefully you!) has requested that your password be reset. If " +
+      "this was not you, feel free to disregard this email. This link will expire in one hour.",
+    actionUrl: ROOT_URL + "/reset/" + token,
     actionName: "Reset Password"
   };
 
@@ -144,127 +145,137 @@ controller.sendPasswordResetEmail = function(email, token, callback) {
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-link-action', options, locals, function(err, info){
-    if (err){
+  sendOne("email-link-action", options, locals, function(err, info) {
+    if (err) {
       console.log(err);
     }
-    if (info){
+    if (info) {
       console.log(info.message);
     }
-    if (callback){
+    if (callback) {
       callback(err, info);
     }
   });
-
 };
-
-
-
-
 
 controller.sendApplicationEmail = function(user, callback) {
   var options = {
     to: user.email,
-    subject: "["+HACKATHON_NAME+"] - We have received your application!"
+    subject: "[" + HACKATHON_NAME + "] - We have received your application!"
   };
 
   var locals = {
     name: user.profile.name,
-    url: ROOT_URL,
+    url: ROOT_URL
   };
 
-  sendOne('email-application', options, locals, function(err, info){
-    if (err){
+  sendOne("email-application", options, locals, function(err, info) {
+    if (err) {
       console.log(err);
     }
-    if (info){
+    if (info) {
       console.log(info.message);
     }
-    if (callback){
+    if (callback) {
       callback(err, info);
     }
   });
-}
-
+};
 
 controller.sendConfirmationEmail = function(user, callback) {
   var options = {
     to: user.email,
-    subject: "["+HACKATHON_NAME+"] - You are confirmed!"
+    subject: "[" + HACKATHON_NAME + "] - You are confirmed!"
   };
 
   var locals = {
     name: user.profile.name,
     url: ROOT_URL,
-    userId : user.id,
+    userId: user.id
   };
 
-  sendOne('email-confirmation', options, locals, function(err, info){
-    if (err){
+  sendOne("email-confirmation", options, locals, function(err, info) {
+    if (err) {
       console.log(err);
     }
-    if (info){
+    if (info) {
       console.log(info.message);
     }
-    if (callback){
+    if (callback) {
       callback(err, info);
     }
   });
-}
+};
 
 /*
-* Send a status update email for admittance.
-* @param  {[type]}   email    [description]
-* @param  {Function} callback [description]
-* @return {[type]}            [description]
-*/
+ * Send a status update email for admittance.
+ * @param  {[type]}   email    [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
 controller.sendAdmittanceEmail = function(user, callback) {
-
   var options = {
     to: user.email,
-    subject: "["+HACKATHON_NAME+"] - You have been admitted!"
+    subject: "[" + HACKATHON_NAME + "] - You have been admitted!"
   };
   var locals = {
     name: user.profile.name,
-    url: ROOT_URL,
+    url: ROOT_URL
   };
- 
-  sendOne('email-admittance', options, locals, function(err, info){
-    if (err){
+
+  sendOne("email-admittance", options, locals, function(err, info) {
+    if (err) {
       console.log(err);
     }
-    if (info){
+    if (info) {
       console.log(info.message);
     }
-    if (callback){
+    if (callback) {
       callback(err, info);
     }
   });
- };
+};
 
+controller.sendQREmail = function(user, callback) {
+  console.log("email.js");
+  var options = {
+    to: user.email,
+    subject: "[" + HACKATHON_NAME + "] - You have YOUR QR!"
+  };
+  var img=getQRCode(user.id);
+  var locals = {
+    name: user.profile.name,
+    url: ROOT_URL,
+    qr: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png'
+  };
 
-
-
-
-
-
-
+  sendOne("email-qr", options, locals, function(err, info) {
+    if (err) {
+      console.log(err);
+    }
+    if (info) {
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+};
 
 /**
  * Send a password recovery email.
  * @param  {[type]}   email    [description]
  * @param  {Function} callback [description]
  */
-controller.sendPasswordChangedEmail = function(email, callback){
-
+controller.sendPasswordChangedEmail = function(email, callback) {
   var options = {
     to: email,
-    subject: "["+HACKATHON_NAME+"] - Your password has been changed!"
+    subject: "[" + HACKATHON_NAME + "] - Your password has been changed!"
   };
 
   var locals = {
-    title: 'Password Updated',
-    body: 'Somebody (hopefully you!) has successfully changed your password.',
+    title: "Password Updated",
+    body: "Somebody (hopefully you!) has successfully changed your password."
   };
 
   /**
@@ -273,18 +284,17 @@ controller.sendPasswordChangedEmail = function(email, callback){
    *   verifyUrl: the url that the user must visit to verify their account
    * }
    */
-  sendOne('email-basic', options, locals, function(err, info){
-    if (err){
+  sendOne("email-basic", options, locals, function(err, info) {
+    if (err) {
       console.log(err);
     }
-    if (info){
+    if (info) {
       console.log(info.message);
     }
-    if (callback){
+    if (callback) {
       callback(err, info);
     }
   });
-
 };
 
 module.exports = controller;
