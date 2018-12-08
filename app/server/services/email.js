@@ -190,7 +190,9 @@ controller.sendConfirmationEmail = function(user, callback) {
   var locals = {
     name: user.profile.name,
     url: ROOT_URL,
-    userId: user.id
+    userId: user.id,
+    qr: "https://api.qrserver.com/v1/create-qr-code/?size=350x350&margin=20&data="+user.id
+
   };
 
   sendOne("email-confirmation", options, locals, function(err, info) {

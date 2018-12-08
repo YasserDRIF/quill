@@ -111,7 +111,6 @@ module.exports = function(router) {
     Chechin if Admitted, used fro QR Checkin 
     */
 
-
   router.get("/users/:id/check-qr", function(req, res) {
     var id = req.params.id;
     var user = req.user;
@@ -327,7 +326,6 @@ module.exports = function(router) {
     UserController.sendQREmail(id, defaultResponse(req, res));
   });
 
-
   /**
    * Check in a user. ADMIN ONLY, DUH
    */
@@ -428,15 +426,14 @@ module.exports = function(router) {
    *   text: String
    * }
    */
-    router.put("/settings/hostSchool", isAdmin, function(req, res) {
-      var hostSchool = req.body.hostSchool;
-      SettingsController.updateField(
-        "hostSchool",
-        hostSchool,
-        defaultResponse(req, res)
-      );
-    });
-
+  router.put("/settings/hostSchool", isAdmin, function(req, res) {
+    var hostSchool = req.body.hostSchool;
+    SettingsController.updateField(
+      "hostSchool",
+      hostSchool,
+      defaultResponse(req, res)
+    );
+  });
 
   /**
    * Update the confirmation text.

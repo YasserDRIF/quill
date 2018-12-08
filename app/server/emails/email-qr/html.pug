@@ -21,6 +21,8 @@ html(xmlns='http://www.w3.org/1999/xhtml')
                         tbody
                           tr
                             td.headerContent(valign='top')
+                              img#headerImage(src=emailHeaderImage, style='max-width:600px;', mc:label='header_image', mc:edit='header_image', mc:allowdesigner='', mc:allowtext='')
+
                       // // END HEADER
                   tr
                     td(align='center', valign='top')
@@ -36,6 +38,7 @@ html(xmlns='http://www.w3.org/1999/xhtml')
                               br
                               br
                               |Here a QR-code we've generated for you! Please TAKE A SCREENSHOT of it so you have it available even without internet!
+                              br                              
                               |Come to the event with QR available to make the check in progress way faster, also remember to take documents that you can verify your Identity with!
                               br
                               img(src=qr, style='max-width:600px;', mc:label='qr_image', mc:edit='qr_image', mc:allowdesigner='', mc:allowtext='')

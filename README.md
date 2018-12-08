@@ -127,9 +127,8 @@ If you want stats for your new fields:
 - Ability to remove user from Admin/users view
 - SoftAccepted status and send Acceptance emails button
 - Added Host school to settings (Used in stats)
-- Added Qr code generator in API (/api/qr/:id)
 - Added checkin with QR code 
-- Added send QRcode to admitted (still not working, Gmail is blocking Base64)
+- Send QRcode to admitted and show it in Dashboard
 
 
 
