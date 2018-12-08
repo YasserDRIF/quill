@@ -433,6 +433,22 @@ module.exports = function(router) {
   });
 
   /**
+   * Update the Host School.
+   * body: {
+   *   text: String
+   * }
+   */
+    router.put("/settings/hostSchool", isAdmin, function(req, res) {
+      var hostSchool = req.body.hostSchool;
+      SettingsController.updateField(
+        "hostSchool",
+        hostSchool,
+        defaultResponse(req, res)
+      );
+    });
+
+
+  /**
    * Update the confirmation text.
    * body: {
    *   text: String
@@ -486,9 +502,10 @@ module.exports = function(router) {
    *   emails: [String]
    * }
    */
-  router.get("/settings/whitelist", isAdmin, function(req, res) {
+  router.get("/settings/whitelist", function(req, res) {
     SettingsController.getWhitelistedEmails(defaultResponse(req, res));
   });
+
 
   /**
    * [ADMIN ONLY]

@@ -48,14 +48,14 @@ angular.module('reg')
           $scope.whitelist = response.data.join(", ");
         });
 
-      $scope.updateWhitelist = function(){
-        SettingsService
-          .updateWhitelistedEmails($scope.whitelist.replace(/ /g, '').split(','))
-          .then(response => {
-            swal('Whitelist updated.');
-            $scope.whitelist = response.data.whitelistedEmails.join(", ");
-          });
-      };
+        $scope.updateWhitelist = function(){
+          SettingsService
+            .updateWhitelistedEmails($scope.whitelist.replace(/ /g, '').split(','))
+            .then(response => {
+              swal('Whitelist updated.');
+              $scope.whitelist = response.data.whitelistedEmails.join(", ");
+            });
+        };
 
       // Registration Times -----------------------------
 
@@ -132,6 +132,17 @@ angular.module('reg')
           });
       };
 
+      $scope.updateHostSchool = function(){
+        var hostSchool = $scope.settings.hostSchool;
+        SettingsService
+          .updateHostSchool(hostSchool)
+          .then(response => {
+            swal("Looks good!", "Host School Updated", "success");
+            updateSettings(response.data);
+          });
+      };
+
+    
       $scope.updateAcceptanceText = function(){
         var text = $scope.settings.acceptanceText;
         SettingsService
