@@ -1,6 +1,5 @@
 var UserController = require("../controllers/UserController");
 var SettingsController = require("../controllers/SettingsController");
-var generateQR = require('../services/qr');
 var request = require("request");
 
 module.exports = function(router) {
@@ -109,17 +108,8 @@ module.exports = function(router) {
    */
 
   /*
-    QR-CODE GENERATION
+    Chechin if Admitted, used fro QR Checkin 
     */
-
-  
-
-  router.get("/qr/:id", function(req, res) {
-    var id = req.params.id;
-    res.send(generateQR(id));
-  });
-
-
 
 
   router.get("/users/:id/check-qr", function(req, res) {
@@ -502,10 +492,9 @@ module.exports = function(router) {
    *   emails: [String]
    * }
    */
-  router.get("/settings/whitelist", function(req, res) {
+  router.get("/settings/whitelist", isAdmin, function(req, res) {
     SettingsController.getWhitelistedEmails(defaultResponse(req, res));
   });
-
 
   /**
    * [ADMIN ONLY]

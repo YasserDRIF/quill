@@ -28,7 +28,6 @@ angular.module('reg')
           emails: emails
         });
       },
-
       updateWaitlistText: function(text){
         return $http.put(base + 'waitlist', {
           text: text
@@ -45,7 +44,7 @@ angular.module('reg')
           hostSchool: hostSchool
         });
       },
-      
+
       updateConfirmationText: function(text){
         return $http.put(base + 'confirmation', {
           text: text

@@ -1,7 +1,6 @@
 var path = require("path");
 var nodemailer = require("nodemailer");
 var smtpTransport = require("nodemailer-smtp-transport");
-var getQRCode = require("./qr");
 var templatesDir = path.join(__dirname, "../templates");
 var Email = require("email-templates");
 
@@ -242,11 +241,10 @@ controller.sendQREmail = function(user, callback) {
     to: user.email,
     subject: "[" + HACKATHON_NAME + "] - You have YOUR QR!"
   };
-  var img=getQRCode(user.id);
   var locals = {
     name: user.profile.name,
     url: ROOT_URL,
-    qr: 'https://upload.wikimedia.org/wikipedia/en/thumb/6/63/IMG_%28business%29.svg/1200px-IMG_%28business%29.svg.png'
+    qr: "https://api.qrserver.com/v1/create-qr-code/?size=350x350&margin=20&data="+user.id
   };
 
   sendOne("email-qr", options, locals, function(err, info) {

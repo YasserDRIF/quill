@@ -794,6 +794,7 @@ UserController.sendQREmail = function(id, callback) {
  * @param  {String}   user     User checking in this person.
  * @param  {Function} callback args(err, user)
  */
+
 UserController.checkInByIdAdmitted = function(id, user, cb_succes, cb_err) {
   User.findOne({
     _id: id
