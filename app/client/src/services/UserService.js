@@ -163,6 +163,16 @@ angular.module("reg").factory("UserService", [
       sendPasswordResetEmail: function(email) {
         return $http.post(base + "sendResetEmail", { email: email });
       },
+
+      // ****************** Live Stats ****************
+
+      gotmeal1: function(id) {
+        return $http.post(base + id + "/gotmeal1");
+      },
+
+
+
+
     };
   }
 ]);

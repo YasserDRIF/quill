@@ -238,7 +238,12 @@ var live = {
     required: true,
     default: false,
   },
+
+
 };
+
+
+
 
 
 
@@ -317,6 +322,13 @@ var schema = new mongoose.Schema({
 
   status: status,
   live: live,
+
+    /**
+   * Live Hacker state.
+   * This is used so track the users actions during the hackathon and display them in stats page.
+   */
+
+  live:live,
 
 });
 
