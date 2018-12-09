@@ -21,14 +21,13 @@ angular.module("reg").factory("UserService", [
         return $http.get(base);
       },
 
-      getPage: function(page, size, text) {
-        return $http.get(
-          users +
-            "?" +
-            $.param({
+      getPage: function(page, size, text,statusFilters) {
+        return $http.get( users + "?" + $.param({
               text: text,
               page: page ? page : 0,
-              size: size ? size : 20
+              size: size ? size : 20,
+              statusFilters: statusFilters ? statusFilters : {}
+
             })
         );
       },

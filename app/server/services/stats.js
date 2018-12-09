@@ -35,6 +35,32 @@ function calculateStats(){
       }
     },
 
+    live: {
+      meal: {
+        M: 0,
+        F: 0,
+        O: 0,
+        N: 0
+      },
+      meal: {
+        '1': 0,
+        '2': 0,
+        '3': 0,
+        '4': 0,
+        '5': 0,
+      },
+      workshop: {
+        '1': 0,
+        '2': 0,
+        '3': 0,
+        '4': 0,
+        '5': 0,
+        '6': 0,
+        '7': 0,
+        '8': 0,
+      },
+    },
+
     teams: {},
     verified: 0,
     submitted: 0,
@@ -131,7 +157,7 @@ function calculateStats(){
         newStats.confirmedHostSchool +=
           user.status.confirmed && email === newStats.hostSchool ? 1 : 
 
-         newStats.confirmedFemale += user.status.confirmed && user.profile.gender == "F" ? 1 : 0;
+        newStats.confirmedFemale += user.status.confirmed && user.profile.gender == "F" ? 1 : 0;
         newStats.confirmedMale += user.status.confirmed && user.profile.gender == "M" ? 1 : 0;
         newStats.confirmedOther += user.status.confirmed && user.profile.gender == "O" ? 1 : 0;
         newStats.confirmedNone += user.status.confirmed && user.profile.gender == "N" ? 1 : 0;
@@ -165,8 +191,26 @@ function calculateStats(){
 
         // Count graduation years
         if (user.profile.graduationYear){
-          newStats.demo.year[user.profile.graduationYear] += 1;
+          newStats.demo.year[user.profile.graduationYear] += 1; 
         }
+
+
+        // Count Meals & workshops
+        if (user.live.gotmeal1){ newStats.live.meal[1] += 1; }
+        if (user.live.gotmeal2){ newStats.live.meal[2] += 1; }
+        if (user.live.gotmeal3){ newStats.live.meal[3] += 1; }
+        if (user.live.gotmeal4){ newStats.live.meal[4] += 1; }
+        if (user.live.gotmeal5){ newStats.live.meal[5] += 1; }
+
+        if (user.live.workshop1){ newStats.live.workshop[1] += 1; }
+        if (user.live.workshop2){ newStats.live.workshop[2] += 1; }
+        if (user.live.workshop3){ newStats.live.workshop[3] += 1; }
+        if (user.live.workshop4){ newStats.live.workshop[4] += 1; }
+        if (user.live.workshop5){ newStats.live.workshop[5] += 1; }
+        if (user.live.workshop6){ newStats.live.workshop[6] += 1; }
+        if (user.live.workshop7){ newStats.live.workshop[7] += 1; }
+        if (user.live.workshop8){ newStats.live.workshop[8] += 1; }
+
 
         // Count Hackathon participations
         if (user.profile.howManyHackathons){
@@ -254,7 +298,7 @@ function calculateStats(){
         stats = newStats;
       });
     });
-
+    
 }
 
 // Calculate once every five minutes.

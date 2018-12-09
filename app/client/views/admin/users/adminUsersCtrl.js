@@ -40,21 +40,28 @@ angular.module("reg").controller("AdminUsersCtrl", [
       $scope.pages = p;
     }
 
-    UserService.getPage(
-      $stateParams.page,
-      $stateParams.size,
-      $stateParams.query
-    ).then(response => {
+    UserService.getPage($stateParams.page, $stateParams.size, $stateParams.query, $scope.statusFilters)
+    .then(response => {
       updatePage(response.data);
     });
 
     $scope.$watch("queryText", function(queryText) {
-      UserService.getPage($stateParams.page, $stateParams.size, queryText).then(
+      UserService.getPage($stateParams.page, $stateParams.size, queryText, $scope.statusFilters).then(
         response => {
           updatePage(response.data);
         }
       );
     });
+
+
+    $scope.applyStatusFilter = function () {
+      UserService
+        .getPage($stateParams.page, $stateParams.size, $scope.queryText, $scope.statusFilters)
+        .success(function (data) {
+          updatePage(data);
+        });
+    };
+
 
     $scope.goToPage = function(page) {
       $state.go("app.admin.users", {

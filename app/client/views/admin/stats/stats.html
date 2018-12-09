@@ -6,6 +6,8 @@
     <div class="ui header">
       Stats
     </div>
+
+
     <div class="content">
       <em> Last updated: {{fromNow(stats.lastUpdated)}}</em>
       <div class="ui list">
@@ -100,8 +102,6 @@
           </div>
         </div>
 
-
-
         <!--
         <div class="item">
           <i class="child icon"></i>
@@ -169,80 +169,111 @@
   </div>
 
   <div
-    class="ui pink segment"
+    class="ui blue segment "
     ng-class="{'loading': loading}">
+
     <div class="ui header">
-      Demographics
+        Demographics
     </div>
-    <div class="ui list">
-      <div class="item">
-        <i class="users icon"></i>
-        <div class="content">
-          <strong>Total users</strong>: {{stats.total}}
+
+    <div class="ui grid">
+        <div class="four wide column">
+          
+            <div class="content">
+                <strong> <i class="users icon"></i>
+                  Total users : {{stats.total}}
+                </strong>
+              </div>
+      
+            <div class="ui list">
+                <div class="item">
+                  <i class="female icon"></i>
+                  <div class="content">
+                    <strong>Female</strong>: {{stats.demo.gender['F']}} ({{stats.demo.gender['F'] / stats.total * 100 | number:1}}%)
+                  </div>
+                </div>
+                <div class="item">
+                  <i class="male icon"></i>
+                  <div class="content">
+                    <strong>Male</strong>: {{stats.demo.gender['M']}} ({{stats.demo.gender['M'] / stats.total * 100 | number:1}}%)
+                  </div>
+                </div>
+                <div class="item">
+                  <i class="other gender icon"></i>
+                  <div class="content">
+                    <strong>Other</strong>: {{stats.demo.gender['O']}} ({{stats.demo.gender['O'] / stats.total * 100 | number:1}}%)
+                  </div>
+                </div>
+                <div class="item">
+                  <i class="question icon"></i>
+                  <div class="content">
+                    <strong>Did not respond</strong>: {{stats.demo.gender['N']}} ({{stats.demo.gender['N'] / stats.total * 100 | number:1 }}%)
+                  </div>
+                </div>
+              </div>
         </div>
-      </div>
-      <div class="item">
-        <i class="female icon"></i>
-        <div class="content">
-          <strong>Female</strong>: {{stats.demo.gender['F']}} ({{stats.demo.gender['F'] / stats.total * 100 | number:1}}%)
+    
+        <div class="three wide column">
+          
+            <div class="content">
+                <strong> <i class="calendar icon"></i>
+                    Year :
+                </strong>
+              </div>
+      
+            <div class="ui list">
+                <div class="item">
+                  <strong>1CPI:</strong> {{stats.demo.year['2023']}} ({{stats.demo.year['2023'] / stats.total * 100 | number: 1}}%)
+                </div>
+                <div class="item">
+                  <strong>2CPI:</strong> {{stats.demo.year['2022']}} ({{stats.demo.year['2022'] / stats.total * 100 | number: 1}}%)
+                </div>
+                <div class="item">
+                 <strong>1CS:</strong> {{stats.demo.year['2021']}} ({{stats.demo.year['2021'] / stats.total * 100 | number: 1}}%)
+                </div>
+                <div class="item">
+                  <strong>2CS:</strong> {{stats.demo.year['2020']}} ({{stats.demo.year['2020'] / stats.total * 100 | number: 1}}%)
+                </div>
+                <div class="item">
+                  <strong>3CS:</strong> {{stats.demo.year['2019']}} ({{stats.demo.year['2019'] / stats.total * 100 | number: 1}}%)
+                </div>
+              </div>
         </div>
-      </div>
-      <div class="item">
-        <i class="male icon"></i>
-        <div class="content">
-          <strong>Male</strong>: {{stats.demo.gender['M']}} ({{stats.demo.gender['M'] / stats.total * 100 | number:1}}%)
+    
+        <div class="four wide column">
+          
+            <div class="content">
+                <strong> <i class="calendar icon"></i>
+                    Hackathons :
+                </strong>
+              </div>
+      
+            <div class="ui list">
+                <div class="item">
+                  <strong>0:</strong> {{stats.demo.howManyHackathons['0']}} ({{stats.demo.howManyHackathons['0'] / stats.total * 100 | number: 1}}%) 
+                </div>
+                <div class="item">
+                  <strong>1:</strong> {{stats.demo.howManyHackathons['1']}} ({{stats.demo.howManyHackathons['1'] / stats.total * 100 | number: 1}}%)
+                </div>
+                <div class="item">
+                  <strong>2-3:</strong> {{stats.demo.howManyHackathons['2']}} ({{stats.demo.howManyHackathons['2'] / stats.total * 100 | number: 1}}%) 
+                </div>
+                <div class="item">
+                  <strong>4-7:</strong> {{stats.demo.howManyHackathons['4']}} ({{stats.demo.howManyHackathons['4'] / stats.total * 100 | number: 1}}%)
+                </div>
+                <div class="item">
+                  <strong>7+:</strong> {{stats.demo.howManyHackathons['7']}} ({{stats.demo.howManyHackathons['7'] / stats.total * 100 | number: 1}}%)
+                </div>
+              </div>
         </div>
+
+    
+    
       </div>
-      <div class="item">
-        <i class="other gender icon"></i>
-        <div class="content">
-          <strong>Other</strong>: {{stats.demo.gender['O']}} ({{stats.demo.gender['O'] / stats.total * 100 | number:1}}%)
-        </div>
-      </div>
-      <div class="item">
-        <i class="question icon"></i>
-        <div class="content">
-          <strong>Did not respond</strong>: {{stats.demo.gender['N']}} ({{stats.demo.gender['N'] / stats.total * 100 | number:1 }}%)
-        </div>
-      </div>
-    </div>
+      
+
     <div class="ui divider"></div>
-      <div class="ui list">
-        <div class="item">
-          <strong>1CPI:</strong> {{stats.demo.year['2023']}} ({{stats.demo.year['2023'] / stats.total * 100 | number: 1}}%)
-        </div>
-        <div class="item">
-          <strong>2CPI:</strong> {{stats.demo.year['2022']}} ({{stats.demo.year['2022'] / stats.total * 100 | number: 1}}%)
-        </div>
-        <div class="item">
-         <strong>1CS:</strong> {{stats.demo.year['2021']}} ({{stats.demo.year['2021'] / stats.total * 100 | number: 1}}%)
-        </div>
-        <div class="item">
-          <strong>2CS:</strong> {{stats.demo.year['2020']}} ({{stats.demo.year['2020'] / stats.total * 100 | number: 1}}%)
-        </div>
-        <div class="item">
-          <strong>3CS:</strong> {{stats.demo.year['2019']}} ({{stats.demo.year['2019'] / stats.total * 100 | number: 1}}%)
-        </div>
-      </div>
-      <div class="ui divider"></div>
-      <div class="ui list">
-        <div class="item">
-          <strong>0:</strong> {{stats.demo.howManyHackathons['0']}} ({{stats.demo.howManyHackathons['0'] / stats.total * 100 | number: 1}}%) 
-        </div>
-        <div class="item">
-          <strong>1:</strong> {{stats.demo.howManyHackathons['1']}} ({{stats.demo.howManyHackathons['1'] / stats.total * 100 | number: 1}}%)
-        </div>
-        <div class="item">
-          <strong>2-3:</strong> {{stats.demo.howManyHackathons['2']}} ({{stats.demo.howManyHackathons['2'] / stats.total * 100 | number: 1}}%) 
-        </div>
-        <div class="item">
-          <strong>4-7:</strong> {{stats.demo.howManyHackathons['4']}} ({{stats.demo.howManyHackathons['4'] / stats.total * 100 | number: 1}}%)
-        </div>
-        <div class="item">
-          <strong>7+:</strong> {{stats.demo.howManyHackathons['7']}} ({{stats.demo.howManyHackathons['7'] / stats.total * 100 | number: 1}}%)
-        </div>
-      </div>
-      <div class="ui divider"></div>
+
 
     <div class="ui list">
       <div
@@ -264,11 +295,84 @@
             Declined: {{school.stats.declined}}
           </div>
           </p>
-          <div class="ui divider"></div>
         </div>
       </div>
     </div>
   </div>
+
+
+  <div
+  class="ui pink segment"
+  ng-class="{'loading': loading}">
+  <div class="ui header">
+    Tracking
+  </div>
+
+  
+  <div class="ui grid">
+    <div class="eight wide column">
+      
+        <div class="content">
+            <strong>
+                <i class="utensils icon"></i>
+                 Meals :
+            </strong>
+          </div>
+          <div class="ui progress success">
+            <div class="bar" style="transition-duration: 300ms; width:{{stats.live.meal['1'] / stats.total * 100 | number: 1}}%;">
+              <div class="progress">{{stats.live.meal['1'] / stats.total * 100 | number: 1}}%</div>
+            </div>
+            <div class="label">Meal 1</div>
+          </div>
+          <div class="ui progress success">
+            <div class="bar" style="transition-duration: 300ms; width:{{stats.live.meal['2'] / stats.total * 100 | number: 1}}%;">
+              <div class="progress">{{stats.live.meal['2'] / stats.total * 100 | number: 1}}%</div>
+            </div>
+            <div class="label">Meal 2</div>
+          </div>
+          <div class="ui progress success">
+            <div class="bar" style="transition-duration: 300ms; width:{{stats.live.meal['3'] / stats.total * 100 | number: 1}}%;">
+              <div class="progress">{{stats.live.meal['3'] / stats.total * 100 | number: 1}}%</div>
+            </div>
+            <div class="label">Meal 3</div>
+          </div>
+          <div class="ui progress success">
+            <div class="bar" style="transition-duration: 300ms; width:{{stats.live.meal['4'] / stats.total * 100 | number: 1}}%;">
+              <div class="progress">{{stats.live.meal['4'] / stats.total * 100 | number: 1}}%</div>
+            </div>
+            <div class="label">Meal 4</div>
+          </div>
+          <div class="ui progress success">
+            <div class="bar" style="transition-duration: 300ms; width:{{stats.live.meal['5'] / stats.total * 100 | number: 1}}%;">
+              <div class="progress">{{stats.live.meal['5'] / stats.total * 100 | number: 1}}%</div>
+            </div>
+            <div class="label">Meal 5</div>
+          </div>
+      
+    </div>
+
+    <div class="eight wide column">
+      
+        <div class="content">
+          <strong>
+              <i class="edit icon"></i>
+               Workshops :
+          </strong>
+        </div>
+    </div>
+
+
+
+  </div>
+  
+
+
+
+
+</div>
+
+
+
 
 <!--   <div
     class="ui purple segment"
