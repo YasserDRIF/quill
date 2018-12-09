@@ -844,6 +844,17 @@ UserController.checkInById = function(id, user, callback) {
   );
 };
 
+
+
+
+
+
+
+
+
+
+
+
 /**
  * [ADMIN ONLY]
  *
@@ -938,6 +949,44 @@ UserController.removeUserById = function(id, user, callback) {
     callback
   );
 };
+
+
+// Live Stats  **********************************************************
+
+
+UserController.gotmeal1 = function(id, user, cb_succes, cb_err) {
+    User.findOne({
+      _id: id
+    })
+      .then(user => {
+        console.log("Got meal = "+user.live.gotmeal1);
+        if (!user.live.gotmeal1) {
+          
+          User.findOneAndUpdate(
+            { _id: id },
+            {
+              $set: {
+                "live.gotmeal1": true,
+              }
+            }
+          )
+            .then(cb_succes)
+            .catch(err => cb_err("undefined error"));
+        } else cb_err("User did this action already");
+      })
+      .catch(err => cb_err("user doesnt exist"));
+  };
+  
+
+
+
+
+
+
+
+
+
+
 
 /**
  * [ADMIN ONLY]

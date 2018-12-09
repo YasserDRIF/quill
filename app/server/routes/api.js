@@ -114,10 +114,7 @@ module.exports = function(router) {
   router.get("/users/:id/check-qr", function(req, res) {
     var id = req.params.id;
     var user = req.user;
-    UserController.checkInByIdAdmitted(
-      id,
-      user,
-      () => {
+    UserController.checkInByIdAdmitted( id, user, () => {
         res.send(JSON.stringify({ message: "checked in succesfuly" }));
       },
       err => {
@@ -319,7 +316,7 @@ module.exports = function(router) {
   /**
    * Send QR emails to confirmed applicants
    */
-  router.post("/users/:id/sendQREmail", function(req, res) {
+  router.post("/users/:id/sendQREmail", isAdmin, function(req, res) {
     // Accept the hacker. Admin only
     var id = req.params.id;
     var user = req.user;
@@ -370,6 +367,29 @@ module.exports = function(router) {
     var user = req.user;
     UserController.removeAdminById(id, user, defaultResponse(req, res));
   });
+
+
+  // ---------------------------------------------
+  // LIVE : This is the tracking functions used in stats
+  // ---------------------------------------------
+
+
+router.get("/users/:id/gotmeal1", function(req, res) {
+  var id = req.params.id;
+  var user = req.user;
+  UserController.gotmeal1( id, user, () => {
+      res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
+    },
+    err => {
+      res.send(JSON.stringify({ error: err }));
+    }
+  );
+});
+
+
+
+
+
 
   // ---------------------------------------------
   // Settings [ADMIN ONLY!]
