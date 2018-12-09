@@ -48,6 +48,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
     $scope.$watch("queryText", function(queryText) {
       UserService.getPage($stateParams.page, $stateParams.size, queryText, $scope.statusFilters).then(
         response => {
+          console.log(response.data);
           updatePage(response.data);
         }
       );
@@ -56,9 +57,10 @@ angular.module("reg").controller("AdminUsersCtrl", [
 
     $scope.applyStatusFilter = function () {
       UserService
-        .getPage($stateParams.page, $stateParams.size, $scope.queryText, $scope.statusFilters)
-        .success(function (data) {
-          updatePage(data);
+        .getPage($stateParams.page, $stateParams.size, $scope.queryText, $scope.statusFilters).then(
+          response => {
+            console.log(response.data);
+            updatePage(response.data);
         });
     };
 
