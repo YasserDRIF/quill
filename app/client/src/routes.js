@@ -5,6 +5,7 @@ const UserService = require('./services/UserService.js');
 const AdminCtrl = require('../views/admin/AdminCtrl.js');
 const AdminSettingsCtrl = require('../views/admin/settings/AdminSettingsCtrl.js');
 const AdminStatsCtrl = require('../views/admin/stats/AdminStatsCtrl.js');
+const AdminMailCtrl = require('../views/admin/mail/AdminMailCtrl.js');
 const AdminUserCtrl = require('../views/admin/user/AdminUserCtrl.js');
 const AdminUsersCtrl = require('../views/admin/users/AdminUsersCtrl.js');
 const ApplicationCtrl = require('../views/application/ApplicationCtrl.js');
@@ -148,7 +149,7 @@ angular.module('reg')
       .state('app.admin.mail', {
         url: "/admin/mail",
         templateUrl: "views/admin/mail/mail.html",
-        controller: 'AdminStatsCtrl'
+        controller: 'AdminMailCtrl'
       })
       .state('app.admin.users', {
         url: "/admin/users?" +

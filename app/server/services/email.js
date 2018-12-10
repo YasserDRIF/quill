@@ -272,7 +272,7 @@ controller.sendPasswordChangedEmail = function(email, callback) {
     to: email,
     subject: "[" + HACKATHON_NAME + "] - Your password has been changed!"
   };
-
+  
   var locals = {
     title: "Password Updated",
     body: "Somebody (hopefully you!) has successfully changed your password."
@@ -296,5 +296,36 @@ controller.sendPasswordChangedEmail = function(email, callback) {
     }
   });
 };
+
+controller.sendBasicMail = function(id, email, callback) {
+  var options = {
+    to: id,
+    subject: "[" + HACKATHON_NAME + "] - " + email.subject
+  };
+  
+  var locals = {
+    title: email.title,
+    body: email.body,
+  };
+
+  /**
+   * Eamil-verify takes a few template values:
+   * {
+   *   verifyUrl: the url that the user must visit to verify their account
+   * }
+   */
+  sendOne("email-basic", options, locals, function(err, info) {
+    if (err) {
+      console.log(err);
+    }
+    if (info) {
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+};
+
 
 module.exports = controller;

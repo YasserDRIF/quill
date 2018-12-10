@@ -853,12 +853,12 @@ UserController.sendQREmail = function(id, callback) {
     .catch(err => callback(err));
 };
 
-UserController.sendBasicMail = function(id, callback) {
+UserController.sendBasicMail = function(id, email, callback) {
   User.findOne({
     _id: id
   })
     .then(user => {
-      Mailer.sendBasicMail(user,callback);
+      Mailer.sendBasicMail(user.email,email,callback);
     })
     .catch(err => callback(err));
 };

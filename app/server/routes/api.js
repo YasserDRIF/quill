@@ -329,8 +329,7 @@ module.exports = function(router) {
   router.post("/users/:id/sendBasicMail/", isAdmin, function(req, res) {
     // Accept the hacker. Admin only
     var id = req.params.id;
-    var user = req.user;
-    UserController.sendBasicMail(id , req.body, defaultResponse(req, res));
+    UserController.sendBasicMail(id, req.body, defaultResponse(req, res));
   });
 
   /**

@@ -17,32 +17,66 @@ angular.module("reg").controller("AdminMailCtrl", [
     $(".ui.dimmer").remove();
     // Populate the size of the modal for when it appears, with an arbitrary user.
 
-    $scope.sendAcceptanceEmails = function() {
-      const filterSoftAccepted = $scope.users.filter(
-        u => u.status.softAdmitted && !u.status.admitted
-      );
+
+
+    UserService.getPage($stateParams.page, $stateParams.size, $stateParams.query, $scope.statusFilters)
+    .then(response => {
+      $scope.users= response.data.users;
+    });
+
+    $scope.sendEmail = function() {
+      var filteredUsers = $scope.users.filter(
+        u => u.verified
+    );
+
+      if ($scope.statusFilters.completedProfile) {
+        filteredUsers = filteredUsers.filter(
+          u => u.status.completedProfile
+      )}
+
+      if ($scope.statusFilters.admitted) {
+        filteredUsers = filteredUsers.filter(
+          u => u.status.admitted
+      )}
+
+      if ($scope.statusFilters.confirmed) {
+        filteredUsers = filteredUsers.filter(
+          u => u.status.confirmed
+      )}
+
+      if ($scope.statusFilters.declined) {
+        filteredUsers = filteredUsers.filter(
+          u => u.status.declined
+      )}
+
+      if ($scope.statusFilters.checkedIn) {
+        filteredUsers = filteredUsers.filter(
+          u => u.status.checkedIn
+      )}
 
       var message = $(this).data("confirm");
 
       swal({
         title: "Whoa, wait a minute!",
-        text: `You're about to send acceptance emails (and accept) ${
-          filterSoftAccepted.length
-        } user(s).`,
+        text: `You're about to send this email to ${
+          filteredUsers.length
+        } selected user(s).`,
         icon: "warning",
-        buttons: ["Cancel", "Yes, accept them and send the emails"],
+        buttons: ["Cancel", "Yes, send the emails"],
         dangerMode: true
       }).then(willSend => {
+        email = { subject:$scope.subject , title:$scope.title, body:$scope.body }
+
         if (willSend) {
-          if (filterSoftAccepted.length) {
-            filterSoftAccepted.forEach(user => {
-              message = { subject:$scope.subject , title:$scope.title, body:$scope.body }
-              UserService.sendBasicMail(user._id,message);
+          if (filteredUsers.length) {
+            filteredUsers.forEach(user => {
+              console.log(user.email);
+              UserService.sendBasicMail(user.id,email);
             });
             swal(
               "Sending!",
-              `Accepting and sending emails to ${
-                filterSoftAccepted.length
+              `Sending emails to ${
+                filteredUsers.length
               } users!`,
               "success"
             );

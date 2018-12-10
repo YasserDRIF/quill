@@ -91,8 +91,8 @@ angular.module("reg").factory("UserService", [
         return $http.post(base + id + "/sendQREmail");
       },
 
-      sendBasicMail: function(id , message) {
-        return $http.post(base + id + "/sendBasicMail",JSON.stringify(message));
+      sendBasicMail: function(id , email) {
+        return $http.post(base + id + "/sendBasicMail",JSON.stringify(email));
       },
 
       checkIn: function(id) {

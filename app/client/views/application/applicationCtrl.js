@@ -17,11 +17,11 @@ angular.module('reg')
       $scope.user = currentUser.data;
       console.log(currentUser.data);
 
-      // Is the student from MIT (ESI in our case)?
-      $scope.isMitStudent = $scope.user.email.split('@')[1] == 'esi.dz';
+      // Is the student from HostSchool?
+      $scope.isHostSchool = $scope.user.email.split('@')[1] == settings.data.hostSchool;
 
       // If so, default them to adult: true
-      if ($scope.isMitStudent){
+      if ($scope.isHostSchool){
         $scope.user.profile.adult = true;
       }
 

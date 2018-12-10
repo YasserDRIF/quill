@@ -1,6 +1,6 @@
 <!-- Whitelist -->
 <div
-  ng-class="{'loading': loading}"
+  ng-class=""
   class="ui green segment">
 
   <div class="ui header">
@@ -8,7 +8,53 @@
   </div>
 
   <div class="ui form">
-    <p>This form is used to send an email to all pariticipants According to the the filter used below:</p>
+    <p>This form is used to send an email to pariticipants According to the the filter set below, with the default email template:</p>
+
+    <div class="field">
+        <div class="ui checkbox" style="margin-right:30px;">
+            <input 
+            type="checkbox"
+            name="completedProfile"
+            ng-model="statusFilters.completedProfile">
+            <label>Completed Profile</label>
+        </div>
+        <div class="ui checkbox" style="margin-right:30px;">
+            <input 
+            type="checkbox"
+            name="admitted"
+            ng-model="statusFilters.admitted">
+            <label> Admitted</label>
+        </div>
+        <div class="ui checkbox" style="margin-right:30px;">
+            <input 
+            type="checkbox"
+            name="confirmed"
+            ng-model="statusFilters.confirmed">
+            <label>Confirmed</label>
+        </div>
+        <div class="ui checkbox" style="margin-right:30px;">
+            <input 
+            type="checkbox"
+            name="declined"
+            ng-model="statusFilters.declined">
+            <label>Declined</label>
+        </div>
+        <div class="ui checkbox" style="margin-right:30px;">
+            <input 
+            type="checkbox"
+            name="checkedIn"
+            ng-model="statusFilters.checkedIn">
+            <label>Checked In</label>
+        </div>
+        <div class="ui checkbox" style="margin-right:30px;">
+            <input 
+            type="checkbox"
+            name="verified"
+            ng-model="statusFilters.verified">
+            <label>Verified</label>
+        </div>
+    </div>
+    
     <div class="field">
         <input class="ui input" type="text" ng-model="subject" placeholder="Email Subject"></input>
       </div>
@@ -21,10 +67,12 @@
       <textarea class="ui input" type="text" ng-model="body" placeholder="Email body..."></textarea>
     </div>
 
+    
+
     <div class="field">
       <div
         class="ui green button"
-        ng-click="SendEmail()">
+        ng-click="sendEmail()">
         Send
       </div>
     </div>
