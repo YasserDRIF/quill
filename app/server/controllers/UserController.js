@@ -1056,23 +1056,6 @@ UserController.gotmeal1 = function(id, user, cb_succes, cb_err) {
   
 
 
-
-
-
-
-
-
-
-
-
-/**
- * [ADMIN ONLY]
- */
-
-UserController.getStats = function(callback) {
-  return callback(null, Stats.getUserStats());
-};
-
 /**
  * [ADMIN ONLY]
  */
