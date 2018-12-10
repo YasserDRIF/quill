@@ -853,6 +853,16 @@ UserController.sendQREmail = function(id, callback) {
     .catch(err => callback(err));
 };
 
+UserController.sendBasicMail = function(id, callback) {
+  User.findOne({
+    _id: id
+  })
+    .then(user => {
+      Mailer.sendBasicMail(user,callback);
+    })
+    .catch(err => callback(err));
+};
+
 /**
  * [ADMIN ONLY]
  *

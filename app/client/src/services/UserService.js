@@ -83,11 +83,16 @@ angular.module("reg").factory("UserService", [
         return $http.post(base + id + "/admit");
       },
       softAdmittUser: function(id) {
+        var Hello={ message : "working"};
         return $http.post(base + id + "/softAdmit");
       },
 
       sendQREmail: function(id) {
         return $http.post(base + id + "/sendQREmail");
+      },
+
+      sendBasicMail: function(id , message) {
+        return $http.post(base + id + "/sendBasicMail",JSON.stringify(message));
       },
 
       checkIn: function(id) {

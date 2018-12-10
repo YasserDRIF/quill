@@ -1,0 +1,32 @@
+<!-- Whitelist -->
+<div
+  ng-class="{'loading': loading}"
+  class="ui green segment">
+
+  <div class="ui header">
+    Send Emails
+  </div>
+
+  <div class="ui form">
+    <p>This form is used to send an email to all pariticipants According to the the filter used below:</p>
+    <div class="field">
+        <input class="ui input" type="text" ng-model="subject" placeholder="Email Subject"></input>
+      </div>
+
+      <div class="field">
+          <input class="ui input" type="text" ng-model="title" placeholder="Email title..."></input>
+        </div>
+      
+    <div class="field">
+      <textarea class="ui input" type="text" ng-model="body" placeholder="Email body..."></textarea>
+    </div>
+
+    <div class="field">
+      <div
+        class="ui green button"
+        ng-click="SendEmail()">
+        Send
+      </div>
+    </div>
+  </div>
+</div>

@@ -281,7 +281,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
         if (willSend) {
           if (filterSoftAccepted.length) {
             filterSoftAccepted.forEach(user => {
-              UserService.admitUser(user._id);
+              UserService.admitUser(user._id); 
             });
             swal(
               "Sending!",

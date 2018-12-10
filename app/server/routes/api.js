@@ -310,7 +310,7 @@ module.exports = function(router) {
     // Accept the hacker. Admin only
     var id = req.params.id;
     var user = req.user;
-    UserController.softAdmitUser(id, user, defaultResponse(req, res));
+    //UserController.softAdmitUser(id, user, defaultResponse(req, res));
   });
 
   /**
@@ -321,6 +321,16 @@ module.exports = function(router) {
     var id = req.params.id;
     var user = req.user;
     UserController.sendQREmail(id, defaultResponse(req, res));
+  });
+
+  /**
+   * Send basic email
+   */
+  router.post("/users/:id/sendBasicMail/", isAdmin, function(req, res) {
+    // Accept the hacker. Admin only
+    var id = req.params.id;
+    var user = req.user;
+    UserController.sendBasicMail(id , req.body, defaultResponse(req, res));
   });
 
   /**

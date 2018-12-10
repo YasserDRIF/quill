@@ -145,6 +145,11 @@ angular.module('reg')
         templateUrl: "views/admin/stats/stats.html",
         controller: 'AdminStatsCtrl'
       })
+      .state('app.admin.mail', {
+        url: "/admin/mail",
+        templateUrl: "views/admin/mail/mail.html",
+        controller: 'AdminStatsCtrl'
+      })
       .state('app.admin.users', {
         url: "/admin/users?" +
           '&page' +

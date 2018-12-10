@@ -1,7 +1,6 @@
 const moment = require('moment');
 
-angular.module('reg')
-  .controller('AdminStatsCtrl',[
+angular.module('reg').controller('AdminStatsCtrl',[
     '$scope',
     'UserService',
     function($scope, UserService){
