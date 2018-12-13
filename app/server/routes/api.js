@@ -1,5 +1,6 @@
 var UserController = require("../controllers/UserController");
 var SettingsController = require("../controllers/SettingsController");
+var ChallengeController = require("../controllers/ChallengeController");
 var request = require("request");
 
 module.exports = function(router) {
@@ -145,7 +146,7 @@ module.exports = function(router) {
   /**
    * [ADMIN ONLY]
    */
-  router.get("/users/stats", isAdmin, function(req, res) {
+  router.get("/users/stats", function(req, res) {
     UserController.getStats(defaultResponse(req, res));
   });
 
@@ -554,4 +555,68 @@ router.get("/users/:id/gotmeal1", function(req, res) {
       defaultResponse(req, res)
     );
   });
+
+
+
+  // ---------------------------------------------
+  // Challenges 
+  // ---------------------------------------------
+
+  /**
+   * [OWNER/ADMIN]
+   *
+   * PUT - Update a specific Challenge information.
+   */
+  router.put("/challenges/:id/update", isAdmin, function(req, res) {
+    var cData = req.body.cData;
+    var id = req.params.id;
+
+    UserController.updateById(id, cData, defaultResponse(req, res));
+  });
+
+
+  /**
+   * Remove Challenge. ADMIN ONLY
+   */
+  router.post("/challenges/:id/remove", isAdmin, function(req, res) {
+    var id = req.params.id;
+    ChallengeController.removeById(id, defaultResponse(req, res));
+  });
+
+
+  /**
+   * Add new Challenge. ADMIN ONLY
+   */
+
+  router.post('/challenges/create', isAdmin, function(req, res, next){
+    // Register with an email and password
+    var cData = req.body.cData;
+
+    ChallengeController.createChallenge(cData,
+      function(err, user){
+        if (err){
+          return res.status(400).send(err);
+        }
+        return res.json(user);
+    });
+  });
+
+  /**
+   * GET - Get a specific Challenge.
+   */
+  router.get("/challenges/:id", function(req, res) {
+    ChallengeController.getById(req.params.id, defaultResponse(req, res));
+  });
+
+  /**
+   * GET - Get all Challenges.
+   */
+
+  router.get("/challenges", isAdmin, function(req, res) {
+    ChallengeController.getAll(defaultResponse(req, res));
+  });
+
+
+
+
 };
