@@ -221,30 +221,6 @@ controller.sendAdmittanceEmail = function(user, callback) {
   };
   var locals = {
     name: user.profile.name,
-    url: ROOT_URL
-  };
-
-  sendOne("email-admittance", options, locals, function(err, info) {
-    if (err) {
-      console.log(err);
-    }
-    if (info) {
-      console.log(info.message);
-    }
-    if (callback) {
-      callback(err, info);
-    }
-  });
-};
-
-controller.sendQREmail = function(user, callback) {
-  console.log("email.js");
-  var options = {
-    to: user.email,
-    subject: "[" + HACKATHON_NAME + "] - You have YOUR QR!"
-  };
-  var locals = {
-    name: user.profile.name,
     url: ROOT_URL,
     qr: "https://api.qrserver.com/v1/create-qr-code/?size=350x350&margin=20&data="+user.id
   };
@@ -261,6 +237,7 @@ controller.sendQREmail = function(user, callback) {
     }
   });
 };
+
 
 /**
  * Send a password recovery email.

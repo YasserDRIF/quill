@@ -47,7 +47,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
     $scope.$watch("queryText", function(queryText) {
       UserService.getPage($stateParams.page, $stateParams.size, queryText, $scope.statusFilters).then(
         response => {
-          console.log(response.data);
           updatePage(response.data);
         }
       );
@@ -58,7 +57,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
       UserService
         .getPage($stateParams.page, $stateParams.size, $scope.queryText, $scope.statusFilters).then(
           response => {
-            console.log(response.data);
             updatePage(response.data);
         });
     };
@@ -130,7 +128,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
     $scope.acceptUser = function($event, user, index) {
       $event.stopPropagation();
 
-      console.log(user);
 
       swal({
         buttons: {
@@ -181,7 +178,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
           if (!value) {
             return;
           }
-
+          
           UserService.softAdmittUser(user._id).then(response => {
             $scope.users[index] = response.data;
             swal(
@@ -197,7 +194,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
     $scope.removeUser = function($event, user, index) {
       $event.stopPropagation();
 
-      console.log(user);
 
       swal({
         buttons: {
@@ -281,45 +277,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
           if (filterSoftAccepted.length) {
             filterSoftAccepted.forEach(user => {
               UserService.admitUser(user._id); 
-            });
-            swal(
-              "Sending!",
-              `Accepting and sending emails to ${
-                filterSoftAccepted.length
-              } users!`,
-              "success"
-            );
-          } else {
-            swal("Whoops", "You can't send or accept 0 users!", "error");
-          }
-        }
-      });
-    };
-
-
-
-
-    
-    $scope.sendQREmails = function() {
-      const filterSoftAccepted = $scope.users.filter(
-        u => u.status.softAdmitted && !u.status.admitted
-      );
-
-      var message = $(this).data("confirm");
-
-      swal({
-        title: "Whoa, wait a minute!",
-        text: `You're about to send acceptance emails (and accept) ${
-          filterSoftAccepted.length
-        } user(s).`,
-        icon: "warning",
-        buttons: ["Cancel", "Yes, accept them and send the emails"],
-        dangerMode: true
-      }).then(willSend => {
-        if (willSend) {
-          if (filterSoftAccepted.length) {
-            filterSoftAccepted.forEach(user => {
-              UserService.sendQREmail(user._id);
             });
             swal(
               "Sending!",

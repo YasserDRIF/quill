@@ -843,16 +843,6 @@ UserController.admitUser = function(id, user, callback) {
   });
 };
 
-UserController.sendQREmail = function(id, callback) {
-  User.findOne({
-    _id: id
-  })
-    .then(user => {
-      Mailer.sendQREmail(user,callback);
-    })
-    .catch(err => callback(err));
-};
-
 UserController.sendBasicMail = function(id, email, callback) {
   User.findOne({
     _id: id

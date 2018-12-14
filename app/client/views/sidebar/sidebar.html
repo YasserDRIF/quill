@@ -47,6 +47,15 @@
 
     <div
       ui-sref-active="active"
+      ui-sref="app.checkin"
+      class="item"
+      ng-show="currentUser.volunteer">
+      Check-In
+    </div>
+
+
+    <div
+      ui-sref-active="active"
       ui-sref="app.admin.stats"
       class="item"
       ng-show="currentUser.admin">

@@ -1,3 +1,7 @@
+const moment = require("moment");
+const swal = require("sweetalert");
+
+
 angular.module('reg')
 .controller('CheckinCtrl', [
   '$scope',
@@ -5,29 +9,55 @@ angular.module('reg')
   '$stateParams',
   'UserService',
   function($scope, $state, $stateParams, UserService){
-    $('#reader').html5_qrcode(function(data){
+    $('#reader').html5_qrcode(function(userID){
           //Change the input fields value and send post request to the backend
-          UserService
-            .QRcheckIn(data)
-            .success(function(user){
-              $scope.filter.text = data;
-              $scope.filterUsers();
-              //selectUser(user);
-            })
-            .error(function(res){
-              if(res === "User not confirmed!"){
-                sweetAlert("Hey!", "This user did not confirm they are coming!", "error");
-              }
-              /*else if(res === "User already checked in!"){
-                sweetAlert("Again?", "User already checked in!", "error")
-              }*/
-              else if(res === "User is rejected!"){
-                sweetAlert("Hey!", "This user is rejected!", "error");                
-              }
-              else{
-                sweetAlert("Uh oh!", "User does not exist or isn't admitted!", "error");
-              }
-            });
+          
+          UserService.get(userID).then(response => {
+
+            user =response.data;
+
+            if (!user.status.checkedIn) {
+              swal({
+                title: "Whoa, wait a minute!",
+                text: "You are about to check in " + user.profile.name + "!",
+                icon: "warning",
+                buttons: {
+                  cancel: {
+                    text: "Cancel",
+                    value: null,
+                    visible: true
+                  },
+                  checkIn: {
+                    className: "danger-button",
+                    closeModal: false,
+                    text: "Yes, check them in",
+                    value: true,
+                    visible: true
+                  }
+                }
+              }).then(value => {
+                if (!value) {
+                  return;
+                }
+      
+                UserService.checkIn(user._id).then(response => {
+                  $scope.queryText = user.email;
+                  swal(
+                    "Checked in",
+                    user.profile.name + " has been checked in.",
+                    "success"
+                  );
+                });
+              });
+            } else {
+              swal(
+                "Already checkedIn",
+                user.profile.name + " has been checked-in at: "+ formatTime(user.status.checkInTime),
+                "warning"
+              );
+          }
+          });
+
         },
       function(error){
       }, function(videoError){
@@ -41,8 +71,6 @@ angular.module('reg')
 
     $scope.filter = deserializeFilters($stateParams.filter);
     $scope.filter.text = $stateParams.query || "";
-
-    console.log($scope.filter)
 
     function deserializeFilters(text) {
       var out = {};
@@ -64,236 +92,237 @@ angular.module('reg')
     $('.ui.dimmer').remove();
     // Populate the size of the modal for when it appears, with an arbitrary user.
     $scope.selectedUser = {};
-    $scope.selectedUser.sections = generateSections({status: '',
-    confirmation: {
-      dietaryRestrictions: []
-    }, profile: {
-      occupationalStatus: [],
-      bestTools: [],
-      previousJunction: []
-    }, reimbursement: {
-          dateOfBirth: [],
-    }
+    $scope.selectedUser.sections = generateSections({
+      status: "",
+      confirmation: {
+        dietaryRestrictions: []
+      },
+      profile: ""
     });
 
-    function updatePage(data){
-      $scope.users = data.users.filter(function(user){
-        return user.status.admitted !== false;
-      }).filter(function(user){
-        return user.status.declined !== true;
-      });
+    function updatePage(data) {
+      $scope.users = data.users;
       $scope.currentPage = data.page;
       $scope.pageSize = data.size;
 
       var p = [];
-      for (var i = 0; i < data.totalPages; i++){
+      for (var i = 0; i < data.totalPages; i++) {
         p.push(i);
       }
       $scope.pages = p;
     }
 
-    $scope.goToPage = function(page){
-      $state.go('app.checkin', {
-        page: page,
-        size: $stateParams.size || 50,
-        filter:  serializeFilters($scope.filter),
-        query: $scope.filter.text
-      });
+    UserService.getPage($stateParams.page, $stateParams.size, $stateParams.query, $scope.statusFilters)
+    .then(response => {
+
+      updatePage(response.data);
+    });
+
+    $scope.$watch("queryText", function(queryText) {
+      UserService.getPage($stateParams.page, $stateParams.size, queryText, $scope.statusFilters).then(
+        response => {
+          updatePage(response.data);
+        }
+      );
+    });
+
+
+    $scope.applyStatusFilter = function () {
+      UserService
+        .getPage($stateParams.page, $stateParams.size, $scope.queryText, $scope.statusFilters).then(
+          response => {
+            updatePage(response.data);
+        });
     };
 
-    console.log($stateParams)
 
-    $scope.filterUsers = function() {
-      UserService
-        .getPage($stateParams.page, $stateParams.size, $scope.filter, $scope.sortBy, $scope.sortDir)
-        .success(function(data){
-          updatePage(data);
-        });
-    }
+    $scope.goToPage = function(page) {
+      $state.go("app.admin.users", {
+        page: page,
+        size: $stateParams.size || 20
+      });
+    };
 
     $scope.toggleCheckIn = function($event, user, index) {
       $event.stopPropagation();
 
-      if (!user.status.checkedIn){
+      if (!user.status.checkedIn) {
         swal({
           title: "Whoa, wait a minute!",
           text: "You are about to check in " + user.profile.name + "!",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Yes, check them in.",
-          closeOnConfirm: false
-          },
-          function(){
-            UserService
-              .checkIn(user._id)
-              .success(function(user){
-                $scope.users[index] = user;
-                swal("Check!", user.profile.name + ' has been checked in.', "success");
-              });
+          icon: "warning",
+          buttons: {
+            cancel: {
+              text: "Cancel",
+              value: null,
+              visible: true
+            },
+            checkIn: {
+              className: "danger-button",
+              closeModal: false,
+              text: "Yes, check them in",
+              value: true,
+              visible: true
+            }
           }
-        );
-      } 
-      else {
-        swal({
-          title: "Whoa, wait a minute!",
-          text: "You are about to check out " + user.profile.name + "!",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Yes, check them out.",
-          closeOnConfirm: false
-          }, 
-          function(){
-            swal({
-              title: "Are you ABSOLUTELY SURE?",
-              text: "You are about to CHECK OUT " + user.profile.name + "!",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#DD6B55",
-              confirmButtonText: "Yes, CHECK OUT.",
-              closeOnConfirm: false
-              }, function(){
-              UserService
-                .checkOut(user._id)
-                .success(function(user){
-                  $scope.users[index] = user;
-                  swal("Checked out", user.profile.name + ' has been checked out.', "success");
-            })
+        }).then(value => {
+          if (!value) {
+            return;
+          }
+
+          UserService.checkIn(user._id).then(response => {
+            $scope.users[index] = response.data;
+            swal(
+              "Checked in",
+              response.data.profile.name + " has been checked in.",
+              "success"
+            );
           });
-      })}
-    
+        });
+      } else {
+        UserService.checkOut(user._id).then(response => {
+          $scope.users[index] = response.data;
+          swal(
+            "Checked out",
+            response.data.profile.name + " has been checked out.",
+            "success"
+          );
+        });
+      }
     };
 
-    function selectUser(user){
-      $scope.selectedUser = user;
-      if(user.team) {
-        UserService.getTeamInfoByID(user._id).success(function(team) {
-          $scope.selectedUser.assignedTrack = team.assignedTrack
-          $scope.selectedUser.sections = generateSections(user);
-          $('.long.user.modal')
-            .modal('show');
-        })
-      }
-      else {
-        $scope.selectedUser.sections = generateSections(user);
-        $('.long.user.modal')
-          .modal('show');
+    function formatTime(time) {
+      if (time) {
+        return moment(time).format("MMMM Do YYYY, h:mm:ss a");
       }
     }
 
-    $scope.checkInUser = function($event, user, index) {
-      $event.stopPropagation();
-
-
-      swal({
-        title: "Whoa, wait a minute!",
-        text: "You are about to check in " + user.profile.name + "!",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes, CHECK IN!",
-        closeOnConfirm: false
-        }, function(){
-
-
-          UserService
-            .checkIn(user._id)
-            .success(function(user){
-               swal("Checked in!", user.profile.name + ' has been checked in succesfully!.', "success");
-            })
-            .error(function(){
-               swal("Something went wrong!", "error")
-            });
-
-        });
-
+    $scope.rowClass = function(user) {
+      if (user.admin) {
+        return "admin";
+      }
+      if (user.status.confirmed) {
+        return "positive";
+      }
+      if (user.status.admitted && !user.status.confirmed) {
+        return "warning";
+      }
     };
 
-    UserService
-      .getPage($stateParams.page, $stateParams.size, $scope.filter, 'timestamp', false)
-      .success(function(data){
-        updatePage(data);
-      });
+    function selectUser(user) {
+      $scope.selectedUser = user;
+      $scope.selectedUser.sections = generateSections(user);
+      $(".long.user.modal").modal("show");
+    }
 
-      function formatTime(time){
-        if (time) {
-          return moment(time).format('MMMM Do YYYY, h:mm:ss a');
+    function generateSections(user) {
+      return [
+        {
+          name: "Basic Info",
+          fields: [
+            {
+              name: "Created On",
+              value: formatTime(user.timestamp)
+            },
+            {
+              name: "Last Updated",
+              value: formatTime(user.lastUpdated)
+            },
+            {
+              name: "Confirm By",
+              value: formatTime(user.status.confirmBy) || "N/A"
+            },
+            {
+              name: "Checked In",
+              value: formatTime(user.status.checkInTime) || "N/A"
+            },
+            {
+              name: "Email",
+              value: user.email
+            },
+            {
+              name: "Team",
+              value: user.teamCode || "None"
+            }
+          ]
+        },
+        {
+          name: "Profile",
+          fields: [
+            {
+              name: "Name",
+              value: user.profile.name
+            },
+            {
+              name: "Gender",
+              value: user.profile.gender
+            },
+            {
+              name: "School",
+              value: user.profile.school
+            },
+            {
+              name: "Graduation Year",
+              value: user.profile.graduationYear
+            },
+            {
+              name: "Hackathons visited",
+              value: user.profile.howManyHackathons
+            },
+            {
+              name: "Description",
+              value: user.profile.description
+            },
+            {
+              name: "Essay",
+              value: user.profile.essay
+            },
+            {
+              name: "Major",
+              value: user.profile.major
+            },
+            {
+              name: "Github",
+              value: user.profile.github
+            },
+            {
+              name: "Facebook",
+              value: user.profile.facebook
+            },
+            {
+              name: "Linkedin",
+              value: user.profile.linkedin
+            }
+          ]
+        },
+        {
+          name: "Confirmation",
+          fields: [
+            {
+              name: "Phone Number",
+              value: user.confirmation.phoneNumber
+            },
+            {
+              name: "Needs Hardware",
+              value: user.confirmation.wantsHardware,
+              type: "boolean"
+            },
+            {
+              name: "Hardware Requested",
+              value: user.confirmation.hardware
+            }
+          ]
+        },
+        {
+          name: "Travel",
+          fields: [
+            {
+              name: "Additional Notes",
+              value: user.confirmation.notes
+            }
+          ]
         }
-      }
-
-      function generateSections(user){
-        return [
-          {
-            name: 'Basic Info',
-            fields: [
-              {
-                name: 'Checked In',
-                value: user.status.checkedIn,
-                type: 'boolean'
-              },{
-                name: 'Name',
-                value: user.profile.name
-              },{
-                name: 'Email',
-                value: user.email
-              },{
-                name: 'ID',
-                value: user.id
-              },{
-                name: 'Team',
-                value: user.teamCode || 'None'
-              }
-            ]
-          },{
-            name: 'Profile',
-            fields: [
-              {
-                name: 'Age',
-                value: user.profile.age
-              },{
-                name: 'Travels from Country',
-                value: user.profile.travelFromCountry
-              },{
-                name: 'Travels from City',
-                value: user.profile.travelFromCity
-              },{
-                name: 'Home Country',
-                value: user.profile.homeCountry
-              },{
-                name: 'Most interesting track',
-                value: user.profile.mostInterestingTrack
-              },
-              {
-                name: 'Applied for accommodation',
-                value: user.profile.applyAccommodation,
-                type: 'boolean'
-              },
-              {
-                name: 'Applied for travel reimbursement',
-                value: user.status.reimbursementApplied,
-                type: 'boolean'
-              },
-              {
-                name: 'Admitted reimbursement class',
-                value: user.profile.AcceptedreimbursementClass || 'None'
-              }
-            ]
-          },{
-            name: 'Confirmation',
-            fields: [
-              {
-                name: 'Shirt Size',
-                value: user.confirmation.shirtSize,
-                type: 'string'
-              },{
-                name: 'Needs Hardware',
-                value: user.confirmation.needsHardware,
-                type: 'boolean'
-              }
-            ]
-          },
-        ];
-      }
-      $scope.selectUser = selectUser;
+      ];
+    }
+    $scope.selectUser = selectUser;
   }]);

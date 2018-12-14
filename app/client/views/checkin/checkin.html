@@ -1,252 +1,278 @@
 <div class="page">
-    <script src="../../src/qrscanner/jsqrcode-combined.min.js"></script> 
-    <script src="../../src/qrscanner/html5-qrcode.min.js"></script>
-    <div class="divided title">
-        Check In
-    </div>
+  <script src="../../src/qrscanner/jsqrcode-combined.min.js"></script> 
+  <script src="../../src/qrscanner/html5-qrcode.min.js"></script>
+  <div class="divided title">
+      Check In
+  </div>
 
-    <div class="info">
-      <div class="small title">
-        Instructions for QR
+  <div class="info">
+    <div class="small title">
+      Instructions for QR
+    </div>
+    <ul style="width:70%;margin-left:auto; margin-right: auto;">
+      <li>The QR-code scanner works for only people that have confirmed that they are coming!</li>
+      <li>If the QR-code scanner doesn't work, use <b>Name/Email</b> in the <b>manual search and check-in below</b></li>
+      <li>If the scanner doesn't seem to scan the code, ask the participant to <b>adjust the phone brightness to maximum!</b></li>
+      <li>If there is no internet connection, use the given mobile app or excel sheet</li>
+    </ul>
+  </div>
+  <div class="ui stackable page grid">
+      <div class="column">
+          <div id="reader" style="width:400px;height:400px;margin:auto;"></div>
       </div>
-      <ul style="width:70%;margin-left:auto; margin-right: auto;">
-        <li>The QR-code scanner works for only people that have confirmed that they are coming!</li>
-        <li>If the QR-code scanner doesn't work, use <b>ID/Name/Email</b> in the <b>manual search and check-in below</b></li>
-        <li>If the scanner doesn't seem to scan the code, ask the participant to <b>adjust the phone brightness to maximum!</b></li>
-        <li>If there is no internet connection, use the given excel sheet</li>
-      </ul>
-    </div>
-    <div class="ui stackable page grid">
-        <div class="column">
-            <div id="reader" style="width:400px;height:400px;margin:auto;"></div>
+  </div>
+  
+  <div class="ui segment">
+      
+    <div class="ui stackable grid">
+      <div class="sixteen wide column">
+        <div class="ui header">
+          Search
         </div>
-    </div>
-    
-    <div class="ui segment">
-        
-          <div class="ui stackable grid" style="margin-top:20px;">
-            
-              <div class="ui header">
-                Search
-              </div>
-              <div class="ui form" style="width:50%">
+        <div class="ui form">
+          <div class="field">
+            <div class="ui icon fluid input">
+              <input type="text"
+                     placeholder="Search..."
+                     ng-model="queryText"
+                     ng-model-options="{debounce: 300}">
+                <i class="search icon"></i>
+            </div>
+          </div>
+  
+          <div class="ui form">
+            <div class="grouped fields">
                 <div class="field">
-                  <div class="ui icon fluid input">
-                    <input type="text"
-                           id="qrInput"
-                           placeholder="Search..."
-                           ng-model="filter.text"
-                           ng-init="filter.text=''"
-                           ng-model-options="{debounce: 300}"
-                           ng-change="filterUsers()">
-                      <i class="search icon"></i>
-                  </div>
+                    <div class="ui checkbox" style="margin-right:30px;">
+                        <input 
+                        type="checkbox"
+                        name="completedProfile"
+                        ng-model="statusFilters.completedProfile"
+                        ng-change="applyStatusFilter()">
+                        <label>Completed Profile</label>
+                    </div>
+                    <div class="ui checkbox" style="margin-right:30px;">
+                        <input 
+                        type="checkbox"
+                        name="admitted"
+                        ng-model="statusFilters.admitted"
+                        ng-change="applyStatusFilter()">
+                        <label> Admitted</label>
+                    </div>
+                    <div class="ui checkbox" style="margin-right:30px;">
+                        <input 
+                        type="checkbox"
+                        name="confirmed"
+                        ng-model="statusFilters.confirmed"
+                        ng-change="applyStatusFilter()">
+                        <label>Confirmed</label>
+                    </div>
+                    <div class="ui checkbox" style="margin-right:30px;">
+                        <input 
+                        type="checkbox"
+                        name="declined"
+                        ng-model="statusFilters.declined"
+                        ng-change="applyStatusFilter()">
+                        <label>Declined</label>
+                    </div>
+                    <div class="ui checkbox" style="margin-right:30px;">
+                        <input 
+                        type="checkbox"
+                        name="checkedIn"
+                        ng-model="statusFilters.checkedIn"
+                        ng-change="applyStatusFilter()">
+                        <label>Checked In</label>
+                    </div>
+                    <div class="ui checkbox" style="margin-right:30px;">
+                        <input 
+                        type="checkbox"
+                        name="verified"
+                        ng-model="statusFilters.verified"
+                        ng-change="applyStatusFilter()">
+                        <label>Verified</label>
+                    </div>
                 </div>
-              
-              <div class="ui divider"></div>
-        
             </div>
-            
-            <div id="table-container" class="sixteen wide column" style="overflow-x: auto;">
-                <div class="ui long user modal">
-                    <i class="close icon"></i>
-                    <div class="header">
-                      {{selectedUser.profile.name ? selectedUser.profile.name : selectedUser.email}}
-                      <span
-                        ng-show="selectedUser.admin">
-                        (Admin)
-                      </span>
-                    </div>
-                    <div class="content">
-            
-                      <div>
-                        <div class="ui header">
-                          Status:
-                          <div
-                            class="ui label">
-                            {{selectedUser.status.name.toUpperCase()}}
-                          </div>
-                        </div>
-
-                        <div class="ui header">
-                            Assigned track:
-                            <div
-                              class="ui label">
-                              {{selectedUser.assignedTrack || 'Not assigned'}}
-                            </div>
-                          </div>
-
-                      </div>
-            
-                      <div ng-repeat="section in selectedUser.sections">
-                        <div class="ui divider"></div>
-            
-                        <h3> {{section.title}} </h3>
-            
-                        <p ng-repeat="field in section.fields">
-                          <strong> {{field.name}}: </strong>
-            
-                          <span ng-show="field.type === 'boolean'">
-                            <i class="red circle remove icon" ng-show="!field.value"></i>
-                            <i class="green circle check icon" ng-show="field.value"></i>
-                          </span>
-            
-                          <span ng-if="field.type !== 'boolean'">
-                            {{field.value}}
-                          </span>
-                        </p>
-            
-                      </div>
-            
-                    </div>
-                    <div class="actions">
-                      <span ng-show="selectedUser.status.checkedIn"><b>This user is already checked in!</b></span>
-                      <button
-                        class="ui positive button"
-                        ng-click="checkInUser($event, selectedUser, $index)">
-                        Check In {{selectedUser.profile.name}}
-                      </button>
-                      <div class="ui negative right labeled icon button">
-                      Close
-                      <i class="checkmark icon"></i>
-                    </div>
-                  </div>
-                    
-                  </div>
-                <table
-                class="ui celled selectable compact users table" style="overflow-x: auto;">
-                <thead>
-                  <tr>
-                    <th>Unique ID</th>
-                    <th>Name</th>
-                    <th>E-mail address</th>
-                    <th>Checked</th>
-                    <th>Team</th>
-                    <th>Accom.</th>
-                    <th>Reimbursement</th>
-                    <th>A / C</th>
-
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    ng-repeat="user in users"
-                    ng-click="selectUser(user)"
-                    ng-class="rowClass(user)">
-                    <td>
-                      <strong>
-                      {{user.id}}
-                      &nbsp;
-                    </strong>
-                    <td>
-                        {{user.profile.name}}
-                    </td>
-                    <td>{{user.email}}</td>
-
-                    <td
-                      class="right aligned collapsing">
-
-                      <button
-                        ng-click="toggleCheckIn($event, user, $index)"
-                        class="ui circular mini basic green icon button"
-                        style="display:block;margin-left:auto;margin-right:auto;">
-
-                        <i
-                          ng-if="!user.status.checkedIn"
-                          class="flag outline icon"></i>
-
-                        <i
-                          ng-if="user.status.checkedIn"
-                          class="green flag icon"></i>
-
-                      </button>
-
-                    </td>
-                    <td>{{user.team}}</td>
-
-                    <!-- Accommodation -->
-                    <td
-                    class="collapsing">
-
-                      <i
-                        ng-if="user.profile.applyAccommodation"
-                        class="green check circle icon"
-                        style="display:block;margin-left:auto;margin-right:auto;">
-                      </i>
-                      <i
-                        ng-if="!user.profile.applyAccommodation"
-                        class="red remove circle icon"
-                        style="display:block;margin-left:auto;margin-right:auto;">
-                      </i>
-                    </td>
-
-                    <!-- Reimbursement -->
-
-                    <td
-                    class="collapsing">
-
-                      <i
-                        ng-if="user.status.reimbursementApplied"
-                        class="green check circle icon"
-                        style="display:block;margin-left:auto;margin-right:auto;">
-                      </i>
-                      <i
-                        ng-if="!user.status.reimbursementApplied"
-                        class="red remove circle icon"
-                        style="display:block;margin-left:auto;margin-right:auto;">
-                      </i>
-                    </td>
-
-                    <!-- A/C -->
-
-                    <td
-                      class="collapsing">
-
-                      <!-- Admitted -->
-                      <i
-                        ng-if="user.status.admitted"
-                        class="green check circle icon">
-                      </i>
-                      <i
-                        ng-if="!user.status.rejected && !user.status.admitted"
-                        class="thin circle icon">
-                      </i>
-                      <i
-                        ng-if="user.status.rejected"
-                        class="red remove circle icon">
-                      </i>
-                      <!-- Confirmed -->
-                      <i
-                        ng-if="!user.status.admitted"
-                        class="circle thin icon">
-                      </i>
-                      <i
-                        ng-if="user.status.admitted && user.status.confirmed"
-                        class="green check circle icon">
-                      </i>
-                      <i
-                        ng-if="user.status.admitted && !user.status.confirmed && !user.status.declined"
-                        class="question icon">
-                      </i>
-                      <i
-                        ng-if="user.status.admitted && user.status.declined"
-                        class="red remove circle icon">
-                      </i>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div class="ui divider"></div>
-              <button
-                ng-repeat="page in pages"
-                ng-class="page == currentPage ? 'active pink' : ''"
-                ng-click="goToPage(page)"
-                class="ui icon basic page button">
-                {{page}}
-              </button>
-            </div>
+          </div>
+    
         </div>
+  
+        <div class="ui divider"></div>
+  
+      </div>
+      <div id="table-container" class="sixteen wide column">
+        <div class="ui header">
+          Users
+        </div>
+
+        <div class="ui long user modal">
+          <i class="close icon"></i>
+          <div class="header">
+            {{selectedUser.profile.name ? selectedUser.profile.name : selectedUser.email}}
+            <span
+              ng-show="selectedUser.admin">
+              (Admin)
+            </span>
+          </div>
+          <div class="content">
+  
+            <div>
+              <div class="ui header">
+                Status:
+                <div
+                  class="ui label">
+                  {{selectedUser.status.name.toUpperCase()}}
+                </div>
+              </div>
+              <p>
+                <strong> Admitted by: </strong> {{selectedUser.status.admittedBy ? selectedUser.status.admittedBy : 'N/A'}}
+              </p>
+            </div>
+  
+            <div ng-repeat="section in selectedUser.sections">
+              <div class="ui divider"></div>
+  
+              <h3> {{section.title}} </h3>
+  
+              <p ng-repeat="field in section.fields">
+                <strong> {{field.name}}: </strong>
+  
+                <span ng-show="field.type === 'boolean'">
+                  <i class="red circle remove icon" ng-show="!field.value"></i>
+                  <i class="green circle check icon" ng-show="field.value"></i>
+                </span>
+  
+                <span ng-if="field.type == null">
+                  {{field.value}}
+                </span>
+              </p>
+  
+            </div>
+  
+          </div>
+  
+          <div class="actions">
+            <div class="ui positive right labeled icon button">
+              Nothing
+              <i class="checkmark icon"></i>
+            </div>
+          </div>
+        </div>
+  
+        <table
+          class="ui celled selectable compact users table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>E-mail address</th>
+              <th>School</th>
+              <th>Grad</th>
+              <th>A/C/Check</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              ng-click="selectUser(user)"
+              ng-repeat="user in users">
+              <td>
+                <strong>
+                  {{user.profile.name}}
+                  &nbsp;
+  
+                </strong>
+              </td>
+              <td>{{user.email}}</td>
+              <td>{{user.profile.school}}</td>
+              <td
+                class="collapsing">
+                {{user.profile.graduationYear}}
+              </td>
+              <td
+                class="collapsing">
+    
+                <!-- Admitted -->
+                <i
+                  ng-if="user.status.admitted"
+                  class="green check circle icon">
+                </i>
+                <i
+                  ng-if="!user.status.admitted"
+                  class="thin circle icon">
+                </i>
+  
+                <!-- Confirmed -->
+                <i
+                  ng-if="!user.status.admitted"
+                  class="circle thin icon">
+                </i>
+                <i
+                  ng-if="user.status.admitted && user.status.confirmed"
+                  class="green check circle icon">
+                </i>
+                <i
+                  ng-if="user.status.admitted && !user.status.confirmed && !user.status.declined"
+                  class="question icon">
+                </i>
+                <i
+                  ng-if="user.status.admitted && user.status.declined"
+                  class="red remove circle icon">
+                </i>
+
+
+                <!-- CheckedIN -->
+                <i
+                  ng-if="user.status.checkedIn"
+                  class="green check circle icon">
+                </i>
+                <i
+                  ng-if="!user.status.checkedIn"
+                  class="thin circle icon">
+                </i>
+
+  
+              </td>
+  
+              <td
+                class="right aligned collapsing">
+    
+                <button
+                  ng-click="toggleCheckIn($event, user, $index)"
+                  class="ui circular mini basic green icon button"
+                  ng-if="!user.status.checkedIn">
+                  <i
+                    title="Check-In User"
+                    class="green flag icon">
+                  </i>
+                </button>
+
+                <button
+                  ng-click="toggleCheckIn($event, user, $index)"
+                  class="ui circular mini basic red icon button"
+                  ng-if="user.status.checkedIn">
+                  <i
+                    title="Check-Out User"
+                    class="red flag icon">
+                  </i>
+                </button>
+    
+    
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <button
+        ng-repeat="page in pages"
+        ng-class="page == currentPage ? 'active blue' : ''"
+        ng-click="goToPage(page)"
+        class="ui icon basic page button">
+        {{page}}
+        </button>
+  
+      </div>
     </div>
-        
-</div>
+
+  </div>
+      
+</div>  

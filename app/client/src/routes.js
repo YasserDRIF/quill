@@ -12,6 +12,7 @@ const adminChallengesCtrl = require('../views/admin/challenges/adminChallengesCt
 const adminChallengeCtrl = require('../views/admin/challenge/adminChallengeCtrl.js');
 const AdminUserCtrl = require('../views/admin/user/AdminUserCtrl.js');
 const AdminUsersCtrl = require('../views/admin/users/AdminUsersCtrl.js');
+const CheckinCtrl = require('../views/checkin/CheckinCtrl.js');
 const ApplicationCtrl = require('../views/application/ApplicationCtrl.js');
 const ChallengesCtrl = require('../views/challenges/ChallengesCtrl.js');
 const ConfirmationCtrl = require('../views/confirmation/ConfirmationCtrl.js');

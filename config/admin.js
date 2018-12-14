@@ -13,8 +13,10 @@ User
     if (!user){
       var u = new User();
       u.email = ADMIN_EMAIL;
+      u.profile.name = "Admin"
       u.password = User.generateHash(ADMIN_PASSWORD);
       u.admin = true;
+      u.volunteer = true;
       u.verified = true;
       u.save(function(err){
         if (err){

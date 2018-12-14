@@ -35,6 +35,33 @@ module.exports = function(router) {
     });
   }
 
+
+
+  function isAdminOrVolunteer(req, res, next){
+
+    var token = getToken(req);
+
+    UserController.getByToken(token, function(err, user){
+
+      if (err) {
+        return res.status(500).send(err);
+      }
+
+      if (user){
+        if(user.admin || user.volunteer){
+          req.user = user;
+          return next();
+        }
+      }
+
+      return res.status(401).send({
+        message: 'Get outta here, punk!'
+      });
+
+    });
+  }
+
+
   /**
    * [Users API Only]
    *
@@ -112,21 +139,6 @@ module.exports = function(router) {
    *  API!
    */
 
-  /*
-    Chechin if Admitted, used fro QR Checkin 
-    */
-
-  router.get("/users/:id/check-qr", function(req, res) {
-    var id = req.params.id;
-    var user = req.user;
-    UserController.checkInByIdAdmitted( id, user, () => {
-        res.send(JSON.stringify({ message: "checked in succesfuly" }));
-      },
-      err => {
-        res.send(JSON.stringify({ error: err }));
-      }
-    );
-  });
 
   // ---------------------------------------------
   // Users
@@ -138,7 +150,7 @@ module.exports = function(router) {
    * GET - Get all users, or a page at a time.
    * ex. Paginate with ?page=0&size=100
    */
-  router.get("/users", isAdmin, function(req, res) {
+  router.get("/users", isAdminOrVolunteer, function(req, res) {
     var query = req.query;
     if (query.page && query.size) {
       UserController.getPage(query, defaultResponse(req, res));
@@ -315,24 +327,14 @@ module.exports = function(router) {
     // Accept the hacker. Admin only
     var id = req.params.id;
     var user = req.user;
-    //UserController.softAdmitUser(id, user, defaultResponse(req, res));
+    UserController.softAdmitUser(id, user, defaultResponse(req, res));
   });
 
-  /**
-   * Send QR emails to confirmed applicants
-   */
-  router.post("/users/:id/sendQREmail", isAdmin, function(req, res) {
-    // Accept the hacker. Admin only
-    var id = req.params.id;
-    var user = req.user;
-    UserController.sendQREmail(id, defaultResponse(req, res));
-  });
 
   /**
    * Send basic email
    */
   router.post("/users/:id/sendBasicMail/", isAdmin, function(req, res) {
-    // Accept the hacker. Admin only
     var id = req.params.id;
     UserController.sendBasicMail(id, req.body, defaultResponse(req, res));
   });
@@ -340,16 +342,34 @@ module.exports = function(router) {
   /**
    * Check in a user. ADMIN ONLY, DUH
    */
-  router.post("/users/:id/checkin", isAdmin, function(req, res) {
+  router.post("/users/:id/checkin", isAdminOrVolunteer, function(req, res) {
     var id = req.params.id;
     var user = req.user;
     UserController.checkInById(id, user, defaultResponse(req, res));
   });
 
+
+  /*
+    Chechin if Admitted, used fro QR Checkin  [Used for mobile app]
+  */
+
+  router.get("/users/:id/check-qr", function(req, res) {
+    var id = req.params.id;
+    var user = req.user;
+    UserController.checkInByIdAdmitted( id, user, () => {
+        res.send(JSON.stringify({ message: "checked in succesfuly" }));
+      },
+      err => {
+        res.send(JSON.stringify({ error: err }));
+      }
+    );
+  });
+
+
   /**
    * Check in a user. ADMIN ONLY, DUH
    */
-  router.post("/users/:id/checkout", isAdmin, function(req, res) {
+  router.post("/users/:id/checkout", isAdminOrVolunteer, function(req, res) {
     var id = req.params.id;
     var user = req.user;
     UserController.checkOutById(id, user, defaultResponse(req, res));
