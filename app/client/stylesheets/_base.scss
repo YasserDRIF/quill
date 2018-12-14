@@ -19,6 +19,38 @@
   }
 }
 
+
+#challenge {
+  .label {
+    margin-bottom: 6px;
+  }
+
+  .page.button {
+    margin-bottom: 6px;
+  }
+
+  #table-container {
+    overflow-x: auto;
+  }
+
+  table.users {
+
+    tr {
+      cursor: pointer;
+
+      &.admin {
+        background: lighten($brand-secondary, 50%) !important;
+        &:hover {
+          background: lighten($brand-secondary, 45%) !important;
+        }
+      }
+    }
+
+  }
+}
+
+
+
 @media only screen and (max-width: 768px) {
   #base > .content {
     padding-left: 0;

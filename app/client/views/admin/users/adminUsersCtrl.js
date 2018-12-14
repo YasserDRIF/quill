@@ -2,8 +2,6 @@ const moment = require("moment");
 const swal = require("sweetalert");
 
 
-
-
 angular.module("reg").controller("AdminUsersCtrl", [
   "$scope",
   "$state",
@@ -42,6 +40,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
 
     UserService.getPage($stateParams.page, $stateParams.size, $stateParams.query, $scope.statusFilters)
     .then(response => {
+
       updatePage(response.data);
     });
 

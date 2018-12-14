@@ -1,14 +1,19 @@
 const angular = require('angular');
 const SettingsService = require('./services/SettingsService.js');
 const UserService = require('./services/UserService.js');
+const ChallengeService = require('./services/ChallengeService.js');
+const SolvedCTFService = require('./services/SolvedCTFService.js');
 
 const AdminCtrl = require('../views/admin/AdminCtrl.js');
 const AdminSettingsCtrl = require('../views/admin/settings/AdminSettingsCtrl.js');
 const AdminStatsCtrl = require('../views/admin/stats/AdminStatsCtrl.js');
 const AdminMailCtrl = require('../views/admin/mail/AdminMailCtrl.js');
+const adminChallengesCtrl = require('../views/admin/challenges/adminChallengesCtrl.js');
+const adminChallengeCtrl = require('../views/admin/challenge/adminChallengeCtrl.js');
 const AdminUserCtrl = require('../views/admin/user/AdminUserCtrl.js');
 const AdminUsersCtrl = require('../views/admin/users/AdminUsersCtrl.js');
 const ApplicationCtrl = require('../views/application/ApplicationCtrl.js');
+const ChallengesCtrl = require('../views/challenges/ChallengesCtrl.js');
 const ConfirmationCtrl = require('../views/confirmation/ConfirmationCtrl.js');
 const DashboardCtrl = require('../views/dashboard/DashboardCtrl.js');
 const LoginCtrl = require('../views/login/LoginCtrl.js');
@@ -106,6 +111,22 @@ angular.module('reg')
           }
         }
       })
+      .state('app.challenges', {
+        url: "/challenges",
+        templateUrl: "views/challenges/challenges.html",
+        controller: 'ChallengesCtrl',
+        data: {
+          requireVerified: true
+        },
+        resolve: {
+          currentUser: function(UserService){
+            return UserService.getCurrentUser();
+          },
+          settings: function(SettingsService){
+            return SettingsService.getPublicSettings();
+          }
+        }
+      })
       .state('app.team', {
         url: "/team",
         templateUrl: "views/team/team.html",
@@ -151,6 +172,22 @@ angular.module('reg')
         templateUrl: "views/admin/mail/mail.html",
         controller: 'AdminMailCtrl'
       })
+      .state('app.admin.challenges', {
+        url: "/admin/challenges",
+        templateUrl: "views/admin/challenges/challenges.html",
+        controller: 'adminChallengesCtrl'
+      })
+      .state('app.admin.challenge', {
+        url: "/admin/challenges/:id",
+        templateUrl: "views/admin/challenge/challenge.html",
+        controller: 'adminChallengeCtrl',
+        resolve: {
+          'challenge': function($stateParams, ChallengeService){
+            return ChallengeService.get($stateParams.id);
+          }
+        }
+      })
+
       .state('app.admin.users', {
         url: "/admin/users?" +
           '&page' +

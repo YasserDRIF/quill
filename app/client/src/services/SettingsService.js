@@ -1,4 +1,4 @@
-angular.module('reg')
+angular.module('reg') 
   .factory('SettingsService', [
   '$http',
   function($http){

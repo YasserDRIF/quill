@@ -1,6 +1,10 @@
 var UserController = require("../controllers/UserController");
 var SettingsController = require("../controllers/SettingsController");
 var ChallengeController = require("../controllers/ChallengeController");
+var SolvedCTFController = require("../controllers/SolvedCTFController");
+
+var SolvedCTF = require("../models/SolvedCTF");
+
 var request = require("request");
 
 module.exports = function(router) {
@@ -567,11 +571,11 @@ router.get("/users/:id/gotmeal1", function(req, res) {
    *
    * PUT - Update a specific Challenge information.
    */
-  router.put("/challenges/:id/update", isAdmin, function(req, res) {
+  router.post("/challenges/:id/update", isAdmin, function(req, res) {
     var cData = req.body.cData;
     var id = req.params.id;
 
-    UserController.updateById(id, cData, defaultResponse(req, res));
+    ChallengeController.updateById(id, cData, defaultResponse(req, res));
   });
 
 
@@ -589,7 +593,6 @@ router.get("/users/:id/gotmeal1", function(req, res) {
    */
 
   router.post('/challenges/create', isAdmin, function(req, res, next){
-    // Register with an email and password
     var cData = req.body.cData;
 
     ChallengeController.createChallenge(cData,
@@ -608,13 +611,61 @@ router.get("/users/:id/gotmeal1", function(req, res) {
     ChallengeController.getById(req.params.id, defaultResponse(req, res));
   });
 
+
+  /**
+   * GET - Get a specific Challenge with answer [ADMIN ONLY].
+   */
+  router.get("/challenges/:id/answer", isAdmin, function(req, res) {
+    ChallengeController.getByIdAnswer(req.params.id, defaultResponse(req, res));
+  });
+
   /**
    * GET - Get all Challenges.
    */
-
-  router.get("/challenges", isAdmin, function(req, res) {
+  router.get("/challenges", function(req, res) {
     ChallengeController.getAll(defaultResponse(req, res));
   });
+
+
+
+  /**
+   * Mark a challenge as solvedk
+   */
+  router.post('/CTF/solve', isOwnerOrAdmin, function(req, res){
+    var challenge = req.body.challenge;
+    var user = req.body.user;
+    var answer = req.body.answer;
+
+    ChallengeController.verifyAnswer(challenge._id, answer,
+      function(err, C){
+        if (err || !C) {
+          return res.status(400).send(err);
+        }
+
+        SolvedCTFController.isSolved(challenge._id, user.data._id,
+          function(err, solution){
+            if (err || solution) {
+              return res.status(400).send(err);
+            } 
+            // Marking the challenge solved by user
+            SolvedCTFController.solve(challenge, user);
+
+            return res.json({
+              challenge: challenge
+            });
+          });
+      });
+
+  });
+
+  
+  /**
+   * GET - Get all Solved Challenges.
+   */
+  router.get("/CTF", function(req, res) {
+    SolvedCTFController.getAll(defaultResponse(req, res));
+  });
+
 
 
 

@@ -22,16 +22,36 @@ var schema = new mongoose.Schema({
   points: {
     type: Number
   },
+  answer: {
+    type: String,
+    select: false
+  },
 });
 
 
 
 
+//=========================================
+// Instance Methods
+//=========================================
 
-schema.statics.getPublicSettings = function(callback){
-  this
-    .findOne({})
-    .exec(callback);
+// checking if this password matches
+schema.methods.checkAnswer = function(answer) {
+  return answer== this.answer;
 };
+
+
+
+
+//=========================================
+// Static Methods
+//=========================================
+
+schema.statics.findOneByID = function(id){
+  return this.findOne({
+    _id: id
+  });
+};
+
 
 module.exports = mongoose.model('Challenge', schema);

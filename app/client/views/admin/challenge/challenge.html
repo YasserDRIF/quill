@@ -1,0 +1,73 @@
+<div class="ui top attached segment">
+
+  <div class="ui header">
+    {{selectedchallenge.title}}
+  </div>
+
+</div>
+
+<div class="ui botom attached segment">
+
+
+  <div class="ui form">
+
+    <fieldset ng-disabled="false">
+
+
+      <div class="field">
+        <label> Title:</label>
+        <input type="text" ng-model="selectedchallenge.title" />
+      </div>
+
+      <div class="field">
+        <label> Description :</label>
+        <textarea ng-model="selectedchallenge.description">
+        </textarea>
+      </div>
+
+      <div class="field">
+        <label> Dependency (Link):</label>
+        <input type="text" ng-model="selectedchallenge.dependency" />
+      </div>
+
+      <div class="field">
+        <label> Answer:</label>
+
+        <div class="ui action input">
+          <button class="ui orange icon button" ng-click="togglePassword()">
+            <i class="{{ typePassword ? 'fas fa-eye-slash' : 'eye' }} icon"></i>
+          </button>
+          
+          <input  type="{{ typePassword ? 'text' : 'password' }}" ng-model="selectedchallenge.answer" />
+        </div>
+      
+
+
+
+      </div>
+
+      <div class="field">
+        <label> Points:</label>
+        <input type="text" ng-model="selectedchallenge.points" />
+      </div>
+
+      <div class="ui divider"></div>
+
+      <div class="field">
+        <div
+          ng-click="updateChallenge()"
+          class="ui positive right labeled icon button">
+          Update Challenge
+          <i class="checkmark icon"></i>
+        </div>
+      </div>
+
+
+
+    </fieldset>
+
+  </div>
+
+  <div class="ui divider"></div>
+
+</div>

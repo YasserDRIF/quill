@@ -1,7 +1,6 @@
-angular.module("reg").factory("ChallengeService", [
+angular.module('reg').factory("ChallengeService", [
     "$http",
-    "Session",
-    function($http, Session) {
+    function($http) {
       var challenges = "/api/challenges";
       var base = challenges + "/";
   
@@ -11,14 +10,14 @@ angular.module("reg").factory("ChallengeService", [
         // ----------------------
 
         create: function(cData) {
-            return $http.put(challenges + "/create", {
+            return $http.post(challenges + "/create", {
               cData: cData
             });
           },
 
 
         update: function(id, cData) {
-            return $http.put(base + id + "/update", {
+            return $http.post(base + id + "/update", {
               cData: cData
             });
           },
@@ -35,7 +34,11 @@ angular.module("reg").factory("ChallengeService", [
         getAll: function() {
             return $http.get(base);
         },
-    
+
+        getAnswer: function(id) {
+          return $http.get(base + id + "/answer");
+        },
+
   
       };
     }
