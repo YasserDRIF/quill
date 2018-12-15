@@ -160,7 +160,7 @@ angular.module('reg')
         templateUrl: 'views/checkin/checkin.html',
         controller: 'CheckinCtrl',
         data: {
-          requireAdmin: true
+          requireVolunteer: true
         }
       })
       .state('app.admin.stats', {
@@ -247,6 +247,7 @@ angular.module('reg')
 
       var requireLogin = transition.to().data.requireLogin;
       var requireAdmin = transition.to().data.requireAdmin;
+      var requireVolunteer = transition.to().data.requireVolunteer;
       var requireVerified = transition.to().data.requireVerified;
       var requireAdmitted = transition.to().data.requireAdmitted;
 
@@ -255,6 +256,10 @@ angular.module('reg')
       }
 
       if (requireAdmin && !Session.getUser().admin) {
+        return transition.router.stateService.target("app.dashboard");
+      }
+
+      if (requireVolunteer && !Session.getUser().volunteer && requireAdmin && !Session.getUser().admin) {
         return transition.router.stateService.target("app.dashboard");
       }
 

@@ -10,17 +10,17 @@ angular.module('reg')
     function($http, $rootScope, $state, $window, Session) {
       var authService = {};
 
-      function loginSuccess(data, cb){
+      function loginSuccess(data, cb, volunteer){
         // Winner winner you get a token
-        Session.create(data.token, data.user);
+        if(!volunteer) {Session.create(data.token, data.user);}
 
         if (cb){
           cb(data.user);
         }
       }
 
-      function loginFailure(data, cb){
-        $state.go('login');
+      function loginFailure(data, cb, volunteer){
+        if(!volunteer) {$state.go('login');}
         if (cb) {
           cb(data);
         }
@@ -59,16 +59,17 @@ angular.module('reg')
         $state.go('login');
       };
 
-      authService.register = function(email, password, onSuccess, onFailure) {
+      authService.register = function(email, password, onSuccess, onFailure ,volunteer) {
         return $http
           .post('/auth/register', {
             email: email,
-            password: password
+            password: password,
+            volunteer: volunteer,
           })
           .then(response => {
-            loginSuccess(response.data, onSuccess);
+            loginSuccess(response.data, onSuccess, volunteer);
           }, response => {
-            loginFailure(response.data, onFailure);
+            loginFailure(response.data, onFailure, volunteer);
           });
       };
 

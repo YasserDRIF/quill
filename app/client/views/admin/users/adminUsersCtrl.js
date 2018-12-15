@@ -7,7 +7,8 @@ angular.module("reg").controller("AdminUsersCtrl", [
   "$state",
   "$stateParams",
   "UserService",
-  function($scope, $state, $stateParams, UserService) {
+  'AuthService',
+  function($scope, $state, $stateParams, UserService, AuthService) {
     $scope.pages = [];
     $scope.users = [];
 
@@ -111,6 +112,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
               response.data.profile.name + " has been checked in.",
               "success"
             );
+            $state.reload();
           });
         });
       } else {
@@ -121,6 +123,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
             response.data.profile.name + " has been checked out.",
             "success"
           );
+          $state.reload();
         });
       }
     };
@@ -186,6 +189,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
               response.data.profile.name + " has been admitted.",
               "success"
             );
+            $state.reload();
           });
         });
       });
@@ -252,6 +256,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
               response.data.profile.name + " has been removed.",
               "success"
             );
+            $state.reload();
           });
         });
       });
@@ -323,12 +328,14 @@ angular.module("reg").controller("AdminUsersCtrl", [
           UserService.makeAdmin(user._id).then(response => {
             $scope.users[index] = response.data;
             swal("Made", response.data.profile.name + " an admin.", "success");
+            $state.reload();
           });
         });
       } else {
         UserService.removeAdmin(user._id).then(response => {
           $scope.users[index] = response.data;
           swal("Removed", response.data.profile.name + " as admin", "success");
+          $state.reload();
         });
       }
     };
@@ -466,6 +473,28 @@ angular.module("reg").controller("AdminUsersCtrl", [
         }
       ];
     }
+
+    function onSuccess() {
+      swal("Updated!", "New Volunteer Added.", "success");
+      $state.reload();
+    }
+
+    function onError(data){
+      swal("Try again!", data.message, "error")
+    }
+
+    $scope.addVolunteer = function(){
+
+      swal("Write the challenge title:", {
+        buttons: {cancel: {text: "Cancel",value: null,visible: true}, yes: {text: "Invite",value: true,visible: true} },
+        content: {element: "input", attributes: {placeholder: "example@gmail.com",type: "text"} },
+      }).then((mail) => { if (!mail) {return;} 
+        AuthService.register(
+          mail, "hackathon", onSuccess, onError, true)
+      });
+    };
+
+
 
     $scope.selectUser = selectUser;
   }

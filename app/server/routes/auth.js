@@ -69,12 +69,15 @@ module.exports = function(router){
       // Register with an email and password
       var email = req.body.email;
       var password = req.body.password;
+      var volunteer=req.body.volunteer
+      if (!req.body.volunteer) {volunteer=false;} else {volunteer=true;}
 
-      UserController.createUser(email, password,
+      UserController.createUser(email, password, volunteer,
         function(err, user){
           if (err){
             return res.status(400).send(err);
           }
+          if (volunteer) { UserController.sendPasswordResetEmail(email)}
           return res.json(user);
       });
   });

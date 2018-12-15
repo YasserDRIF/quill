@@ -135,7 +135,7 @@ UserController.loginWithPassword = function(email, password, callback) {
  * @param  {String}   password [description]
  * @param  {Function} callback args(err, user)
  */
-UserController.createUser = function(email, password, callback) {
+UserController.createUser = function(email, password, volunteer, callback) {
   if (typeof email !== "string") {
     return callback({
       message: "Email must be a string."
@@ -153,6 +153,7 @@ UserController.createUser = function(email, password, callback) {
     var u = new User();
     u.email = email;
     u.password = User.generateHash(password);
+    u.volunteer = volunteer;
     u.save(function(err) {
       if (err) {
         // Duplicate key error codes
@@ -178,7 +179,7 @@ UserController.createUser = function(email, password, callback) {
           token: token,
           user: u
         });
-      }
+    }
     });
   });
 };

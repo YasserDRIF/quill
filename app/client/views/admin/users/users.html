@@ -79,12 +79,14 @@
     <div id="table-container" class="sixteen wide column">
       <div class="ui header">
         Users
-        <button
-        ng-click="sendAcceptanceEmails()"
-        class="ui green basic button"
-        style="margin-left: 60px">
-        Send Acceptance Emails
-      </button>
+        <button ng-click="sendAcceptanceEmails()" class="ui green basic button" style="margin-left: 60px">
+          <i class="envelope icon"></i>
+          Send Acceptance Emails
+        </button>
+        <button ng-click="addVolunteer()" class="ui green basic button" style="margin-left: 5px">
+          <i class="add icon"></i>
+          Add New Volunteer
+        </button>
 
       </div>
       <div class="ui long user modal">
