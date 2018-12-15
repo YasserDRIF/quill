@@ -196,7 +196,7 @@ module.exports = function(router) {
    *
    * GET - Get a specific user.
    */
-  router.get("/users/:id", isOwnerOrAdmin, function(req, res) {
+  router.get("/users/:id", function(req, res) {
     UserController.getById(req.params.id, defaultResponse(req, res));
   });
 

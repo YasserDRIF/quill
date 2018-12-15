@@ -24,7 +24,7 @@ angular.module('reg').factory("SolvedCTFService", [
           },
         
         getAll: function() {
-            return $http.get(base);
+            return $http.get(CTF);
         },
     
       };
