@@ -69,7 +69,6 @@ angular.module("reg").controller("adminChallengesCtrl", [
                   points:points,
                 }
                 ChallengeService.create(cData).then(response => {
-                console.log(response);
                 });
                 refreshPage();
               });

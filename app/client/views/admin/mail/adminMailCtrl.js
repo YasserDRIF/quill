@@ -70,7 +70,6 @@ angular.module("reg").controller("AdminMailCtrl", [
         if (willSend) {
           if (filteredUsers.length) {
             filteredUsers.forEach(user => {
-              console.log(user.email);
               UserService.sendBasicMail(user.id,email);
             });
             swal(

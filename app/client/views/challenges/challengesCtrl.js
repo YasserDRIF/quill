@@ -43,9 +43,6 @@ angular.module('reg')
         swal("Try again!", data.message, "error")
       }
 
-      $scope.test = function(){
-        console.log("it's working")
-      }
 
       $scope.solveChallenge = function(challenge,answer) {
         SolvedCTFService.solve(challenge,currentUser,answer,onSuccess,onError);

@@ -53,7 +53,6 @@ ChallengeController.getByIdAnswer = function(id, callback) {
  */
 ChallengeController.updateById = function(id, cData, callback) {
 
-  console.log("We Are in Backend ");
   Challenge.findOneAndUpdate(
     {
       _id: id,

@@ -4,6 +4,7 @@ const UserService = require('./services/UserService.js');
 const ChallengeService = require('./services/ChallengeService.js');
 const SolvedCTFService = require('./services/SolvedCTFService.js');
 
+const HomeCtrl = require('../views/home/HomeCtrl.js');
 const AdminCtrl = require('../views/admin/AdminCtrl.js');
 const AdminSettingsCtrl = require('../views/admin/settings/AdminSettingsCtrl.js');
 const AdminStatsCtrl = require('../views/admin/stats/AdminStatsCtrl.js');
@@ -70,8 +71,21 @@ angular.module('reg')
           requireLogin: true
         }
       })
-      .state('app.dashboard', {
+      .state('app.home', {
         url: "/",
+        templateUrl: "views/home/home.html",
+        controller: 'HomeCtrl',
+        data: {
+          requireLogin: false
+        },
+        resolve: {
+          'settings': function(SettingsService){
+            return SettingsService.getPublicSettings();
+          }
+        }
+      })
+      .state('app.dashboard', {
+        url: "/dashboard",
         templateUrl: "views/dashboard/dashboard.html",
         controller: 'DashboardCtrl',
         resolve: {

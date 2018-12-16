@@ -57,7 +57,6 @@ angular.module('reg')
 
 
       $scope.updateAllUser = function(){
-        console.log($scope.selectedUser);
 
         UserService
           .updateAll($scope.selectedUser._id, $scope.selectedUser)

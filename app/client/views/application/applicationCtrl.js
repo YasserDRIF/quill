@@ -15,7 +15,6 @@ angular.module('reg')
 
       // Set up the user
       $scope.user = currentUser.data;
-      console.log(currentUser.data);
 
       // Is the student from HostSchool?
       $scope.isHostSchool = $scope.user.email.split('@')[1] == settings.data.hostSchool;
