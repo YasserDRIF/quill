@@ -44,8 +44,13 @@ angular.module('reg')
       }
 
 
-      $scope.solveChallenge = function(challenge,answer) {
-        SolvedCTFService.solve(challenge,currentUser,answer,onSuccess,onError);
+      $scope.solveChallenge = function(challenge,answer, isenter) {
+        if (isenter){
+          SolvedCTFService.solve(challenge,currentUser,answer,onSuccess,onError);
+        }else{
+          SolvedCTFService.solve(challenge,currentUser,answer,onSuccess);
+        }
+        
       }
 
       

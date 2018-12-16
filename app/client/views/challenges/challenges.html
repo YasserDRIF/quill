@@ -38,7 +38,8 @@
                 <a href="{{challenge.dependency}}" title="Download dependencies" >
                   <i class="download icon"></i>
                 </a>
-                <input type="text" ng-model="box" ng-keyup="$event.keyCode == 13 ? solveChallenge(challenge,box) : null" placeholder=" Submit answer..." ng-show="!challenge.solved"/>
+                <input type="text" ng-model="input" ng-keyup="$event.keyCode == 13 ? solveChallenge(challenge,input,true) : solveChallenge(challenge,input,false) " 
+                       placeholder=" Submit answer..." ng-show="!challenge.solved"/>
                 <input type="text" placeholder=" Challenge Solved" ng-show="challenge.solved" ng-disabled="true"/>
               </div>
               <div

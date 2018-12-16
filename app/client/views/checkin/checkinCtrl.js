@@ -143,7 +143,7 @@ angular.module('reg')
       });
     };
 
-    $scope.toggleCheckIn = function($event, user, index) {
+    $scope.checkIn = function($event, user, index) {
       $event.stopPropagation();
 
       if (!user.status.checkedIn) {
@@ -180,14 +180,11 @@ angular.module('reg')
           });
         });
       } else {
-        UserService.checkOut(user._id).then(response => {
-          $scope.users[index] = response.data;
-          swal(
-            "Checked out",
-            response.data.profile.name + " has been checked out.",
-            "success"
-          );
-        });
+        swal(
+          "Already checkedIn",
+          user.profile.name + " has been checked-in at: "+ formatTime(user.status.checkInTime),
+          "warning"
+        );
       }
     };
 

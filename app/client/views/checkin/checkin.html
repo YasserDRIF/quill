@@ -237,25 +237,13 @@
                 class="right aligned collapsing">
     
                 <button
-                  ng-click="toggleCheckIn($event, user, $index)"
-                  class="ui circular mini basic green icon button"
-                  ng-if="!user.status.checkedIn">
+                  ng-click="checkIn($event, user, $index)"
+                  class="ui circular mini basic green icon button">
                   <i
                     title="Check-In User"
                     class="green flag icon">
                   </i>
                 </button>
-
-                <button
-                  ng-click="toggleCheckIn($event, user, $index)"
-                  class="ui circular mini basic red icon button"
-                  ng-if="user.status.checkedIn">
-                  <i
-                    title="Check-Out User"
-                    class="red flag icon">
-                  </i>
-                </button>
-    
     
               </td>
             </tr>
