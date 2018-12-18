@@ -23,7 +23,7 @@ angular.module('reg')
 
       ChallengeService.getAll().then(response => {
         response.data.forEach(element => {
-          if (element.description.length > 230) {element.description = "Challenge 1 TITLE..."}
+          if (element.description.length > 230) {element.description = element.description.substring(0, 230)+"...[See more] ";}
 
           element.solved= solvedChallenges.filter(s => s.challenge==element._id ).length          
 
@@ -40,7 +40,7 @@ angular.module('reg')
       }
 
       function onError(data){
-        swal("Try again!", data.message, "error")
+        swal("Try again!", data.message, "error") 
       }
 
 
@@ -56,8 +56,11 @@ angular.module('reg')
       
       $scope.showChallenge = function(challenge) {
 
-        console.log(challenge);
+        ChallengeService.get(challenge._id).then(response => {
 
+          swal(response.data.title, response.data.description)
+
+        })
       }
 
 

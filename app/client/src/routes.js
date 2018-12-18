@@ -72,7 +72,7 @@ angular.module('reg')
         }
       })
       .state('app.home', {
-        url: "/",
+        url: "/dashboard",
         templateUrl: "views/home/home.html",
         controller: 'HomeCtrl',
         data: {
@@ -85,7 +85,7 @@ angular.module('reg')
         }
       })
       .state('app.dashboard', {
-        url: "/dashboard",
+        url: "/",
         templateUrl: "views/dashboard/dashboard.html",
         controller: 'DashboardCtrl',
         resolve: {
