@@ -2,6 +2,7 @@ var UserController = require("../controllers/UserController");
 var SettingsController = require("../controllers/SettingsController");
 var ChallengeController = require("../controllers/ChallengeController");
 var SolvedCTFController = require("../controllers/SolvedCTFController");
+var TeamController = require("../controllers/TeamController");
 
 var SolvedCTF = require("../models/SolvedCTF");
 
@@ -684,6 +685,39 @@ router.get("/users/:id/gotmeal1", function(req, res) {
    */
   router.get("/CTF", function(req, res) {
     SolvedCTFController.getAll(defaultResponse(req, res));
+  });
+
+
+
+  // ---------------------------------------------
+  // Teams 
+  // ---------------------------------------------
+
+
+
+
+  /**
+   * Add new Challenge. ADMIN ONLY
+   */
+
+  router.post('/teams/create', function(req, res){
+    var teamData = req.body.teamData;
+
+    TeamController.createTeam(teamData,
+      function(err, user){
+        if (err){
+          return res.status(400).send(err);
+        }
+        return res.json(user);
+    });
+  });
+
+
+  /**
+   * GET - Get all Teams.
+   */
+  router.get("/teams", function(req, res) {
+    TeamController.getAll(defaultResponse(req, res));
   });
 
 

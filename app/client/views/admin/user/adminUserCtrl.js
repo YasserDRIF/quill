@@ -12,9 +12,6 @@ angular.module('reg')
       // Populate the school dropdown
       populateSchools();
 
-      /**
-       * TODO: JANK WARNING
-       */
       function populateSchools(){
 
         $http

@@ -30,9 +30,6 @@ angular.module('reg')
 
       $scope.regIsClosed = Date.now() > settings.data.timeClose;
 
-      /**
-       * TODO: JANK WARNING
-       */
       function populateSchools(){
         $http
           .get('/assets/schools.json')

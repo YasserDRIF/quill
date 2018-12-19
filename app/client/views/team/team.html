@@ -1,91 +1,104 @@
 <div id="team" class="page">
-  <div class="divided title">
-    Team
-  </div>
-  <div class="ui stackable centered page grid">
+  <div class="divided title">Team</div>
+
+  <div class="ui stackable centered page grid ">
     <div class="column">
-      <div
-        class="ui error message"
-        ng-show="error">
-        {{error}}
-      </div>
-
-      <div class="ui segment">
-        <div
-          ng-show="!user.teamCode && !regIsOpen">
-          <p>
-            {{ TEAM.NO_TEAM_REG_CLOSED }}
-          </p>
-        </div>
-        <div
-          class="ui form"
-          ng-show="!user.teamCode && regIsOpen">
-
-          <div class="title">
-            Join or Create a Team
-          </div>
-
-          <br>
-
-          <div class="field">
-            <input
-              class="ui input"
-              type="text"
-              placeholder="Choose your team name..."
-              ng-model="code">
-          </div>
-
-          <div class="field">
-            <button
-              class="ui fluid pink button"
-              ng-click="joinTeam()">
-              Join or Create Team
-            </button>
-          </div>
-
-        </div>
-
-        <div
-          ng-show="user.teamCode">
-          <div class="form">
-            <div class="title">
-              Your Team Name:
-            </div>
-          </div>
-          <br>
-          <div class="subheader">
-            {{user.teamCode}}
-          </div>
-
-          <br />
-
-          <div class="ui divider"></div>
-
-          <div class="form">
-            <div class="title">
-              Your Team:
-            </div>
-          </div>
-
-          <p
-            ng-repeat="user in teammates"
-            class="item">
-            {{user.profile.name || 'Somebody (has not filled out their profile!)'}}
-          </p>
-
-          <div
-            ng-show="regIsOpen">
-            <div class="ui divider"></div>
-
-            <button
-              class="ui fluid red button"
-              ng-click="leaveTeam()">Leave Team</button>
-          </div>
-
-        </div>
-
+      <div class="ui error message" ng-show="error">{{ error }}</div>
+      <div class="field">
+        <button class="ui fluid pink button" ng-click="createTeam()">
+          Create a New Team
+        </button>
       </div>
     </div>
   </div>
 
+  <div class="ui stackable grid">
+    <div class="column">
+      <div class="ui form" ng-class="{'loading': loading}">
+        <div class="divided title">Explore teams </div> <br><br>
+        <div class="ui four stackable cards doubling cards">
+            <div Team-Card class="teamcard ui card" ng-repeat="team in teams">
+                <div Team-Card id="1607" class="teamcard__anchor"></div>
+                <ul Team-Card class="teamcard__wanted">
+                    <li Team-Card ng-show="team.skills.code" style="border: 2px solid rgb(221, 41, 20); color: rgb(221, 41, 20);">
+                        <img Team-Card src="https://crowdforge.io/src/img/icon--coder-color.svg"/>
+                        <p Team-Card>code</p>
+                    </li>
+                    <li Team-Card ng-show="!team.skills.code">
+                        <img Team-Card src="https://crowdforge.io/src/img/icon--coder-grey.svg"/>
+                        <p Team-Card>code</p>
+                    </li>
+
+                    <li Team-Card ng-show="team.skills.design" style="border: 2px solid rgb(16, 131, 232); color: rgb(16, 131, 232);">
+                        <img Team-Card src="https://crowdforge.io/src/img/icon--design-color.svg"/>
+                        <p Team-Card>design</p>
+                    </li>
+                    <li Team-Card ng-show="!team.skills.design">
+                        <img Team-Card src="https://crowdforge.io/src/img/icon--design-grey.svg"/>
+                        <p Team-Card>design</p>
+                    </li>
+
+
+                    <li Team-Card ng-show="team.skills.hardware" style="border: 2px solid rgb(255, 153, 102); color: rgb(255, 153, 102);">
+                        <img Team-Card src="https://crowdforge.io/src/img/roles/hardware-color.svg"/>
+                        <p Team-Card>hardware</p>
+                    </li>
+                    <li Team-Card ng-show="!team.skills.hardware">
+                        <img Team-Card src="https://crowdforge.io/src/img/roles/hardware-grey.svg"/>
+                        <p Team-Card>hardware</p>
+                    </li>
+
+                    <li Team-Card ng-show="team.skills.idea" style="border: 2px solid  rgb(0, 204, 204); color: rgb(0, 204, 204);">
+                        <img Team-Card src="https://crowdforge.io/src/img/roles/expert-color.svg"/>
+                        <p Team-Card>idea</p>
+                    </li>
+                    <li Team-Card ng-show="!team.skills.idea">
+                        <img Team-Card src="https://crowdforge.io/src/img/roles/expert-grey.svg"/>
+                        <p Team-Card>idea</p>
+                    </li>
+
+
+                </ul>
+                <div Team-Card class="teamcard__ownerinfo">
+                  <div Team-Card class="teamcard__ownerinfo--left">
+                    <img Team-Card src="//crowdforge.io/img/blank-profile.svg" class="skill_{{team.members[0].skill}}_C"/>
+                    <div Team-Card>
+                      <p Team-Card class="teamcard__ownerinfo--left--name">
+                        {{team.members[0].name}}
+                      </p>
+                      <p Team-Card class="teamcard__ownerinfo--left--role skill_{{team.members[0].skill}}">
+                          {{team.members[0].skill}}
+                      </p>
+                      <!---->
+                    </div>
+                  </div>
+                  <div Team-Card class="teamcard__ownerinfo--right"><!----></div>
+                </div>
+                <div Team-Card class="teamcard__description">
+                  <p Team-Card> {{team.description}} </p>
+                </div>
+                <div Team-Card>
+                  <ul Team-Card class="teamcard__members--ul">
+                    <li Team-Card ng-repeat="member in team.members">
+                      <img Team-Card src="//crowdforge.io/img/blank-profile.svg" alt="{{member.name}}" title="{{member.name}}" class="skill_{{member.skill}}_C"/>
+                      <p Team-Card class="rolefilter skill_{{member.skill}}">
+                        {{member.skill}}
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+                <!---->
+                <!---->
+                <div Team-Card class="spacer"></div>
+                <!---->
+                <div Team-Card class="teamcard__button">
+                  <p Team-Card> <i class="add icon"></i> Join Team</p>
+                </div>
+              </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
