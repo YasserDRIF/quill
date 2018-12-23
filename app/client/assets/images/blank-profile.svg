@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>Project list Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Project-list-Copy" transform="translate(-293.000000, -755.000000)">
+            <rect id="Rectangle-8" fill="#EBEBEB" x="293" y="755" width="28" height="28"></rect>
+            <path d="M293,783 C294,778 300,778 303,776 C307,774 302,772 302,766 C302,766 301,759 307,759 C313,759 312,766 312,766 C312,772 307,774 311,776 C314,778 320,777 321,783 C314.807509,785.408191 299.159709,785.395443 293,783 Z" id="Path-5" fill="#B5B4B4"></path>
+        </g>
+    </g>
+</svg>

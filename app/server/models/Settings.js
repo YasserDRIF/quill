@@ -41,6 +41,11 @@ var schema = new mongoose.Schema({
   },
   hostSchool: {
     type: String,
+    default: 'esi.dz'
+  },
+  maxTeamSize: {
+    type: Number,
+    default: process.env.TEAM_MAX_SIZE
   }
 });
 

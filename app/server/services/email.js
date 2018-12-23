@@ -305,4 +305,100 @@ controller.sendBasicMail = function(id, email, callback) {
 };
 
 
+
+controller.acceptedToTeam = function(user, callback) {
+  var options = {
+    to: user.email,
+    subject: "[" + HACKATHON_NAME + "] - You have been accepted to join a team you applied for!"
+  };
+  var locals = {
+    name: user.profile.name,
+    url: ROOT_URL+"/team"
+  };
+  sendOne("email-team-accept", options, locals, function(err, info) {
+    if (err) {
+      console.log(err);
+    }
+    if (info) {
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+};
+
+
+controller.refusedfromTeam = function(user, callback) {
+  var options = {
+    to: user.email,
+    subject: "[" + HACKATHON_NAME + "] - You have been refused from one of the teams you applied for!"
+  };
+  var locals = {
+    name: user.profile.name,
+    url: ROOT_URL+"/team"
+  };
+  sendOne("email-team-refuse", options, locals, function(err, info) {
+    if (err) {
+      console.log(err);
+    }
+    if (info) {
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+};
+
+
+controller.removedfromTeam = function(user, callback) {
+  var options = {
+    to: user.email,
+    subject: "[" + HACKATHON_NAME + "] - You have been removed from a team you were part of!"
+  };
+  var locals = {
+    name: user.profile.name,
+    url: ROOT_URL+"/team"
+  };
+  sendOne("email-team-remove", options, locals, function(err, info) {
+    if (err) {
+      console.log(err);
+    }
+    if (info) {
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+};
+
+
+
+controller.memberLeftTeam = function(user, member, callback) {
+  var options = {
+    to: user.email,
+    subject: "[" + HACKATHON_NAME + "] - A member of your team has left!"
+  };
+  var locals = {
+    member: member,
+    name: user.profile.name,
+    url: ROOT_URL+"/team"
+  };
+  sendOne("email-team-left", options, locals, function(err, info) {
+    if (err) {
+      console.log(err);
+    }
+    if (info) {
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+};
+
+
+
 module.exports = controller;

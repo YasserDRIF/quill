@@ -45,7 +45,7 @@
     "config": "cp .env.config .env"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "3.9.1",
     "gulp-clean-css": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-ng-annotate": "^2.1.0",

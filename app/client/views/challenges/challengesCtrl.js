@@ -22,12 +22,6 @@ angular.module('reg')
       
 
       ChallengeService.getAll().then(response => {
-        response.data.forEach(element => {
-          if (element.description.length > 230) {element.description = element.description.substring(0, 230)+"...[See more] ";}
-
-          element.solved= solvedChallenges.filter(s => s.challenge==element._id ).length          
-
-        });
         $scope.challenges = response.data;
       });
 

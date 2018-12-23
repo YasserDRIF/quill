@@ -53,6 +53,7 @@ var schema = new mongoose.Schema({
     type: String
   },
   members: [member],
+  joinRequests: [member],
   skills: skills,
   isColosed: {
     type: Boolean,

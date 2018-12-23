@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="409px" height="536px" viewBox="0 0 409 536" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>locked-padlock-outline</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="locked-padlock-outline" fill-rule="nonzero" fill="#DD2914">
+            <path d="M357.75,178.5 L332.25,178.5 L332.25,127.5 C332.25,56.1 276.15,0 204.75,0 C133.35,0 77.25,56.1 77.25,127.5 L77.25,178.5 L51.75,178.5 C23.7,178.5 0.75,201.45 0.75,229.5 L0.75,484.5 C0.75,512.55 23.7,535.5 51.75,535.5 L357.75,535.5 C385.8,535.5 408.75,512.55 408.75,484.5 L408.75,229.5 C408.75,201.45 385.8,178.5 357.75,178.5 Z M204.75,48.45 C248.1,48.45 283.8,84.15 283.8,127.5 L283.8,178.5 L126.25,178.5 L125.7,127.5 C125.7,84.15 161.4,48.45 204.75,48.45 Z M357.75,484.5 L51.75,484.5 L51.75,229.5 L357.75,229.5 L357.75,484.5 Z M204.75,408 C232.8,408 255.75,385.05 255.75,357 C255.75,328.95 232.8,306 204.75,306 C176.7,306 153.75,328.95 153.75,357 C153.75,385.05 176.7,408 204.75,408 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

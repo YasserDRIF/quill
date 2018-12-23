@@ -37,7 +37,6 @@ module.exports = function(router) {
   }
 
 
-
   function isAdminOrVolunteer(req, res, next){
 
     var token = getToken(req);
@@ -713,13 +712,101 @@ router.get("/users/:id/gotmeal1", function(req, res) {
   });
 
 
-  /**
-   * GET - Get all Teams.
-   */
-  router.get("/teams", function(req, res) {
-    TeamController.getAll(defaultResponse(req, res));
+
+
+  router.get("/users", isAdminOrVolunteer, function(req, res) {
+    var query = req.query;
+    if (query.page && query.size) {
+      UserController.getPage(query, defaultResponse(req, res));
+    } else {
+      UserController.getAll(defaultResponse(req, res));
+    }
   });
 
+
+  /**
+   * GET - Get teams (either all of them or selcted with search and filters).
+   */
+  router.get("/teams", function(req, res) {
+    var query = req.query;
+    if (query.search) {
+      TeamController.getSelectedTeams(query, defaultResponse(req, res));
+    } else {
+      TeamController.getAll(defaultResponse(req, res));
+    }
+
+
+
+  });
+
+    /**
+   * GET - Get a specific team.
+   */
+  router.get("/teams/:id", function(req, res) {
+    TeamController.getById(req.params.id, defaultResponse(req, res));
+  });
+
+
+
+  /**
+   * PUT - Add a member to a team (Request Join).
+   */
+  router.post("/teams/:id/updatejoined", function(req, res) {
+    var newjoinRequests = req.body.newjoinRequests;
+    var id = req.params.id;
+
+    TeamController.updatejoined(id, newjoinRequests, defaultResponse(req, res));
+  });
+
+
+  /**
+   * PUT - Accept a member to a team (members).
+   */
+  router.post("/teams/:id/updateMembers", function(req, res) {
+    var newMembers = req.body.newMembers;
+    var id = req.params.id;
+
+    TeamController.updateMembers(id, newMembers, defaultResponse(req, res));
+  });
+
+  router.post("/teams/sendAcceptedTeam", function(req, res) {
+    const id = req.body.id;
+    TeamController.sendAcceptedTeamEmail(id, defaultResponse(req, res));
+  });
+
+
+  router.post("/teams/sendRefusedTeam", function(req, res) {
+    const id = req.body.id;
+    TeamController.SendRefusedTeamEmail(id, defaultResponse(req, res));
+  });
+
+  router.post("/teams/sendRemovedTeam", function(req, res) {
+    const id = req.body.id;
+    TeamController.SendRemovedTeamEmail(id, defaultResponse(req, res));
+  });
+
+  router.post("/teams/sendAdminRemovedTeam", function(req, res) {
+    const id = req.body.id;
+    const member = req.body.member;
+    TeamController.SendAdminRemovedTeamEmail(id, member, defaultResponse(req, res));
+  });
+
+  /**
+   * PUT - Remove team
+   */
+  router.post("/teams/:id/remove", function(req, res) {
+    var id = req.params.id;
+    TeamController.removeTeam(id, defaultResponse(req, res));
+  });
+
+  /**
+   * PUT - Update closed team Statuss
+   */
+  router.post("/teams/:id/toggleCloseTeam", function(req, res) {
+    const id = req.params.id;
+    const status = req.body.status;
+    TeamController.toggleCloseTeam(id, status, defaultResponse(req, res));
+  });
 
 
 

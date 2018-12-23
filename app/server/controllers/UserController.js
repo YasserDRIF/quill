@@ -210,7 +210,6 @@ function buildTextQueries(searchText) {
     const re = new RegExp(searchText, 'i');
     queries.push({ 'email': re });
     queries.push({ 'profile.name': re });
-    queries.push({ 'teamCode': re });
   }
   return queries;
 }
@@ -282,6 +281,7 @@ UserController.getPage = function(query, callback) {
 
   // Build a query for each status
   var statusQueries = buildStatusQueries(statusFilters);
+  
    // Build find query
   var findQuery = buildFindQuery(textQueries, statusQueries);
 
