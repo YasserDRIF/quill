@@ -3,6 +3,7 @@ var SettingsController = require("../controllers/SettingsController");
 var ChallengeController = require("../controllers/ChallengeController");
 var SolvedCTFController = require("../controllers/SolvedCTFController");
 var TeamController = require("../controllers/TeamController");
+var MarketingController = require("../controllers/MarketingController");
 
 var SolvedCTF = require("../models/SolvedCTF");
 
@@ -611,7 +612,6 @@ router.get("/users/:id/gotmeal1", function(req, res) {
   /**
    * Add new Challenge. ADMIN ONLY
    */
-
   router.post('/challenges/create', isAdmin, function(req, res, next){
     var cData = req.body.cData;
 
@@ -712,18 +712,6 @@ router.get("/users/:id/gotmeal1", function(req, res) {
   });
 
 
-
-
-  router.get("/users", isAdminOrVolunteer, function(req, res) {
-    var query = req.query;
-    if (query.page && query.size) {
-      UserController.getPage(query, defaultResponse(req, res));
-    } else {
-      UserController.getAll(defaultResponse(req, res));
-    }
-  });
-
-
   /**
    * GET - Get teams (either all of them or selcted with search and filters).
    */
@@ -734,8 +722,6 @@ router.get("/users/:id/gotmeal1", function(req, res) {
     } else {
       TeamController.getAll(defaultResponse(req, res));
     }
-
-
 
   });
 
@@ -807,6 +793,41 @@ router.get("/users/:id/gotmeal1", function(req, res) {
     const status = req.body.status;
     TeamController.toggleCloseTeam(id, status, defaultResponse(req, res));
   });
+
+
+
+
+
+  // ---------------------------------------------
+  // Marketing Hackathon Teams 
+  // ---------------------------------------------
+
+
+
+
+  /**
+   * Add new team. ADMIN ONLY
+   */
+  router.post('/marketing/createTeam', isAdmin, function(req, res){
+    var teamData = req.body.teamData;
+
+    MarketingController.createTeam(teamData,
+      function(err, user){
+        if (err){
+          return res.status(400).send(err);
+        }
+        return res.json(user);
+    });
+  });
+
+
+  /**
+   * GET - Get teams
+   */
+  router.get("/marketing", function(req, res) {
+    MarketingController.getAll(defaultResponse(req, res));
+  });
+
 
 
 

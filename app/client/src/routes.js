@@ -4,6 +4,7 @@ const UserService = require('./services/UserService.js');
 const ChallengeService = require('./services/ChallengeService.js');
 const SolvedCTFService = require('./services/SolvedCTFService.js');
 const TeamService = require('./services/TeamService.js');
+const MarketingService = require('./services/MarketingService.js');
 
 const HomeCtrl = require('../views/home/HomeCtrl.js');
 const AdminCtrl = require('../views/admin/AdminCtrl.js');
@@ -14,6 +15,7 @@ const adminChallengesCtrl = require('../views/admin/challenges/adminChallengesCt
 const adminChallengeCtrl = require('../views/admin/challenge/adminChallengeCtrl.js');
 const AdminUserCtrl = require('../views/admin/user/AdminUserCtrl.js');
 const AdminUsersCtrl = require('../views/admin/users/AdminUsersCtrl.js');
+const adminMarketingCtrl = require('../views/admin/marketing/adminMarketingCtrl.js');
 const CheckinCtrl = require('../views/checkin/CheckinCtrl.js');
 const ApplicationCtrl = require('../views/application/ApplicationCtrl.js');
 const ChallengesCtrl = require('../views/challenges/ChallengesCtrl.js');
@@ -203,7 +205,11 @@ angular.module('reg')
           }
         }
       })
-
+      .state('app.admin.marketing', {
+        url: "/admin/marketing",
+        templateUrl: "views/admin/marketing/marketing.html",
+        controller: 'adminMarketingCtrl'
+      })
       .state('app.admin.users', {
         url: "/admin/users?" +
           '&page' +

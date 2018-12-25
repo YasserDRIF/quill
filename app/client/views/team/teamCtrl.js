@@ -1,11 +1,8 @@
-/**
- * 
- * TODO: TEAMs
- * 
- *
- * 
- * 
- */
+/*
+*
+* TODO: Revise isJoined
+*
+*/
 
 angular.module('reg')
   .controller('TeamCtrl', [
@@ -25,20 +22,6 @@ angular.module('reg')
       $scope.regIsOpen = Utils.isRegOpen(Settings);
 
       $scope.user = currentUser.data;
-
-      function isTeamMember(teams,id){
-        var isMember = false;
-        teams.forEach(team => {
-          team.members.forEach(member =>{
-            if(member.id==id){
-              console.log("isMember = "+member.id);
-              
-              isMember=true;
-            }
-          })          
-        });
-        return isMember;
-      }
 
       TeamService.getAll().then(teams => {
         $scope.isTeamAdmin=false;
@@ -69,9 +52,8 @@ angular.module('reg')
             })
             team.joinRequests.forEach(member =>{
               if(member.id==currentUser.data._id){
-                team.isjoined=true;
+                team.isjoined=true;                
               }
-
             })
           }
         })
