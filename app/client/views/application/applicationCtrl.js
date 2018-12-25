@@ -11,7 +11,8 @@ angular.module('reg')
     'settings',
     'Session',
     'UserService',
-    function($scope, $rootScope, $state, $http, currentUser, settings, Session, UserService) {
+    'MarketingService',
+    function($scope, $rootScope, $state, $http, currentUser, settings, Session, UserService, MarketingService) {
 
       // Set up the user
       $scope.user = currentUser.data;
@@ -66,17 +67,55 @@ angular.module('reg')
               })
           });
       }
+    
+      function removeDuplicates(myArr, prop) {
+        return myArr.filter((obj, pos, arr) => {
+            return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
+        });
+      }
+
+      function sendMarketingEmails(){
+        MarketingService.getAll().then(teams=>{
+          var emails=[];
+          teams.data.forEach(team => {
+            var isTeammate=false;
+            team.members.forEach(member => {
+              if (member==currentUser.data.email){
+                isTeammate=true;
+              }
+            });
+            if (isTeammate) {
+              team.members.forEach(member => {
+                if (!(member==currentUser.data.email)){
+                  emails.push({email:member,event:team.event})
+                } 
+              });
+            }
+          });
+          removeDuplicates(emails,'email').forEach(teammate => {
+            MarketingService.sendFriendInvite(currentUser.data.profile.name,teammate)
+          });
+        })
+      }
+
 
       function _updateUser(e){
+
+        //Check if User's first submission
+        var sendMail = true;
+        if (currentUser.data.status.completedProfile) {sendMail=false}        
+
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
           .then(response => {
             swal("Awesome!", "Your application has been saved.", "success").then(value => {
+              if (sendMail){ sendMarketingEmails(); }
               $state.go("app.dashboard");
             });
           }, response => {
             swal("Uh oh!", "Something went wrong.", "error");
           });
+
       }
 
       function isMinor() {

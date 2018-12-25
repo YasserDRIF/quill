@@ -18,6 +18,13 @@ angular.module('reg').factory("MarketingService", [
         getAll: function() {
             return $http.get(base);
         },
+
+        sendFriendInvite: function(username,teammate){
+          return $http.post(marketing + "/sendInvite", {
+            username: username,
+            teammate: teammate
+          });
+        }
   
       };
     }

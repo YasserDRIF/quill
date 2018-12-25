@@ -829,6 +829,14 @@ router.get("/users/:id/gotmeal1", function(req, res) {
   });
 
 
+  router.post("/marketing/sendInvite", function(req, res) {
+    const username = req.body.username;
+    const teammate = req.body.teammate;
+    MarketingController.sendInvite(username, teammate, defaultResponse(req, res));
+  });
+
+
+
 
 
 

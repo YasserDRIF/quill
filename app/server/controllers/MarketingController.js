@@ -1,4 +1,5 @@
 var hackathonTeam = require("../models/hackathonTeam");
+var Mailer = require("../services/email");
 
 var MarketingController = {};
 
@@ -24,9 +25,13 @@ MarketingController.createTeam = function( data, callback) {
  * @param  {Function} callback args(err, user)
  */
 MarketingController.getAll = function(callback) {
-  Challenge.find({}, callback);
+  hackathonTeam.find({}, callback);
 };
 
+MarketingController.sendInvite = function(username, teammate, callback) {
+
+  Mailer.sendTeammateInvite(username,teammate);
+};
 
 
 module.exports = MarketingController;

@@ -400,5 +400,28 @@ controller.memberLeftTeam = function(user, member, callback) {
 };
 
 
+controller.sendTeammateInvite = function(username, teammate, callback) {
+  var options = {
+    to: teammate.email,
+    subject: "[" + HACKATHON_NAME + "] - Team up with " + username 
+  };
+  var locals = {
+    user: username,
+    event: teammate.event,
+    url: ROOT_URL
+  };
+  sendOne("email-Temamate-Ad", options, locals, function(err, info) {
+    if (err) {
+      console.log(err);
+    }
+    if (info) {
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+};
+
 
 module.exports = controller;
