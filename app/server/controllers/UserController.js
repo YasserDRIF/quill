@@ -290,7 +290,7 @@ UserController.getPage = function(query, callback) {
     .sort({
       "profile.name": "asc"
     })
-    .select("+status.admittedBy")
+    .select("+status.reviewedBy")
     .skip(page * size)
     .limit(size)
     .exec(function(err, users) {
@@ -801,8 +801,9 @@ UserController.softAdmitUser = function(id, user, callback) {
       },
       {
         $set: {
+          "status.softRejected": false,
           "status.softAdmitted": true,
-          "status.admittedBy": user.email,
+          "status.reviewedBy": user.email,
           "status.confirmBy": times.timeConfirm
         }
       },
@@ -814,6 +815,34 @@ UserController.softAdmitUser = function(id, user, callback) {
   });
 };
 
+
+
+
+UserController.softRejectUser = function(id, user, callback) {
+  Settings.getRegistrationTimes(function(err, times) {
+    User.findOneAndUpdate(
+      {
+        _id: id,
+        verified: true
+      },
+      {
+        $set: {
+          "status.softRejected": true,
+          "status.softAdmitted": false,
+          "status.reviewedBy": user.email,
+        }
+      },
+      {
+        new: true
+      },
+      callback
+    );
+  });
+};
+
+
+
+
 UserController.admitUser = function(id, user, callback) {
   Settings.getRegistrationTimes(function(err, times) {
     User.findOneAndUpdate(
@@ -824,7 +853,6 @@ UserController.admitUser = function(id, user, callback) {
       {
         $set: {
           "status.admitted": true,
-          "status.admittedBy": user.email,
           "status.confirmBy": times.timeConfirm
         }
       },
@@ -843,6 +871,37 @@ UserController.admitUser = function(id, user, callback) {
     );
   });
 };
+
+
+UserController.rejectUser = function(id, user, callback) {
+  Settings.getRegistrationTimes(function(err, times) {
+    User.findOneAndUpdate(
+      {
+        _id: id,
+        verified: true
+      },
+      {
+        $set: {
+          "status.rejected": true,
+        }
+      },
+      {
+        new: true
+      },
+      function(err, user) {
+        if (err || !user) {
+          return callback(err);
+        }
+        Mailer.sendRejectionEmail(user);
+        console.log("Sent Reject Mail to" + user.profile.name);
+        return callback(err, user);
+      },
+      callback
+    );
+  });
+};
+
+
 
 UserController.sendBasicMail = function(id, email, callback) {
   User.findOne({

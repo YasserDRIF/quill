@@ -324,11 +324,26 @@ module.exports = function(router) {
     UserController.admitUser(id, user, defaultResponse(req, res));
   });
 
+  router.post("/users/:id/reject", isAdmin, function(req, res) {
+    // Reject the hacker. Admin only
+    var id = req.params.id;
+    var user = req.user;
+    UserController.rejectUser(id, user, defaultResponse(req, res));
+  });
+
   router.post("/users/:id/softAdmit", isAdmin, function(req, res) {
-    // Accept the hacker. Admin only
+    // Soft Accept the hacker. Admin only
     var id = req.params.id;
     var user = req.user;
     UserController.softAdmitUser(id, user, defaultResponse(req, res));
+  });
+
+
+  router.post("/users/:id/softReject", isAdmin, function(req, res) {
+    // Soft Reject the hacker. Admin only
+    var id = req.params.id;
+    var user = req.user;
+    UserController.softRejectUser(id, user, defaultResponse(req, res));
   });
 
 

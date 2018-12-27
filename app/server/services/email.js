@@ -239,6 +239,36 @@ controller.sendAdmittanceEmail = function(user, callback) {
 };
 
 
+
+/*
+ * Send a status update email for admittance.
+ * @param  {[type]}   email    [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+controller.sendRejectionEmail = function(user, callback) {
+  var options = {
+    to: user.email,
+    subject: "[" + HACKATHON_NAME + "] - Got rejected ! Congratulations."
+  };
+  var locals = {
+    name: user.profile.name,
+  };
+
+  sendOne("email-reject", options, locals, function(err, info) {
+    if (err) {
+      console.log(err);
+    }
+    if (info) {
+      console.log(info.message);
+    }
+    if (callback) {
+      callback(err, info);
+    }
+  });
+};
+
+
 /**
  * Send a password recovery email.
  * @param  {[type]}   email    [description]

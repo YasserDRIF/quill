@@ -112,7 +112,7 @@ TeamController.getSelectedTeams = function(query, callback) {
     .sort({
       "_id": "desc"
     })
-    .select("+status.admittedBy")
+    .select("+status.reviewedBy")
     .exec(function(err, teams) {
       if (err || !teams) {
         return callback(err);

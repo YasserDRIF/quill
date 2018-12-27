@@ -82,8 +82,15 @@ angular.module("reg").factory("UserService", [
       admitUser: function(id) {
         return $http.post(base + id + "/admit");
       },
+      rejectUser: function(id) {
+        return $http.post(base + id + "/reject");
+      },
       softAdmittUser: function(id) {
         return $http.post(base + id + "/softAdmit");
+      },
+
+      softRejectUser: function(id) {
+        return $http.post(base + id + "/softReject");
       },
 
       sendBasicMail: function(id , email) {

@@ -83,6 +83,10 @@
           <i class="envelope icon"></i>
           Send Acceptance Emails
         </button>
+        <button ng-click="sendRejectionEmails()" class="ui red basic button" style="margin-left: 5px">
+          <i class="envelope icon"></i>
+          Send Rejection Emails
+        </button>
         <button ng-click="addVolunteer()" class="ui green basic button" style="margin-left: 5px">
           <i class="add icon"></i>
           Add New Volunteer
@@ -109,7 +113,7 @@
               </div>
             </div>
             <p>
-              <strong> Admitted by: </strong> {{selectedUser.status.admittedBy ? selectedUser.status.admittedBy : 'N/A'}}
+              <strong> Reviewed by: </strong> {{selectedUser.status.reviewedBy ? selectedUser.status.reviewedBy : 'N/A'}}
             </p>
           </div>
 
@@ -203,9 +207,15 @@
                 class="green check circle icon">
               </i>
               <i
-                ng-if="!user.status.softAdmitted"
+                ng-if="!user.status.softAdmitted && !user.status.softRejected"
                 class="thin circle icon">
               </i>
+
+              <i
+              ng-if="!user.status.softAdmitted && user.status.softRejected"
+              class="red remove circle icon">
+              </i>
+
 
               <!-- Admitted -->
               <i
@@ -213,9 +223,15 @@
                 class="green check circle icon">
               </i>
               <i
-                ng-if="!user.status.admitted"
+                ng-if="!user.status.admitted  && !user.status.rejected"
                 class="thin circle icon">
               </i>
+
+              <i
+              ng-if="!user.status.admitted && user.status.rejected"
+              class="red remove circle icon">
+              </i>
+
 
               <!-- Confirmed -->
               <i
@@ -286,28 +302,17 @@
               class="right aligned collapsing">
 
               <button 
-                title="Accept User"
+                title="Accept User" ng-hide="user.status.admitted || user.status.rejected || user.status.softAdmitted"
                 class="accept ui circular mini basic green icon button"
                 ng-click="acceptUser($event, user, $index)">
                 <i class="add user icon"></i>
-                
               </button>
 
-              <button
-                
-                ng-click="toggleCheckIn($event, user, $index)"
-                class="ui circular mini basic green icon button">
-
-                <i
-                  title="Check-In User"
-                  ng-if="!user.status.checkedIn"
-                  class="green flag icon"></i>
-
-                <i
-                  title="Check-Out User"
-                  ng-if="user.status.checkedIn"
-                  class="red flag icon"></i>
-
+              <button 
+                title="Reject User" ng-hide="user.status.admitted || user.status.rejected || user.status.softRejected"
+                class="reject ui circular mini basic red icon button"
+                ng-click="rejecttUser($event, user, $index)">
+                <i class="remove user icon"></i>
               </button>
 
               <button
@@ -327,7 +332,7 @@
               </button>
 
               <button 
-              title="Remove User"
+              title="Remove User" ng-hide="true"
               class="delete ui circular mini basic red icon button"
               ng-click="removeUser($event, user, $index)">
               <i class="red x icon"></i>

@@ -78,55 +78,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
       });
     };
 
-    $scope.toggleCheckIn = function($event, user, index) {
-      $event.stopPropagation();
-
-      if (!user.status.checkedIn) {
-        swal({
-          title: "Whoa, wait a minute!",
-          text: "You are about to check in " + user.profile.name + "!",
-          icon: "warning",
-          buttons: {
-            cancel: {
-              text: "Cancel",
-              value: null,
-              visible: true
-            },
-            checkIn: {
-              className: "danger-button",
-              closeModal: false,
-              text: "Yes, check them in",
-              value: true,
-              visible: true
-            }
-          }
-        }).then(value => {
-          if (!value) {
-            return;
-          }
-
-          UserService.checkIn(user._id).then(response => {
-            $scope.users[index] = response.data;
-            swal(
-              "Checked in",
-              response.data.profile.name + " has been checked in.",
-              "success"
-            );
-            $state.reload();
-          });
-        });
-      } else {
-        UserService.checkOut(user._id).then(response => {
-          $scope.users[index] = response.data;
-          swal(
-            "Checked out",
-            response.data.profile.name + " has been checked out.",
-            "success"
-          );
-          $state.reload();
-        });
-      }
-    };
 
     $scope.acceptUser = function($event, user, index) {
       $event.stopPropagation();
@@ -194,6 +145,78 @@ angular.module("reg").controller("AdminUsersCtrl", [
         });
       });
     };
+
+
+
+    $scope.rejecttUser = function($event, user, index) {
+      $event.stopPropagation();
+
+
+      swal({
+        buttons: {
+          cancel: {
+            text: "Cancel",
+            value: null,
+            visible: true
+          },
+          accept: {
+            className: "danger-button",
+            closeModal: false,
+            text: "Yes, reject them",
+            value: true,
+            visible: true
+          }
+        },
+        dangerMode: true,
+        icon: "warning",
+        text: "You are about to reject " + user.profile.name + "!",
+        title: "Whoa, wait a minute!"
+      }).then(value => {
+        if (!value) {
+          return;
+        }
+
+        swal({
+          buttons: {
+            cancel: {
+              text: "Cancel",
+              value: null,
+              visible: true
+            },
+            yes: {
+              className: "danger-button",
+              closeModal: false,
+              text: "Yes, reject this user",
+              value: true,
+              visible: true
+            }
+          },
+          dangerMode: true,
+          title: "Are you sure?",
+          text:
+            "Your account will be logged as having rejected this user. " +
+            "Remember, this power is a privilege.",
+          icon: "warning"
+        }).then(value => {
+          if (!value) {
+            return;
+          }
+          
+          UserService.softRejectUser(user._id).then(response => {
+            $scope.users[index] = response.data;
+            swal(
+              "Rejected",
+              response.data.profile.name + " has been rejected.",
+              "success"
+            );
+            $state.reload();
+          });
+        });
+      });
+    };
+
+
+
 
     $scope.removeUser = function($event, user, index) {
       $event.stopPropagation();
@@ -292,6 +315,43 @@ angular.module("reg").controller("AdminUsersCtrl", [
             );
           } else {
             swal("Whoops", "You can't send or accept 0 users!", "error");
+          }
+        }
+      });
+    };
+
+
+
+    $scope.sendRejectionEmails = function() {
+      const filterSoftRejected = $scope.users.filter(
+        u => u.status.softRejected
+      );
+
+      var message = $(this).data("confirm");
+
+      swal({
+        title: "Whoa, wait a minute!",
+        text: `You're about to send rejection emails (and reject) ${
+          filterSoftRejected.length
+        } user(s).`,
+        icon: "warning",
+        buttons: ["Cancel", "Yes, reject them and send the emails"],
+        dangerMode: true
+      }).then(willSend => {
+        if (willSend) {
+          if (filterSoftRejected.length) {
+            filterSoftRejected.forEach(user => {
+              UserService.rejectUser(user._id); 
+            });
+            swal(
+              "Sending!",
+              `Rejecting and sending emails to ${
+                filterSoftRejected.length
+              } users!`,
+              "success"
+            );
+          } else {
+            swal("Whoops", "You can't send or reject 0 users!", "error");
           }
         }
       });

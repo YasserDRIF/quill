@@ -127,7 +127,7 @@ var status = {
     required: true,
     default: false,
   },
-  admittedBy: {
+  reviewedBy: { 
     type: String,
     validate: [
       validator.isEmail,
@@ -157,6 +157,11 @@ var status = {
     type: Boolean,
     required: true,
     default: false,
+  },
+  softRejected: {
+    type: Boolean,
+    required: true,
+    default: false
   },
   confirmBy: {
     type: Number
