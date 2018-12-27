@@ -1081,29 +1081,51 @@ UserController.removeUserById = function(id, user, callback) {
 // Live Stats  **********************************************************
 
 
-UserController.gotmeal1 = function(id, user, cb_succes, cb_err) {
+UserController.gotmeal = function(id, mealN, cb_succes, cb_err) {
     User.findOne({
       _id: id
     })
       .then(user => {
-        console.log("Got meal = "+user.live.gotmeal1);
-        if (!user.live.gotmeal1) {
+        if (!user.live.meal[mealN]) {
           
           User.findOneAndUpdate(
             { _id: id },
             {
               $set: {
-                "live.gotmeal1": true,
+                [`live.meal.${mealN}`]:true,
               }
-            }
+            },
           )
             .then(cb_succes)
-            .catch(err => cb_err("undefined error"));
+            .catch(err => cb_err("Undefined error"));
         } else cb_err("User did this action already");
       })
-      .catch(err => cb_err("user doesnt exist"));
+      .catch(err => cb_err("User doesnt exist"));
   };
   
+
+
+  UserController.workshop = function(id, workshopN, cb_succes, cb_err) {
+    User.findOne({
+      _id: id
+    })
+      .then(user => {
+        if (!user.live.workshop[workshopN]) {
+          
+          User.findOneAndUpdate(
+            { _id: id },
+            {
+              $set: {
+                [`live.workshop.${workshopN}`]:true,
+              }
+            },
+          )
+            .then(cb_succes)
+            .catch(err => cb_err("Undefined error"));
+        } else cb_err("User did this action already");
+      })
+      .catch(err => cb_err("User doesnt exist"));
+  };
 
 
 /**

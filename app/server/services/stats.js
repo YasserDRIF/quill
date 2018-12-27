@@ -42,23 +42,8 @@ function calculateStats(){
         O: 0,
         N: 0
       },
-      meal: {
-        '1': 0,
-        '2': 0,
-        '3': 0,
-        '4': 0,
-        '5': 0,
-      },
-      workshop: {
-        '1': 0,
-        '2': 0,
-        '3': 0,
-        '4': 0,
-        '5': 0,
-        '6': 0,
-        '7': 0,
-        '8': 0,
-      },
+      meal: [],
+      workshop: [],
     },
 
     teams: {},
@@ -196,22 +181,18 @@ function calculateStats(){
 
 
         // Count Meals & workshops
-        if (user.live.gotmeal1){ newStats.live.meal[1] += 1; }
-        if (user.live.gotmeal2){ newStats.live.meal[2] += 1; }
-        if (user.live.gotmeal3){ newStats.live.meal[3] += 1; }
-        if (user.live.gotmeal4){ newStats.live.meal[4] += 1; }
-        if (user.live.gotmeal5){ newStats.live.meal[5] += 1; }
 
-        if (user.live.workshop1){ newStats.live.workshop[1] += 1; }
-        if (user.live.workshop2){ newStats.live.workshop[2] += 1; }
-        if (user.live.workshop3){ newStats.live.workshop[3] += 1; }
-        if (user.live.workshop4){ newStats.live.workshop[4] += 1; }
-        if (user.live.workshop5){ newStats.live.workshop[5] += 1; }
-        if (user.live.workshop6){ newStats.live.workshop[6] += 1; }
-        if (user.live.workshop7){ newStats.live.workshop[7] += 1; }
-        if (user.live.workshop8){ newStats.live.workshop[8] += 1; }
+        for (let i = 0; i < user.live.meal.length; i++) {
+          if (!newStats.live.meal[i]) {newStats.live.meal[i]=0;}
+          if (user.live.meal[i]){ newStats.live.meal[i] += 1; }
+        }
 
+        for (let i = 0; i < user.live.workshop.length; i++) {
+          if (!newStats.live.workshop[i]) {newStats.live.workshop[i]=0;}
 
+          if (user.live.workshop[i]){ newStats.live.workshop[i] += 1; }
+        }
+        
         // Count Hackathon participations
         if (user.profile.howManyHackathons){
           newStats.demo.howManyHackathons[user.profile.howManyHackathons] += 1;

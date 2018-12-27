@@ -16,6 +16,63 @@ angular.module('reg').controller('AdminStatsCtrl',[
         return moment(date).fromNow();
       };
 
+
+      UserService.getStats().then(stats => {
+        // Meals 
+        labels=[]
+        for (let i = 0; i < stats.data.live.meal.length; i++) {
+          labels.push('Meal '+(i+1))      
+        }
+        $scope.meals = { 
+          labels : labels,
+          series : ['Meals'],
+          data : stats.data.live.meal,
+          options : {
+            "scales":{
+              "xAxes":[{"ticks":{beginAtZero:true,max:stats.data.total}}]
+            },
+            title: {
+              display: true,
+              text: 'Meals Consumed'
+            }
+          }
+         }
+         
+        // Workshops 
+        labels=[]
+        for (let i = 0; i < stats.data.live.workshop.length; i++) {
+          labels.push('Workshop '+(i+1))      
+        }
+        $scope.workshops = { 
+          labels : labels,
+          series : ['Workshops'],
+          data : stats.data.live.workshop,
+          options:{
+            elements: {
+              line: {
+                borderWidth: 0.5,                
+              },
+            },
+            title: {
+              display: true,
+              text: 'Workshops attendance'
+            }
+          }
+         }
+         
+      })
+      Chart.defaults.global.colors = [
+        {
+          backgroundColor: 'rgba(52, 152, 219, 0.5)',
+          pointBackgroundColor: 'rgba(52, 152, 219, 0.5)',
+          pointHoverBackgroundColor: 'rgba(151,187,205,0.5)',
+          borderColor: 'rgba(0,0,0,0',
+          pointBorderColor: '#fff',
+          pointHoverBorderColor: 'rgba(151,187,205,0.5)'
+        }
+      ]        
+
+
       $scope.sendLaggerEmails = function(){
         swal({
           title: "Are you sure?",

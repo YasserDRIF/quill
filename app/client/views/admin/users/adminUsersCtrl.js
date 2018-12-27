@@ -1,6 +1,7 @@
 const moment = require("moment");
 const swal = require("sweetalert");
-
+var jsPDF = require('jspdf');
+require('jspdf-autotable');
 
 angular.module("reg").controller("AdminUsersCtrl", [
   "$scope",
@@ -81,8 +82,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
 
     $scope.acceptUser = function($event, user, index) {
       $event.stopPropagation();
-
-
       swal({
         buttons: {
           cancel: {
@@ -106,7 +105,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
         if (!value) {
           return;
         }
-
         swal({
           buttons: {
             cancel: {
@@ -150,8 +148,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
 
     $scope.rejecttUser = function($event, user, index) {
       $event.stopPropagation();
-
-
       swal({
         buttons: {
           cancel: {
@@ -356,6 +352,53 @@ angular.module("reg").controller("AdminUsersCtrl", [
         }
       });
     };
+
+
+    $scope.exportUsers = function(){
+      var columns = ["N°", "Gender", "Full Name","School"];
+      var rows = [];
+      UserService.getAll().then(users => {
+        var i=1;
+        users.data.forEach(user => {
+          rows.push([i++,user.profile.gender,user.profile.name,user.profile.school])
+        });
+        var doc = new jsPDF('p', 'pt');
+
+
+        var totalPagesExp = "{total_pages_count_string}";
+
+        var pageContent = function (data) {
+            // HEADER
+            doc.setFontSize(20);
+            doc.setTextColor(40);
+            doc.setFontStyle('normal');
+            // if (base64Img) {
+            //     doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10);
+            // }
+            doc.text("Participants List", data.settings.margin.left + 15, 22);
+    
+            // FOOTER
+            var str = "Page " + data.pageCount;
+            // Total page number plugin only available in jspdf v1.0+
+            if (typeof doc.putTotalPages === 'function') {
+                str = str + " of " + totalPagesExp;
+            }
+            doc.setFontSize(10);
+            var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+            doc.text(str, data.settings.margin.left, pageHeight  - 10);
+        };
+        
+        doc.autoTable(columns, rows, {
+            addPageContent: pageContent,
+            margin: {top: 30},
+            theme: 'grid'
+        });
+        if (typeof doc.putTotalPages === 'function') {
+          doc.putTotalPages(totalPagesExp);
+        }
+        doc.save('Participants List.pdf');
+      })
+    }
 
 
     $scope.toggleAdmin = function($event, user, index) {

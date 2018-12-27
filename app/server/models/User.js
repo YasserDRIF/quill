@@ -177,75 +177,17 @@ var status = {
 
 var live = {
   /**
-   * Whether or not the user's profile has been completed.
+   * Whether or not the user's Got a meal/ went to a workshop.
    * @type {Object}
    */
-  gotmeal1: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  gotmeal2: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  gotmeal3: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  gotmeal4: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  gotmeal5: {
-    type: Boolean,
-    required: true,
-    default: false
-  },
-  workshop1: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  workshop2: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  workshop3: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  workshop4: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  workshop5: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  workshop6: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  workshop7: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  workshop8: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
 
+  meal: [{
+    type: Boolean,
+  }],
+
+  workshop: [{
+    type: Boolean,
+  }],
 
 };
 

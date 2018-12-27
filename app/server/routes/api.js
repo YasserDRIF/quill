@@ -424,10 +424,10 @@ module.exports = function(router) {
   // ---------------------------------------------
 
 
-router.get("/users/:id/gotmeal1", function(req, res) {
+router.get("/users/:id/gotmeal/:mealN", function(req, res) {
   var id = req.params.id;
-  var user = req.user;
-  UserController.gotmeal1( id, user, () => {
+  var mealN = req.params.mealN;
+  UserController.gotmeal( id, mealN, () => { 
       res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
     },
     err => {
@@ -436,7 +436,17 @@ router.get("/users/:id/gotmeal1", function(req, res) {
   );
 });
 
-
+router.get("/users/:id/workshop/:workshopN", function(req, res) {
+  var id = req.params.id;
+  var workshopN = req.params.workshopN;
+  UserController.workshop( id, workshopN, () => { 
+      res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
+    },
+    err => {
+      res.send(JSON.stringify({ error: err }));
+    }
+  );
+});
 
 
 

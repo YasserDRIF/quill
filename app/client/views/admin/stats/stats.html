@@ -311,58 +311,16 @@
   
   <div class="ui grid">
     <div class="eight wide column">
-      
-        <div class="content">
-            <strong>
-                <i class="utensils icon"></i>
-                 Meals :
-            </strong>
-          </div>
-          <div class="ui progress success">
-            <div class="bar" style="transition-duration: 300ms; width:{{stats.live.meal['1'] / stats.total * 100 | number: 1}}%;">
-              <div class="progress">{{stats.live.meal['1'] / stats.total * 100 | number: 1}}%</div>
-            </div>
-            <div class="label">Meal 1</div>
-          </div>
-          <div class="ui progress success">
-            <div class="bar" style="transition-duration: 300ms; width:{{stats.live.meal['2'] / stats.total * 100 | number: 1}}%;">
-              <div class="progress">{{stats.live.meal['2'] / stats.total * 100 | number: 1}}%</div>
-            </div>
-            <div class="label">Meal 2</div>
-          </div>
-          <div class="ui progress success">
-            <div class="bar" style="transition-duration: 300ms; width:{{stats.live.meal['3'] / stats.total * 100 | number: 1}}%;">
-              <div class="progress">{{stats.live.meal['3'] / stats.total * 100 | number: 1}}%</div>
-            </div>
-            <div class="label">Meal 3</div>
-          </div>
-          <div class="ui progress success">
-            <div class="bar" style="transition-duration: 300ms; width:{{stats.live.meal['4'] / stats.total * 100 | number: 1}}%;">
-              <div class="progress">{{stats.live.meal['4'] / stats.total * 100 | number: 1}}%</div>
-            </div>
-            <div class="label">Meal 4</div>
-          </div>
-          <div class="ui progress success">
-            <div class="bar" style="transition-duration: 300ms; width:{{stats.live.meal['5'] / stats.total * 100 | number: 1}}%;">
-              <div class="progress">{{stats.live.meal['5'] / stats.total * 100 | number: 1}}%</div>
-            </div>
-            <div class="label">Meal 5</div>
-          </div>
-      
+      <canvas class="chart-horizontal-bar" chart-data="meals.data" chart-labels="meals.labels" chart-options="meals.options">
     </div>
-
     <div class="eight wide column">
-      
-        <canvas id="myChart" width="400" height="400" style="width : 400px;  height :400px;"></canvas>
-
-    </div>
-
-
-
+      <canvas class="chart-radar" chart-data="workshops.data" chart-labels="workshops.labels" chart-options="workshops.options">
+    </div>  
   </div>
   
 
 
+</canvas>
 
 
 </div>
@@ -389,40 +347,3 @@
   </div> -->
 
 </div>
-
-
-<script>
-  var ctx = document.getElementById("myChart");
-  
-  $.get("/api/users/stats", function(data, status){
-  
-    var chartData = Object.keys(data.live.workshop).map(function(key) {
-     return [data.live.workshop[key]];
-    });
-  
-      var myChart = new Chart(ctx, { 
-          type: 'radar',
-          data: {
-            labels: ['Workshop 1', 'Workshop 2', 'Workshop 3', 'Workshop 4', 'Workshop 5', 'Workshop 6', 'Workshop 7', 'Workshop 8'],
-            datasets: [{
-              backgroundColor: 'rgba(65,159,221, 0.4)',
-
-              label: 'Workshops',
-              data: chartData
-         }]
-          },
-          options: {
-				legend: {
-					position: 'top',
-				},  
-				scale: {
-					ticks: {
-						beginAtZero: true
-					}
-				}
-			}
-      });
-  
-      });
-  
-  </script>
