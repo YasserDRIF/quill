@@ -491,10 +491,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
             {
               name: "Email",
               value: user.email
-            },
-            {
-              name: "Team",
-              value: user.teamCode || "None"
             }
           ]
         },

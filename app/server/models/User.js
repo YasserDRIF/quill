@@ -238,12 +238,6 @@ var schema = new mongoose.Schema({
     default: Date.now(),
   },
 
-  teamCode: {
-    type: String,
-    min: 0,
-    max: 140,
-  },
-
   verified: {
     type: Boolean,
     required: true,

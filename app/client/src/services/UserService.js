@@ -54,23 +54,6 @@ angular.module("reg").factory("UserService", [
         return $http.post(base + id + "/decline");
       },
 
-      // ------------------------
-      // Team
-      // ------------------------
-      joinOrCreateTeam: function(code) {
-        return $http.put(base + Session.getUserId() + "/team", {
-          code: code
-        });
-      },
-
-      leaveTeam: function() {
-        return $http.delete(base + Session.getUserId() + "/team");
-      },
-
-      getMyTeammates: function() {
-        return $http.get(base + Session.getUserId() + "/team");
-      },
-
       // -------------------------
       // Admin Only
       // -------------------------
@@ -99,10 +82,6 @@ angular.module("reg").factory("UserService", [
 
       sendBasicMail: function(id , email) {
         return $http.post(base + id + "/sendBasicMail",JSON.stringify(email));
-      },
-
-      checkIn: function(id) {
-        return $http.post(base + id + "/checkin");
       },
 
       checkIn: function(id) {
@@ -145,18 +124,8 @@ angular.module("reg").factory("UserService", [
         return $http.get(base + "rejectionCountRest");
       },
 
-      rateUser: function(id, rating) {
-        return $http.post(base + id + "/rate", {
-          rating
-        });
-      },
-
       reject: function(id) {
         return $http.post(base + id + "/reject");
-      },
-
-      unReject: function(id) {
-        return $http.post(base + id + "/unreject");
       },
 
       sendLaggerEmails: function() {
