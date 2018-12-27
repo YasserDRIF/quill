@@ -1,10 +1,13 @@
 var _ = require('underscore');
 var async = require('async');
 var User = require('../models/User');
+var Team = require('../models/Team');
 var Settings = require("../models/Settings");
 
 // In memory stats.
 var stats = {};
+var teamStats = {};
+
 function calculateStats(){
   console.log('Calculating stats...');
   var newStats = {
@@ -77,20 +80,6 @@ function calculateStats(){
       'WXXL': 0,
       'None': 0
     },
-
-    dietaryRestrictions: {},
-
-    hostNeededFri: 0,
-    hostNeededSat: 0,
-    hostNeededUnique: 0,
-
-    hostNeededFemale: 0,
-    hostNeededMale: 0,
-    hostNeededOther: 0,
-    hostNeededNone: 0,
-
-    reimbursementTotal: 0,
-    reimbursementMissing: 0,
 
     wantsHardware: 0,
 
@@ -198,58 +187,17 @@ function calculateStats(){
           newStats.demo.howManyHackathons[user.profile.howManyHackathons] += 1;
         }
 
-        // Grab the team name if there is one
-        // if (user.teamCode && user.teamCode.length > 0){
-        //   if (!newStats.teams[user.teamCode]){
-        //     newStats.teams[user.teamCode] = [];
-        //   }
-        //   newStats.teams[user.teamCode].push(user.profile.name);
-        // }
-
         // Count shirt sizes
         if (user.confirmation.shirtSize in newStats.shirtSizes){
           newStats.shirtSizes[user.confirmation.shirtSize] += 1;
         }
 
-        // Host needed counts
-        newStats.hostNeededFri += user.confirmation.hostNeededFri ? 1 : 0;
-        newStats.hostNeededSat += user.confirmation.hostNeededSat ? 1 : 0;
-        newStats.hostNeededUnique += user.confirmation.hostNeededFri || user.confirmation.hostNeededSat ? 1 : 0;
-
-        newStats.hostNeededFemale
-          += (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender == "F" ? 1 : 0;
-        newStats.hostNeededMale
-          += (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender == "M" ? 1 : 0;
-        newStats.hostNeededOther
-          += (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender == "O" ? 1 : 0;
-        newStats.hostNeededNone
-          += (user.confirmation.hostNeededFri || user.confirmation.hostNeededSat) && user.profile.gender == "N" ? 1 : 0;
-
-        // Dietary restrictions
-        if (user.confirmation.dietaryRestrictions){
-          user.confirmation.dietaryRestrictions.forEach(function(restriction){
-            if (!newStats.dietaryRestrictions[restriction]){
-              newStats.dietaryRestrictions[restriction] = 0;
-            }
-            newStats.dietaryRestrictions[restriction] += 1;
-          });
-        }
 
         // Count checked in
         newStats.checkedIn += user.status.checkedIn ? 1 : 0;
 
         callback(); // let async know we've finished
       }, function() {
-        // Transform dietary restrictions into a series of objects
-        var restrictions = [];
-        _.keys(newStats.dietaryRestrictions)
-          .forEach(function(key){
-            restrictions.push({
-              name: key,
-              count: newStats.dietaryRestrictions[key],
-            });
-          });
-        newStats.dietaryRestrictions = restrictions;
 
         // Transform schools into an array of objects
         var schools = [];
@@ -278,18 +226,74 @@ function calculateStats(){
         newStats.lastUpdated = new Date();
         stats = newStats;
       });
-    });
-    
+    });    
 }
+
+
+
+function calculateTeamStats() {
+  console.log('Calculating Teamsstats...');
+  var newStats = {
+    total: 0,
+    lastUpdated: 0,
+    trackAssignment: {
+      Blockchain: 0,
+      IntelligentInfra: 0,
+      FutureCities: 0,
+      DigitalRetail: 0,
+      SmartCloud: 0,
+      Mobility: 0,
+      GameJam: 0,
+      IoT: 0,
+      HealthTech: 0,
+      AI: 0
+    }
+  };
+
+
+
+  Team
+    .find({})
+    .exec(function(err, teams){
+      if (err || !teams){
+        throw err;
+      }
+
+      newStats.total = teams.length;
+
+      async.each(teams, function(team, callback){
+        
+      // Do Team Specific Calculations
+
+      //  newStats.trackAssignment.AI += team.assignedTrack == "AI and Big Data" ? team.members.length : 0
+
+        callback(); // let async know we've finished
+      }, function() {
+        // Transform dietary restrictions into a series of object
+
+        console.log('Team Stats updated!');
+        newStats.lastUpdated = new Date();
+        teamStats = newStats;
+      });
+    });
+}
+
+
 
 // Calculate once every five minutes.
 calculateStats();
+calculateTeamStats();
 setInterval(calculateStats, 300000);
+setInterval(calculateTeamStats, 300000);
 
-var Stats = {};
+var Stats={}
 
 Stats.getUserStats = function(){
   return stats;
+};
+
+Stats.getTeamStats = function(){
+  return teamStats;
 };
 
 module.exports = Stats;

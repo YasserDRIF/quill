@@ -79,6 +79,10 @@ angular.module("reg").factory("UserService", [
         return $http.get(base + "stats");
       },
 
+      getTeamStats: function() {
+        return $http.get(base + "teamStats");
+      },
+
       admitUser: function(id) {
         return $http.post(base + id + "/admit");
       },

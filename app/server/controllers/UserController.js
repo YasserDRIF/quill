@@ -922,7 +922,7 @@ UserController.sendBasicMail = function(id, email, callback) {
  * @param  {Function} callback args(err, user)
  */
 
-UserController.checkInByIdAdmitted = function(id, user, cb_succes, cb_err) {
+UserController.checkInByIdAdmitted = function(id, cb_succes, cb_err) {
   User.findOne({
     _id: id
   })
@@ -1140,109 +1140,5 @@ UserController.getTeamStats = function(callback) {
   return callback(null, Stats.getTeamStats());
 };
 
-UserController.massReject = function(callback) {
-  User.update(
-    {
-      $and: [
-        { specialRegistration: { $ne: true } },
-        { "status.admitted": { $ne: true } },
-        { "status.softAdmitted": { $ne: true } },
-        {
-          $or: [
-            {
-              $and: [
-                { "profile.travelFromCountry": "Finland" },
-                { "status.rating": { $lt: 4 } }
-              ]
-            },
-            { "profile.travelFromCountry": { $ne: "Finland" } }
-          ]
-        }
-      ]
-    },
-    {
-      $set: {
-        "status.rejected": true
-      }
-    },
-    {
-      multi: true
-    },
-    callback
-  );
-};
-
-UserController.getRejectionCount = function(callback) {
-  User.find({
-    $and: [
-      { specialRegistration: { $ne: true } },
-      { "status.rejected": { $ne: true } },
-      { "status.admitted": { $ne: true } },
-      { "status.softAdmitted": { $ne: true } },
-      {
-        $or: [
-          {
-            $and: [
-              { "profile.travelFromCountry": "Finland" },
-              { "status.rating": { $lt: 4 } }
-            ]
-          },
-          { "profile.travelFromCountry": { $ne: "Finland" } }
-        ]
-      }
-    ]
-  }).exec(function(err, users) {
-    if (err) return callback(err, users);
-    var amount = users.length;
-    return callback(null, amount);
-  });
-};
-
-UserController.massRejectRest = function(callback) {
-  User.update(
-    {
-      $and: [
-        { "status.admitted": { $ne: true } },
-        { "status.softAdmitted": { $ne: true } }
-      ]
-    },
-    {
-      $set: {
-        "status.rejected": true,
-        "status.laterRejected": true
-      }
-    },
-    {
-      multi: true
-    },
-    callback
-  );
-};
-
-UserController.getRejectionRestCount = function(callback) {
-  User.find({
-    $and: [
-      { "status.rejected": { $ne: true } },
-      { "status.admitted": { $ne: true } },
-      { "status.softAdmitted": { $ne: true } }
-    ]
-  }).exec(function(err, users) {
-    if (err) return callback(err, users);
-    var amount = users.length;
-    return callback(null, amount);
-  });
-};
-
-UserController.getLaterRejectionCount = function(callback) {
-  User.find({
-    "status.laterRejected": true,
-    "status.rejected": true,
-    "status.waitlist": true
-  }).exec(function(err, users) {
-    if (err) return callback(err, users);
-    var amount = users.length;
-    return callback(null, amount);
-  });
-};
 
 module.exports = UserController;

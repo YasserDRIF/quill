@@ -167,6 +167,10 @@ module.exports = function(router) {
     UserController.getStats(defaultResponse(req, res));
   });
 
+  router.get("/users/teamStats", function(req, res) {
+    UserController.getTeamStats(defaultResponse(req, res));
+  });
+
   router.post("/users/massReject", isAdmin, function(req, res) {
     UserController.massReject(defaultResponse(req, res));
   });
@@ -369,10 +373,9 @@ module.exports = function(router) {
     Chechin if Admitted, used fro QR Checkin  [Used for mobile app]
   */
 
-  router.get("/users/:id/check-qr", function(req, res) {
+  router.get("/users/:id/checkin-qr", function(req, res) {
     var id = req.params.id;
-    var user = req.user;
-    UserController.checkInByIdAdmitted( id, user, () => {
+    UserController.checkInByIdAdmitted( id, () => {
         res.send(JSON.stringify({ message: "checked in succesfuly" }));
       },
       err => {
@@ -445,7 +448,7 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
     err => {
       res.send(JSON.stringify({ error: err }));
     }
-  );
+  ); 
 });
 
 
