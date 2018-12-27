@@ -29,6 +29,8 @@ angular.module('reg')
       populateSchools();
       _setupForm();
 
+      populateWilayas();
+
       $scope.regIsClosed = Date.now() > settings.data.timeClose;
 
       function populateSchools(){
@@ -68,6 +70,34 @@ angular.module('reg')
           });
       }
     
+
+      function populateWilayas(){
+        $http
+          .get('/assets/wilayas.csv')
+          .then(function(res){
+            $scope.wilayas = res.data.split('\n');
+            $scope.wilayas.push('Other');
+
+            var content = [];
+
+            for(i = 0; i < $scope.wilayas.length; i++) {
+              $scope.wilayas[i] = $scope.wilayas[i].trim();
+              content.push({title: $scope.wilayas[i]})
+            }
+
+            $('#wilaya.ui.search')
+              .search({
+                source: content,
+                cache: true,
+                onSelect: function(result, response) {
+                  $scope.user.profile.wilaya = result.title.trim();
+                  console.log ($scope.user.profile.wilaya)
+                }
+              })
+          });
+      }
+
+
       function removeDuplicates(myArr, prop) {
         return myArr.filter((obj, pos, arr) => {
             return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
@@ -106,6 +136,7 @@ angular.module('reg')
         if (currentUser.data.status.completedProfile) {sendMail=false}        
 
         UserService
+          .updateProfile(Session.getUserId(), $scope.user.profile)
           .updateProfile(Session.getUserId(), $scope.user.profile)
           .then(response => {
             swal("Awesome!", "Your application has been saved.", "success").then(value => {
@@ -159,6 +190,15 @@ angular.module('reg')
                 {
                   type: 'empty',
                   prompt: 'Please enter your school name.'
+                }
+              ]
+            },
+            wilaya: {
+              identifier: 'wilaya',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your wilaya name.'
                 }
               ]
             },

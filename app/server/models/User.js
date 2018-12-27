@@ -20,8 +20,10 @@ var profile = {
 
   school: {
     type: String,
-    min: 1,
-    max: 150,
+  },
+
+  wilaya: {
+    type: String,
   },
 
   graduationYear: {
