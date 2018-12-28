@@ -1,0 +1,46 @@
+<div id="application" class="page">
+  <div class="divided title">
+        Résultats d'Evaluation 
+  </div>
+
+  <div class="ui stackable page grid">
+    <div class="column">
+      <div class="ui form"
+            ng-class="{'loading': loading}">
+
+        <div class=" title">Education</div>
+
+        <br><br>
+
+
+
+        <div class="ui blue segment">
+            <div class="ui grid">
+
+                <canvas id="line" class="chart chart-line" chart-data="data"
+                chart-labels="labels" chart-series="series" chart-options="options"
+                chart-dataset-override="datasetOverride" chart-click="onClick">
+                </canvas>
+        
+                <div class="eight wide column">
+                  <canvas class="chart-horizontal-bar" chart-data="meals.data" chart-labels="meals.labels" chart-options="meals.options">
+                </div>
+                <div class="eight wide column">
+                  <canvas class="chart-radar" chart-data="workshops.data" chart-labels="workshops.labels" chart-options="workshops.options">
+                </div>  
+            </div>
+    
+        </div>          
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>$('.ui.rating')
+  .rating()
+;
+</script>

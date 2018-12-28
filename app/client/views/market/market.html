@@ -1,0 +1,302 @@
+<div id="application" class="page">
+  <div class="divided title">
+    Formulaire d'Evaluation
+  </div>
+
+  <div class="ui stackable page grid">
+    <div class="column">
+      <div class="ui form"
+            ng-class="{'loading': loading}">
+
+        <div class=" title">Education</div>
+
+        <br><br>
+        <fieldset ng-disabled="regIsClosed">
+        <div class="divided title">Basic Informations</div>
+
+        <div class="field">
+          <label> Email </label>
+          <input type="email"
+                 name="email"
+                 ng-model="user.email">
+        </div>
+
+        <div class="ui grid">
+          <div class="four wide column">
+            <div class="field">
+              <label>Sexe</label>
+              <select
+                name="gender"
+                ng-model="user.profile.gender">
+                <option value="">Sexe</option>
+                <option value="M">Homme</option>
+                <option value="F">Femme</option>
+              </select>
+            </div>
+              </div>
+          <div class="four wide column">
+            <div class="field">
+              <label> Wilaya </label>
+              <div id="wilaya" class="ui search">
+                <div class="ui input">
+                  <input class="prompt" type="text" placeholder="Wilaya" name="Wilaya" ng-model="user.profile.wilaya">                
+                </div>
+                <div class="results"></div>
+              </div>
+            </div>
+              </div>
+          <div class="eight wide column">
+            <div class="field">
+              <label>Occupation</label>
+              <select
+                name="gender"
+                ng-model="user.profile.gender">
+                <option value="">Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+                <option value="N">I prefer not to answer.</option>
+              </select>
+            </div>
+          </div>  
+        </div>
+      <br>
+      <br>
+
+
+
+
+
+
+        <div class="divided title">Evaluation /5</div>
+
+        <div class="field">
+          <label> Question 1 (This is question example) ?  </label>
+          <div class="ui huge star rating" data-max-rating="5"></div>
+          <p>This a question example that Users can answer with a Star rating system. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+        </div>
+      
+        <div class="field">
+          <label> Question 2 (This is question example) ?  </label>
+          <div class="ui huge star rating" data-max-rating="5"></div>
+          <p>This a question example that Users can answer with a Star rating system. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+        </div>
+
+        <div class="field">
+          <label> Question 3 (This is question example) ?  </label>
+          <div class="ui huge star rating" data-max-rating="5"></div>
+          <p>This a question example that Users can answer with a Star rating system. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+        </div>
+
+        <div class="field">
+          <label> Question 4 (This is question example) ?  </label>
+          <div class="ui huge star rating" data-max-rating="5"></div>
+          <p>This a question example that Users can answer with a Star rating system. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+        </div>
+
+        <div class="field">
+          <label> Question 5 (This is question example) ?  </label>
+          <div class="ui huge star rating" data-max-rating="5"></div>
+          <p>This a question example that Users can answer with a Star rating system. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+        </div>
+
+        <div class="field">
+          <label> Question 6 (This is question example) ?  </label>
+          <div class="ui huge star rating" data-max-rating="5"></div>
+          <p>This a question example that Users can answer with a Star rating system. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+        </div>
+
+        <br><br>
+        <div class="divided title">Evaluation Par choix </div>
+
+
+        <label class="field"> <strong>Question 7 (This is question example)</strong></label>
+        <div>          <p>Pri quas audiam virtute ut, case utamur fuisset eam ut, iisque accommodare an eam. Reque blandit qui eu, cu vix nonumy volumus. Legendos intellegam id usu, vide oporteat vix eu, id illud principes has. Nam tempor utamur gubergren no.          </p>
+        </div>
+        <div class="form-group inline fields" >
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="code" ng-model="newTeam_Adminskill">
+                  Option 1
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="design" ng-model="newTeam_Adminskill">
+                  Option 2
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="hardware" ng-model="newTeam_Adminskill">
+                  Option 3
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="idea" ng-model="newTeam_Adminskill">
+                  Option 4
+              </label>
+          </div>
+        </div>
+
+        <br><br>
+        <label class="field"> <strong>Question 8 (This is question example)</strong></label>
+        <div>          <p>Pri quas audiam virtute ut, case utamur fuisset eam ut, iisque accommodare an eam. Reque blandit qui eu, cu vix nonumy volumus. Legendos intellegam id usu, vide oporteat vix eu, id illud principes has. Nam tempor utamur gubergren no.          </p>
+        </div>
+        <div class="form-group inline fields" >
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="code" ng-model="newTeam_Adminskill">
+                  Option 1
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="design" ng-model="newTeam_Adminskill">
+                  Option 2
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="hardware" ng-model="newTeam_Adminskill">
+                  Option 3
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="idea" ng-model="newTeam_Adminskill">
+                  Option 4
+              </label>
+          </div>
+        </div>
+
+        <br><br>
+        <label class="field"> <strong>Question 9 (This is question example)</strong></label>
+        <div>          <p>Pri quas audiam virtute ut, case utamur fuisset eam ut, iisque accommodare an eam. Reque blandit qui eu, cu vix nonumy volumus. Legendos intellegam id usu, vide oporteat vix eu, id illud principes has. Nam tempor utamur gubergren no.          </p>
+        </div>
+        <div class="form-group inline fields" >
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="code" ng-model="newTeam_Adminskill">
+                  Option 1
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="design" ng-model="newTeam_Adminskill">
+                  Option 2
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="hardware" ng-model="newTeam_Adminskill">
+                  Option 3
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="idea" ng-model="newTeam_Adminskill">
+                  Option 4
+              </label>
+          </div>
+        </div>
+
+        <br><br>
+        <label class="field"> <strong>Question 10 (This is question example)</strong></label>
+        <div>          <p>Pri quas audiam virtute ut, case utamur fuisset eam ut, iisque accommodare an eam. Reque blandit qui eu, cu vix nonumy volumus. Legendos intellegam id usu, vide oporteat vix eu, id illud principes has. Nam tempor utamur gubergren no.          </p>
+        </div>
+        <div class="form-group inline fields" >
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="code" ng-model="newTeam_Adminskill">
+                  Option 1
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="design" ng-model="newTeam_Adminskill">
+                  Option 2
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="hardware" ng-model="newTeam_Adminskill">
+                  Option 3
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="idea" ng-model="newTeam_Adminskill">
+                  Option 4
+              </label>
+          </div>
+        </div>
+
+        <br><br>
+        <label class="field"> <strong>Question 11 (This is question example)</strong></label>
+        <div>          <p>Pri quas audiam virtute ut, case utamur fuisset eam ut, iisque accommodare an eam. Reque blandit qui eu, cu vix nonumy volumus. Legendos intellegam id usu, vide oporteat vix eu, id illud principes has. Nam tempor utamur gubergren no.          </p>
+        </div>
+        <div class="form-group inline fields" >
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="code" ng-model="newTeam_Adminskill">
+                  Option 1
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="design" ng-model="newTeam_Adminskill">
+                  Option 2
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="hardware" ng-model="newTeam_Adminskill">
+                  Option 3
+              </label>
+          </div>
+          <div class="radio field">
+              <label>
+                  <input type="radio" value="idea" ng-model="newTeam_Adminskill">
+                  Option 4
+              </label>
+          </div>
+        </div>
+
+        <br>
+        <br>
+        <div class="divided title">Proposition Par Text </div>
+
+        <div class="field">
+          <label>
+            Est vous avez des proposition pour améliorer ce secteur ?
+          </label>
+          <textarea ng-model="user.profile.essay">
+          </textarea>
+        </div>
+
+        <br>
+
+
+
+
+        <div class="field" ng-hide="regIsClosed">
+          <button type="submit"
+                  class="fluid ui purple button"
+                  ng-click="submitForm()">
+            Submit
+          </button>
+        </div>
+
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>$('.ui.rating')
+  .rating()
+;
+</script>

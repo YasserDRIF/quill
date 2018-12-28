@@ -6,6 +6,10 @@ const SolvedCTFService = require('./services/SolvedCTFService.js');
 const TeamService = require('./services/TeamService.js');
 const MarketingService = require('./services/MarketingService.js');
 
+const MarketCtrl = require('../views/market/MarketCtrl.js');
+const MarketDataCtrl = require('../views/MarketData/MarketDataCtrl.js');
+
+
 const HomeCtrl = require('../views/home/HomeCtrl.js');
 const AdminCtrl = require('../views/admin/AdminCtrl.js');
 const AdminSettingsCtrl = require('../views/admin/settings/AdminSettingsCtrl.js');
@@ -55,6 +59,35 @@ angular.module('reg')
           }
         }
       })
+      .state('home', {
+        url: "/dashboard",
+        templateUrl: "views/home/home.html",
+        controller: 'HomeCtrl',
+        data: {
+          requireLogin: false
+        },
+        resolve: {
+          'settings': function(SettingsService){
+            return SettingsService.getPublicSettings();
+          }
+        }
+      })
+      .state('Market', {
+        url: "/Market",
+        templateUrl: "views/market/market.html",
+        controller: 'MarketCtrl',
+        data: {
+          requireLogin: false
+        }
+      })
+      .state('MarketData', {
+        url: "/MarketData",
+        templateUrl: "views/MarketData/MarketData.html",
+        controller: 'MarketDataCtrl',
+        data: {
+          requireLogin: false
+        }
+      })
       .state('app', {
         views: {
           '': {
@@ -72,19 +105,6 @@ angular.module('reg')
         },
         data: {
           requireLogin: true
-        }
-      })
-      .state('app.home', {
-        url: "/dashboard",
-        templateUrl: "views/home/home.html",
-        controller: 'HomeCtrl',
-        data: {
-          requireLogin: false
-        },
-        resolve: {
-          'settings': function(SettingsService){
-            return SettingsService.getPublicSettings();
-          }
         }
       })
       .state('app.dashboard', {
