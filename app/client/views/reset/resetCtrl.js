@@ -26,7 +26,7 @@ angular.module('reg')
           $scope.password,
           message => {
             swal("Neato!", "Your password has been changed!", "success").then(value => {
-              $state.go("login");
+              $state.go("home");
             });
           },
           data => {

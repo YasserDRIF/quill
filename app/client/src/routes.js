@@ -60,7 +60,7 @@ angular.module('reg')
         }
       })
       .state('home', {
-        url: "/dashboard",
+        url: "/",
         templateUrl: "views/home/home.html",
         controller: 'HomeCtrl',
         data: {
@@ -108,7 +108,7 @@ angular.module('reg')
         }
       })
       .state('app.dashboard', {
-        url: "/",
+        url: "/dashboard",
         templateUrl: "views/dashboard/dashboard.html",
         controller: 'DashboardCtrl',
         resolve: {
@@ -293,7 +293,7 @@ angular.module('reg')
       var requireAdmitted = transition.to().data.requireAdmitted;
 
       if (requireLogin && !Session.getToken()) {
-        return transition.router.stateService.target("login");
+        return transition.router.stateService.target("home");
       }
 
       if (requireAdmin && !Session.getUser().admin) {
