@@ -3,11 +3,13 @@ const $ = require('jquery');
 var angular = require('angular');
 var uiRouter = require('angular-ui-router');
 var chartjs = require('chart.js')
+var ocLazyLoad = require('oclazyload')
 
 
 var app = angular.module('reg', [
   'ui.router',
-  'chart.js'
+  'chart.js',
+  'oc.lazyLoad'
 ]);
 
 const constants = require('./constants.js');

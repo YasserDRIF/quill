@@ -1,4 +1,6 @@
 const angular = require('angular');
+var ocLazyLoad = require('oclazyload')
+
 const SettingsService = require('./services/SettingsService.js');
 const UserService = require('./services/UserService.js');
 const ChallengeService = require('./services/ChallengeService.js');
@@ -21,10 +23,8 @@ const AdminUserCtrl = require('../views/admin/user/AdminUserCtrl.js');
 const AdminUsersCtrl = require('../views/admin/users/AdminUsersCtrl.js');
 const adminMarketingCtrl = require('../views/admin/marketing/adminMarketingCtrl.js');
 const CheckinCtrl = require('../views/checkin/CheckinCtrl.js');
-const ApplicationCtrl = require('../views/application/ApplicationCtrl.js');
 const ChallengesCtrl = require('../views/challenges/ChallengesCtrl.js');
 const ConfirmationCtrl = require('../views/confirmation/ConfirmationCtrl.js');
-const DashboardCtrl = require('../views/dashboard/DashboardCtrl.js');
 const LoginCtrl = require('../views/login/LoginCtrl.js');
 const ResetCtrl = require('../views/reset/ResetCtrl.js');
 const SidebarCtrl = require('../views/sidebar/SidebarCtrl.js');
@@ -36,13 +36,27 @@ angular.module('reg')
     '$stateProvider',
     '$urlRouterProvider',
     '$locationProvider',
+    '$ocLazyLoadProvider',
     function(
       $stateProvider,
       $urlRouterProvider,
-      $locationProvider) {
+      $locationProvider,
+      $ocLazyLoadProvider) {
 
     // For any unmatched url, redirect to /state1
     $urlRouterProvider.otherwise("/404");
+
+    $ocLazyLoadProvider.config({
+        'debug': true, // For debugging 'true/false'
+        'events': true, // For Event 'true/false'
+        'modules': [{ // Set modules initially
+            name : 'dashboard', // State1 module
+            files: ['../views/dashboard/DashboardCtrl.js']
+        },{
+            name : 'application', // State2 module
+            files: ['../views/application/ApplicationCtrl.js']
+        }]
+    });  
 
     // Set up de states
     $stateProvider
@@ -117,7 +131,10 @@ angular.module('reg')
           },
           settings: function(SettingsService){
             return SettingsService.getPublicSettings();
-          }
+          },
+          LazyLoadCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+            return $ocLazyLoad.load('dashboard'); // Resolve promise and load before view 
+          }]
         },
       })
       .state('app.application', {
@@ -133,7 +150,10 @@ angular.module('reg')
           },
           settings: function(SettingsService){
             return SettingsService.getPublicSettings();
-          }
+          },
+          loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+            return $ocLazyLoad.load('application'); // Resolve promise and load before view 
+          }]
         }
       })
       .state('app.confirmation', {
