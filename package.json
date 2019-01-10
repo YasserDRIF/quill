@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "private": "true",
   "dependencies": {
+    "acorn": "^6.0.5",
     "angular": "^1.7.5",
     "angular-chart.js": "^1.1.1",
     "angular-ui-router": "^1.0.20",
@@ -13,13 +14,11 @@
     "browserify": "^16.2.3",
     "browserify-ngannotate": "^2.0.0",
     "chart.js": "^2.0.2",
-    "dom-parser": "^0.1.5",
     "dotenv": "^6.1.0",
     "email-templates": "^5.0.2",
     "express": "^4.16.4",
     "gulp-buffer": "0.0.2",
     "gulp-tap": "^1.0.1",
-    "htmlparser2": "^3.10.0",
     "jquery": "^3.3.1",
     "jsonwebtoken": "^5.0.4",
     "jspdf": "^1.5.3",
@@ -36,8 +35,7 @@
     "sweetalert": "^2.1.2",
     "underscore": "^1.9.1",
     "validator": "^10.9.0",
-    "vinyl-source-stream": "^2.0.0",
-    "x-ray": "^2.3.3"
+    "vinyl-source-stream": "^2.0.0"
   },
   "scripts": {
     "mongo": "mongod --dbpath db",
