@@ -40,7 +40,7 @@ gulp.task('js', function () {
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(ngAnnotate())
     .on('error', swallowError)
-    .pipe(sourcemaps.write())
+//  .pipe(sourcemaps.write())
     .pipe(gulp.dest('app/client/build'));
 });
 
