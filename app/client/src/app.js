@@ -3,6 +3,7 @@ const $ = require('jquery');
 var angular = require('angular');
 var uiRouter = require('angular-ui-router');
 var chartjs = require('chart.js')
+var swal = require('sweetalert');
 
 
 var app = angular.module('reg', [

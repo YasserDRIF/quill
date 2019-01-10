@@ -1,5 +1,3 @@
-const swal = require('sweetalert');
-
 angular.module('reg')
   .controller('AdminUserCtrl',[
     '$scope',

@@ -1,6 +1,4 @@
-const angular = require('angular');
 const showdown = require('showdown');
-const swal = require('sweetalert');
 
 angular.module('reg')
   .controller('DashboardCtrl', [

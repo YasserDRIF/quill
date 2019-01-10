@@ -68,11 +68,6 @@ angular.module('reg').controller('AdminStatsCtrl',[
       };
 
 
-      UserService.getStats().then(stats => {
-
-      })
-
-
       Chart.defaults.global.colors = [
         {
           backgroundColor: 'rgba(52, 152, 219, 0.5)',

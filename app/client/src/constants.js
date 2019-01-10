@@ -1,5 +1,3 @@
-const angular = require('angular');
-
 angular.module('reg')
     .constant('EVENT_INFO', {
         NAME: 'ESIHack 2019',

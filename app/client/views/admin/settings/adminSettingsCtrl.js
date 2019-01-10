@@ -1,6 +1,5 @@
 const moment = require('moment');
 const showdown = require('showdown');
-const swal = require('sweetalert');
 
 angular.module('reg')
   .controller('AdminSettingsCtrl', [

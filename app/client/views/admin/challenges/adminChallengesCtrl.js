@@ -1,6 +1,3 @@
-const moment = require("moment");
-const swal = require("sweetalert");
-
 angular.module("reg").controller("adminChallengesCtrl", [
   "$scope",
   "$state",
