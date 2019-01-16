@@ -23,6 +23,7 @@ const ConfirmationCtrl = require('../views/confirmation/ConfirmationCtrl.js');
 const LoginCtrl = require('../views/login/LoginCtrl.js');
 const ResetCtrl = require('../views/reset/ResetCtrl.js');
 const SidebarCtrl = require('../views/sidebar/SidebarCtrl.js');
+const BaserCtrl = require('../views/BaserCtrl.js');
 const VerifyCtrl = require('../views/verify/VerifyCtrl.js');
 
 angular.module('reg')
@@ -72,7 +73,8 @@ angular.module('reg')
       .state('app', {
         views: {
           '': {
-            templateUrl: "views/base.html"
+            templateUrl: "views/base.html",
+            controller: 'BaserCtrl',
           },
           'sidebar@app': {
             templateUrl: "views/sidebar/sidebar.html",
