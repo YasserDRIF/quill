@@ -6,7 +6,10 @@ angular.module('reg')
     'settings',
     'Utils',
     'AuthService',
-    function($scope, $http, $state, settings, Utils, AuthService){
+    'EVENT_INFO',
+    function($scope, $http, $state, settings, Utils, AuthService, EVENT_INFO){
+
+      $scope.EVENT_INFO = EVENT_INFO.NAME;
 
       // Is registration open?
       var Settings = settings.data;
