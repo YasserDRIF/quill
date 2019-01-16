@@ -8,7 +8,5 @@ angular.module('reg')
     function($scope, EVENT_INFO){
 
       $scope.EVENT_INFO = EVENT_INFO.NAME;
-      console.log('Hello')
-
 
     }]);
