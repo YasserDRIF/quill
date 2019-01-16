@@ -3,34 +3,26 @@ var ocLazyLoad = require('oclazyload')
 
 const SettingsService = require('./services/SettingsService.js');
 const UserService = require('./services/UserService.js');
-const ChallengeService = require('./services/ChallengeService.js');
-const SolvedCTFService = require('./services/SolvedCTFService.js');
-const TeamService = require('./services/TeamService.js');
 const MarketingService = require('./services/MarketingService.js');
 
 const MarketCtrl = require('../views/market/MarketCtrl.js');
 const MarketDataCtrl = require('../views/MarketData/MarketDataCtrl.js');
 
 
-const HomeCtrl = require('../views/home/HomeCtrl.js');
 const AdminCtrl = require('../views/admin/AdminCtrl.js');
 const AdminSettingsCtrl = require('../views/admin/settings/AdminSettingsCtrl.js');
 const AdminStatsCtrl = require('../views/admin/stats/AdminStatsCtrl.js');
 const AdminMailCtrl = require('../views/admin/mail/AdminMailCtrl.js');
-const adminChallengesCtrl = require('../views/admin/challenges/adminChallengesCtrl.js');
-const adminChallengeCtrl = require('../views/admin/challenge/adminChallengeCtrl.js');
 const AdminUserCtrl = require('../views/admin/user/AdminUserCtrl.js');
 const AdminUsersCtrl = require('../views/admin/users/AdminUsersCtrl.js');
 const adminMarketingCtrl = require('../views/admin/marketing/adminMarketingCtrl.js');
 const CheckinCtrl = require('../views/checkin/CheckinCtrl.js');
-const ChallengesCtrl = require('../views/challenges/ChallengesCtrl.js');
 const DashboardCtrl = require('../views/dashboard/DashboardCtrl.js');
 const ApplicationCtrl = require('../views/application/ApplicationCtrl.js');
 const ConfirmationCtrl = require('../views/confirmation/ConfirmationCtrl.js');
 const LoginCtrl = require('../views/login/LoginCtrl.js');
 const ResetCtrl = require('../views/reset/ResetCtrl.js');
 const SidebarCtrl = require('../views/sidebar/SidebarCtrl.js');
-const TeamCtrl = require('../views/team/TeamCtrl.js');
 const VerifyCtrl = require('../views/verify/VerifyCtrl.js');
 
 angular.module('reg')
@@ -48,23 +40,10 @@ angular.module('reg')
     
     // Set up de states
     $stateProvider
-      .state('login', {
-        url: "/login",
-        templateUrl: "views/login/login.html",
-        controller: 'LoginCtrl',
-        data: {
-          requireLogin: false
-        },
-        resolve: {
-          'settings': function(SettingsService){
-            return SettingsService.getPublicSettings();
-          }
-        }
-      })
       .state('home', {
         url: "/",
-        templateUrl: "views/home/home.html",
-        controller: 'HomeCtrl',
+        templateUrl: "views/login/login.html",
+        controller: 'LoginCtrl',
         data: {
           requireLogin: false
         },
@@ -151,38 +130,6 @@ angular.module('reg')
           }
         }
       })
-      .state('app.challenges', {
-        url: "/challenges",
-        templateUrl: "views/challenges/challenges.html",
-        controller: 'ChallengesCtrl',
-        data: {
-          requireVerified: true
-        },
-        resolve: {
-          currentUser: function(UserService){
-            return UserService.getCurrentUser();
-          },
-          settings: function(SettingsService){
-            return SettingsService.getPublicSettings();
-          }
-        }
-      })
-      .state('app.team', {
-        url: "/team",
-        templateUrl: "views/team/team.html",
-        controller: 'TeamCtrl',
-        data: {
-          requireVerified: true
-        },
-        resolve: {
-          currentUser: function(UserService){
-            return UserService.getCurrentUser();
-          },
-          settings: function(SettingsService){
-            return SettingsService.getPublicSettings();
-          }
-        }
-      })
       .state('app.admin', {
         views: {
           '': {
@@ -211,21 +158,6 @@ angular.module('reg')
         url: "/admin/mail",
         templateUrl: "views/admin/mail/mail.html",
         controller: 'AdminMailCtrl'
-      })
-      .state('app.admin.challenges', {
-        url: "/admin/challenges",
-        templateUrl: "views/admin/challenges/challenges.html",
-        controller: 'adminChallengesCtrl'
-      })
-      .state('app.admin.challenge', {
-        url: "/admin/challenges/:id",
-        templateUrl: "views/admin/challenge/challenge.html",
-        controller: 'adminChallengeCtrl',
-        resolve: {
-          'challenge': function($stateParams, ChallengeService){
-            return ChallengeService.get($stateParams.id);
-          }
-        }
       })
       .state('app.admin.marketing', {
         url: "/admin/marketing",

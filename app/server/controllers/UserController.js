@@ -9,8 +9,6 @@ var moment = require("moment");
 
 var UserController = {};
 
-var maxTeamSize = process.env.TEAM_MAX_SIZE || 5;
-
 // Tests a string if it ends with target s
 function endsWith(s, test) {
   return test.indexOf(s, test.length - s.length) !== -1;
@@ -1035,10 +1033,6 @@ UserController.gotmeal = function(id, mealN, cb_succes, cb_err) {
 
 UserController.getStats = function(callback) {
   return callback(null, Stats.getUserStats());
-};
-
-UserController.getTeamStats = function(callback) {
-  return callback(null, Stats.getTeamStats());
 };
 
 

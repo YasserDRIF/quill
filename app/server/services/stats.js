@@ -1,12 +1,10 @@
 var _ = require('underscore');
 var async = require('async');
 var User = require('../models/User');
-var Team = require('../models/Team');
 var Settings = require("../models/Settings");
 
 // In memory stats.
 var stats = {};
-var teamStats = {};
 
 function calculateStats(){
   console.log('Calculating stats...');
@@ -231,69 +229,14 @@ function calculateStats(){
 
 
 
-function calculateTeamStats() {
-  console.log('Calculating Teamsstats...');
-  var newStats = {
-    total: 0,
-    lastUpdated: 0,
-    trackAssignment: {
-      Blockchain: 0,
-      IntelligentInfra: 0,
-      FutureCities: 0,
-      DigitalRetail: 0,
-      SmartCloud: 0,
-      Mobility: 0,
-      GameJam: 0,
-      IoT: 0,
-      HealthTech: 0,
-      AI: 0
-    }
-  };
-
-
-
-  Team
-    .find({})
-    .exec(function(err, teams){
-      if (err || !teams){
-        throw err;
-      }
-
-      newStats.total = teams.length;
-
-      async.each(teams, function(team, callback){
-        
-      // Do Team Specific Calculations
-
-      //  newStats.trackAssignment.AI += team.assignedTrack == "AI and Big Data" ? team.members.length : 0
-
-        callback(); // let async know we've finished
-      }, function() {
-        // Transform dietary restrictions into a series of object
-
-        console.log('Team Stats updated!');
-        newStats.lastUpdated = new Date();
-        teamStats = newStats;
-      });
-    });
-}
-
-
-
 // Calculate once every five minutes.
 calculateStats();
-calculateTeamStats();
 setInterval(calculateStats, 300000);
-setInterval(calculateTeamStats, 300000);
 
 var Stats={}
 
 Stats.getUserStats = function(){
   return stats;
-};
-
-Stats.getTeamStats = function(){
-  return teamStats;
 };
 
 module.exports = Stats;

@@ -56,12 +56,6 @@ angular.module('reg').controller('AdminStatsCtrl',[
         });  
 
 
-      UserService
-        .getTeamStats()
-        .then(teamstats => {
-          $scope.teamstats = teamstats.data; 
-        });  
-
 
       $scope.fromNow = function(date){
         return moment(date).fromNow();
