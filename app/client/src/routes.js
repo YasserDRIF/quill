@@ -8,10 +8,6 @@ const SolvedCTFService = require('./services/SolvedCTFService.js');
 const TeamService = require('./services/TeamService.js');
 const MarketingService = require('./services/MarketingService.js');
 
-const MarketCtrl = require('../views/market/MarketCtrl.js');
-const MarketDataCtrl = require('../views/MarketData/MarketDataCtrl.js');
-
-
 const HomeCtrl = require('../views/home/HomeCtrl.js');
 const AdminCtrl = require('../views/admin/AdminCtrl.js');
 const AdminSettingsCtrl = require('../views/admin/settings/AdminSettingsCtrl.js');
@@ -73,22 +69,6 @@ angular.module('reg')
           'settings': function(SettingsService){
             return SettingsService.getPublicSettings();
           }
-        }
-      })
-      .state('Market', {
-        url: "/Market",
-        templateUrl: "views/market/market.html",
-        controller: 'MarketCtrl',
-        data: {
-          requireLogin: false
-        }
-      })
-      .state('MarketData', {
-        url: "/MarketData",
-        templateUrl: "views/MarketData/MarketData.html",
-        controller: 'MarketDataCtrl',
-        data: {
-          requireLogin: false
         }
       })
       .state('app', {
