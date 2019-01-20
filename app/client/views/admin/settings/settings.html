@@ -74,6 +74,40 @@
     </div>
 
   </div>
+  <div class="column">
+
+    <!-- Event Start Date -->
+    <div
+      ng-class="{'loading': loading}"
+      class="ui blue segment">
+      <div class="ui form">
+
+        <div class="ui header">
+          Event Start Date
+        </div>
+
+        <p>
+          The event and CTF Challenges will start by the date selected.
+        </p>
+
+        <div class="field">
+          <label>
+            Event Starts By: {{ formatDate(settings.timeStart) }}
+          </label>
+          <input type="datetime-local" ng-model="settings.timeStart">
+        </div>
+
+        <div class="ui field">
+          <div
+            class="ui green button"
+            ng-click="updateStartTime()">
+            Update
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- Additional Options -->

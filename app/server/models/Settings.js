@@ -22,6 +22,10 @@ var schema = new mongoose.Schema({
     type: Number,
     default: 604800000 // Date of confirmation
   },
+  timeStart: {
+    type: Number,
+    default: 604800000 // Date of confirmation
+  },
   whitelistedEmails: {
     type: [String],
     select: false,
@@ -70,12 +74,13 @@ schema.statics.getWhitelistedEmails = function(callback){
 schema.statics.getRegistrationTimes = function(callback){
   this
     .findOne({})
-    .select('timeOpen timeClose timeConfirm')
+    .select('timeOpen timeClose timeConfirm timeStart')
     .exec(function(err, settings){
       callback(err, {
         timeOpen: settings.timeOpen,
         timeClose: settings.timeClose,
-        timeConfirm: settings.timeConfirm
+        timeConfirm: settings.timeConfirm,
+        timeStart: settings.timeStart
       });
     });
 };

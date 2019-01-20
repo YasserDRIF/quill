@@ -517,6 +517,21 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
     );
   });
 
+    /**
+   * Update the confirmation date.
+   * body: {
+   *   time: Number
+   * }
+   */
+  router.put("/settings/timeStart", isAdmin, function(req, res) {
+    var time = req.body.time;
+    SettingsController.updateField(
+      "timeStart",
+      time,
+      defaultResponse(req, res)
+    );
+  });
+
   /**
    * Set the registration open and close times.
    * body : {

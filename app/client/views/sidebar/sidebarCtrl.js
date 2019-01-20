@@ -6,19 +6,25 @@ angular.module('reg')
   .controller('SidebarCtrl', [
     '$rootScope',
     '$scope',
-    'settings',
+    'SettingsService',
     'Utils',
     'AuthService',
     'Session',
     'EVENT_INFO',
-    function($rootScope, $scope, settings, Utils, AuthService, Session, EVENT_INFO){
+    function($rootScope, $scope, SettingsService, Utils, AuthService, Session, EVENT_INFO){
 
-      var settings = settings.data;
       var user = $rootScope.currentUser;
 
       $scope.EVENT_INFO = EVENT_INFO;
 
       $scope.pastConfirmation = Utils.isAfter(user.status.confirmBy);
+      //$scope.pastSatart = Utils.isAfter(settings.timeStart);
+
+      SettingsService
+      .getPublicSettings()
+      .then(response => {
+        $scope.pastSatart = Utils.isAfter(response.data.timeStart)
+      });
 
       $scope.logout = function(){
         AuthService.logout();

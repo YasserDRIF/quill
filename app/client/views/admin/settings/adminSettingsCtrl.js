@@ -21,6 +21,7 @@ angular.module('reg')
         settings.timeOpen = new Date(settings.timeOpen);
         settings.timeClose = new Date(settings.timeClose);
         settings.timeConfirm = new Date(settings.timeConfirm);
+        settings.timeStart = new Date(settings.timeStart);
 
         $scope.settings = settings;
       }
@@ -112,6 +113,20 @@ angular.module('reg')
             swal("Sounds good!", "Confirmation Date Updated", "success");
           });
       };
+
+      // Event Start Time -----------------------------
+
+      $scope.updateStartTime = function(){
+        var startBy = cleanDate($scope.settings.timeStart).getTime();
+
+        SettingsService
+          .updateStartTime(startBy)
+          .then(response => {
+            updateSettings(response.data);
+            swal("Sounds good!", "Event Start Date Updated", "success");
+          });
+      };
+
 
       // Acceptance / Confirmation Text ----------------
 
