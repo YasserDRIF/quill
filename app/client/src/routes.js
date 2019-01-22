@@ -9,15 +9,6 @@ const TeamService = require('./services/TeamService.js');
 const MarketingService = require('./services/MarketingService.js');
 
 const HomeCtrl = require('../views/home/HomeCtrl.js');
-const AdminCtrl = require('../views/admin/AdminCtrl.js');
-const AdminSettingsCtrl = require('../views/admin/settings/AdminSettingsCtrl.js');
-const AdminStatsCtrl = require('../views/admin/stats/AdminStatsCtrl.js');
-const AdminMailCtrl = require('../views/admin/mail/AdminMailCtrl.js');
-const adminChallengesCtrl = require('../views/admin/challenges/adminChallengesCtrl.js');
-const adminChallengeCtrl = require('../views/admin/challenge/adminChallengeCtrl.js');
-const AdminUserCtrl = require('../views/admin/user/AdminUserCtrl.js');
-const AdminUsersCtrl = require('../views/admin/users/AdminUsersCtrl.js');
-const adminMarketingCtrl = require('../views/admin/marketing/adminMarketingCtrl.js');
 const CheckinCtrl = require('../views/checkin/CheckinCtrl.js');
 const ChallengesCtrl = require('../views/challenges/ChallengesCtrl.js');
 const DashboardCtrl = require('../views/dashboard/DashboardCtrl.js');
@@ -165,17 +156,6 @@ angular.module('reg')
           }
         }
       })
-      .state('app.admin', {
-        views: {
-          '': {
-            templateUrl: "views/admin/admin.html",
-            controller: 'AdminCtrl'
-          }
-        },
-        data: {
-          requireAdmin: true
-        }
-      })
       .state('app.checkin', {
         url: '/checkin',
         templateUrl: 'views/checkin/checkin.html',
@@ -184,59 +164,7 @@ angular.module('reg')
           requireVolunteer: true
         }
       })
-      .state('app.admin.stats', {
-        url: "/admin",
-        templateUrl: "views/admin/stats/stats.html",
-        controller: 'AdminStatsCtrl'
-      })
-      .state('app.admin.mail', {
-        url: "/admin/mail",
-        templateUrl: "views/admin/mail/mail.html",
-        controller: 'AdminMailCtrl'
-      })
-      .state('app.admin.challenges', {
-        url: "/admin/challenges",
-        templateUrl: "views/admin/challenges/challenges.html",
-        controller: 'adminChallengesCtrl'
-      })
-      .state('app.admin.challenge', {
-        url: "/admin/challenges/:id",
-        templateUrl: "views/admin/challenge/challenge.html",
-        controller: 'adminChallengeCtrl',
-        resolve: {
-          'challenge': function($stateParams, ChallengeService){
-            return ChallengeService.get($stateParams.id);
-          }
-        }
-      })
-      .state('app.admin.marketing', {
-        url: "/admin/marketing",
-        templateUrl: "views/admin/marketing/marketing.html",
-        controller: 'adminMarketingCtrl'
-      })
-      .state('app.admin.users', {
-        url: "/admin/users?" +
-          '&page' +
-          '&size' +
-          '&query',
-        templateUrl: "views/admin/users/users.html",
-        controller: 'AdminUsersCtrl'
-      })
-      .state('app.admin.user', {
-        url: "/admin/users/:id",
-        templateUrl: "views/admin/user/user.html",
-        controller: 'AdminUserCtrl',
-        resolve: {
-          'user': function($stateParams, UserService){
-            return UserService.get($stateParams.id);
-          }
-        }
-      })
-      .state('app.admin.settings', {
-        url: "/admin/settings",
-        templateUrl: "views/admin/settings/settings.html",
-        controller: 'AdminSettingsCtrl',
-      })
+      
       .state('reset', {
         url: "/reset/:token",
         templateUrl: "views/reset/reset.html",
@@ -271,7 +199,6 @@ angular.module('reg')
       const Session = transition.injector().get("Session");
 
       var requireLogin = transition.to().data.requireLogin;
-      var requireAdmin = transition.to().data.requireAdmin;
       var requireVolunteer = transition.to().data.requireVolunteer;
       var requireVerified = transition.to().data.requireVerified;
       var requireAdmitted = transition.to().data.requireAdmitted;
@@ -280,11 +207,8 @@ angular.module('reg')
         return transition.router.stateService.target("home");
       }
 
-      if (requireAdmin && !Session.getUser().admin) {
-        return transition.router.stateService.target("app.dashboard");
-      }
 
-      if (requireVolunteer && !Session.getUser().volunteer && requireAdmin && !Session.getUser().admin) {
+      if (requireVolunteer && !Session.getUser().volunteer  && !Session.getUser().admin) {
         return transition.router.stateService.target("app.dashboard");
       }
 
