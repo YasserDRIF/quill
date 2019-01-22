@@ -7,7 +7,6 @@ const SolvedCTFService = require('./services/SolvedCTFService.js');
 const TeamService = require('./services/TeamService.js');
 const MarketingService = require('./services/MarketingService.js');
 
-const HomeCtrl = require('../views/home/HomeCtrl.js');
 const ChallengesCtrl = require('../views/challenges/ChallengesCtrl.js');
 const DashboardCtrl = require('../views/dashboard/DashboardCtrl.js');
 const ApplicationCtrl = require('../views/application/ApplicationCtrl.js');
@@ -34,7 +33,7 @@ angular.module('reg')
     
     // Set up de states
     $stateProvider
-      .state('login', {
+      .state('home', {
         url: "/login",
         templateUrl: "views/login/login.html",
         controller: 'LoginCtrl',
@@ -47,19 +46,19 @@ angular.module('reg')
           }
         }
       })
-      .state('home', {
-        url: "/",
-        templateUrl: "views/home/home.html",
-        controller: 'HomeCtrl',
-        data: {
-          requireLogin: false
-        },
-        resolve: {
-          'settings': function(SettingsService){
-            return SettingsService.getPublicSettings();
-          }
-        }
-      })
+      // .state('login', {
+      //   url: "/",
+      //   templateUrl: "views/home/home.html",
+      //   controller: 'HomeCtrl',
+      //   data: {
+      //     requireLogin: false
+      //   },
+      //   resolve: {
+      //     'settings': function(SettingsService){
+      //       return SettingsService.getPublicSettings();
+      //     }
+      //   }
+      // })
       .state('app', {
         views: {
           '': {
