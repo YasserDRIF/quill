@@ -54,9 +54,14 @@ angular.module("reg").factory("UserService", [
         return $http.post(base + id + "/decline");
       },
 
+      sendPasswordResetEmail: function(email) {	
+        return $http.post(base + "sendResetEmail", { email: email });	
+      },	
+      
       // -------------------------
       // Admin Only
       // -------------------------
+
 
     };
   }

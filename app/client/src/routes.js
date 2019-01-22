@@ -1,5 +1,4 @@
 const angular = require('angular');
-var ocLazyLoad = require('oclazyload')
 
 const SettingsService = require('./services/SettingsService.js');
 const UserService = require('./services/UserService.js');
@@ -9,7 +8,6 @@ const TeamService = require('./services/TeamService.js');
 const MarketingService = require('./services/MarketingService.js');
 
 const HomeCtrl = require('../views/home/HomeCtrl.js');
-const CheckinCtrl = require('../views/checkin/CheckinCtrl.js');
 const ChallengesCtrl = require('../views/challenges/ChallengesCtrl.js');
 const DashboardCtrl = require('../views/dashboard/DashboardCtrl.js');
 const ApplicationCtrl = require('../views/application/ApplicationCtrl.js');
@@ -154,14 +152,6 @@ angular.module('reg')
           settings: function(SettingsService){
             return SettingsService.getPublicSettings();
           }
-        }
-      })
-      .state('app.checkin', {
-        url: '/checkin',
-        templateUrl: 'views/checkin/checkin.html',
-        controller: 'CheckinCtrl',
-        data: {
-          requireVolunteer: true
         }
       })
       
