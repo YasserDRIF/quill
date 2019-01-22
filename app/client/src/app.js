@@ -10,7 +10,7 @@ var app = angular.module('reg', [
   'ui.router',
   'chart.js',
 ]);
-
+//test
 const constants = require('./constants.js');
 
 var AuthService = require('./services/AuthService.js');
