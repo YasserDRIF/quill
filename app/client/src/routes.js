@@ -1,5 +1,4 @@
 const angular = require('angular');
-var ocLazyLoad = require('oclazyload')
 
 const SettingsService = require('./services/SettingsService.js');
 const UserService = require('./services/UserService.js');

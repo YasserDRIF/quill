@@ -6,7 +6,7 @@ var browserify = require('browserify');
 var browserifyNgAnnotate = require('browserify-ngannotate');
 var buffer = require('gulp-buffer');
 var cleanCss = require('gulp-clean-css');
-var concat = require('gulp-concat');
+var minify = require('gulp-minify');
 var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
@@ -41,6 +41,7 @@ gulp.task('js', function () {
     .pipe(ngAnnotate())
     .on('error', swallowError)
 //  .pipe(sourcemaps.write())
+    // .pipe(minify())
     .pipe(gulp.dest('app/client/build'));
 });
 
