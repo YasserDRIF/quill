@@ -20,33 +20,78 @@
                  ng-model="user.email">
         </div>
 
-        <div class="field">
-          <label> Full Name </label>
-          <input type="text"
-                 name="name"
-                 ng-model="user.profile.name">
-        </div>
-
-        <div class="field" ng-show="autoFilledSchool">
-          <label> School </label>
-          <input class="ui input"
-                 disabled="disabled"
-                 ng-show="autoFilledSchool"
-                 ng-model="user.profile.school">
-        </div>
-
-        <div class="field" ng-show="!autoFilledSchool">
-          <label> School </label>
-          <div id="school" class="ui search">
-            <div class="ui input">
-              <input class="prompt" type="text" placeholder="School" name="school" ng-model="user.profile.school">                
+        <div class="ui grid">
+            <div class="eight wide column">
+                <div class="field">
+                    <label>* Full Name </label>
+                    <input type="text"
+                           name="name"
+                           ng-model="user.profile.name">
+                  </div>
             </div>
-            <div class="results"></div>
-          </div>
+            <div class="eight wide column">
+                <div class="field">
+                    <label>* Gender</label>
+                    <select
+                      name="gender"
+                      ng-model="user.profile.gender">
+                      <option value="" disabled>Gender</option>
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                    </select>
+                  </div>        
+              </div>
+        </div>
+    
+
+          <div class="field" ng-show="autoFilledSchool">
+              <label>* School </label>
+              <input class="ui input"
+                     disabled="disabled"
+                     ng-show="autoFilledSchool"
+                     ng-model="user.profile.school">
+            </div>
+    
+            <div class="field" ng-show="!autoFilledSchool">
+              <label>* School </label>
+              <div id="school" class="ui search">
+                <div class="ui input">
+                  <input class="prompt" type="text" placeholder="School" name="school" ng-model="user.profile.school">                
+                </div>
+                <div class="results"></div>
+              </div>
+            </div>          
+
+
+        <div class="ui grid">
+            <div class="eight wide column">
+                <div class="field">
+                    <label>* What is the major you are studying? </label>
+                    <input type="text"
+                           name="study"
+                           placeholder="e.g. Computer Science, Industrial Design etc."
+                           ng-model="user.profile.major">
+                  </div>          
+            </div>
+            <div class="eight wide column">
+                <div class="field">
+                    <label>* Graduation Year</label>
+                    <select
+                      name="year"
+                      ng-model="user.profile.graduationYear">
+                      <option value="" disabled>Graduation Year</option>
+                      <option value="2023">2023 (First year)</option>
+                      <option value="2022">2022 (Second year)</option>
+                      <option value="2021">2021 (Third year)</option>
+                      <option value="2020">2020 (Fourth year)</option>
+                      <option value="2019">2019 (Final year)</option>
+                    </select>
+                  </div>          
+            </div>
         </div>
 
         <div class="field">
-          <label> Wilaya </label>
+          <label>* Wilaya </label>
           <div id="wilaya" class="ui search">
             <div class="ui input">
               <input class="prompt" type="text" placeholder="Wilaya" name="Wilaya" ng-model="user.profile.wilaya">                
@@ -55,67 +100,43 @@
           </div>
         </div>
 
-        <div class="field">
-          <label> What is the major you are studying? </label>
-          <input type="text"
-                 name="study"
-                 placeholder="e.g. Computer Science, Industrial Design etc."
-                 ng-model="user.profile.major">
+
+
+        <div class="ui grid">
+            <div class="eight wide column">
+                <div class="field">
+                    <label>* I would describe myself as a...</label>
+                    <input type="text"
+                           placeholder="Designer, Data Scientist, iOS Wizard, Hacker Extraordinaire"
+                           ng-model="user.profile.description">
+                  </div>
+          
+            </div>
+            <div class="eight wide column">
+                <div class="field">
+                    <label>* How many hackathons have you attended ?  </label>
+                    <select
+                      class="ui fluid dropdown"
+                      name="howManyHackathons"
+                      id="howManyHackathons"
+                      ng-model="user.profile.howManyHackathons">
+                      <option value="" disabled>Hackathon experience</option>
+                      <option value="0">None</option>
+                      <option value="1">1</option>
+                      <option value="2">2-3</option>
+                      <option value="4">4-7</option>
+                      <option value="7">7+</option>
+                    </select>
+                  </div>
+               
+              </div>
         </div>
 
-        <div class="field">
-          <label>Graduation Year</label>
-          <select
-            name="year"
-            ng-model="user.profile.graduationYear">
-            <option value="">Graduation Year</option>
-            <option value="2019">2019</option>
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
-            <option value="2022">2022</option>
-            <option value="2023">2023</option>
-          </select>
-        </div>
 
-        <div class="field">
-          <label>Gender</label>
-          <select
-            name="gender"
-            ng-model="user.profile.gender">
-            <option value="">Gender</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-            <option value="O">Other</option>
-            <option value="N">I prefer not to answer.</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>I would describe myself as a...</label>
-          <input type="text"
-                 placeholder="Designer, Data Scientist, iOS Wizard, Hacker Extraordinaire"
-                 ng-model="user.profile.description">
-        </div>
-
-        <div class="field">
-          <label>How many hackathons have you attended before? * </label>
-          <select
-            class="ui fluid dropdown"
-            name="howManyHackathons"
-            id="howManyHackathons"
-            ng-model="user.profile.howManyHackathons">
-            <option value="">Hackathon experience</option>
-            <option value="0">None</option>
-            <option value="1">1</option>
-            <option value="2">2-3</option>
-            <option value="4">4-7</option>
-            <option value="7">7+</option>
-          </select>
-        </div>
 
         <div class="field">
           <label>
-              What would you like to learn or get out of ESIHack? (optional)
+              * What would you like to learn or get out of ESIHack? (optional)
           </label>
           <textarea ng-model="user.profile.essay">
           </textarea>
@@ -126,7 +147,7 @@
         <div class="divided title"> Skills & Accomplishments </div>
 
         <div class="field">
-          <label> Github </label>
+          <label>* Github </label>
           <input type="text"
                  name="github"
                  placeholder="https://github.com/foobar"
@@ -134,7 +155,7 @@
         </div>
 
         <div class="field">
-          <label> Facebook </label>
+          <label>* Facebook </label>
           <input type="text"
                  name="facebook"
                  placeholder="https://facebook.com/foobar"
@@ -142,25 +163,47 @@
         </div>
 
         <div class="field">
-          <label> Linkedin </label>
+          <label>* Linkedin </label>
           <input type="text"
                  name="linkedin"
                  placeholder="https://linkedin.com/in/foobar"
                  ng-model="user.profile.linkedin">
         </div>
 
-        <div class="field">
-          <label> Skill Sheet (required) </label>
-          <p>
-            Upload a document outlining any skills or experience you'd like to share (ex. resume). PDF preferred!
-          </p>
-          <a
-            target="_blank"
-            href="https://drive.google.com/"
-            class="ui pink button">
-            Upload
-          </a>
+
+        <div class="ui grid">
+            <div class="eight wide column">
+                <div class="field">
+                    <label>* How did you hear about us ?</label>
+                    <select
+                      class="ui fluid dropdown"
+                      name="UserSource"
+                      id="UserSource"
+                      ng-model="UserSource">
+                      <option value="" disabled>How did you hear about us ?</option>
+                      <option value="0">Event Facebook Page</option>
+                      <option value="1">Email marketing</option>
+                      <option value="2">Your Club</option>
+                    </select>
+                  </div>
+          
+            </div>
+
+            <div class="eight wide column">
+                <div class="field">
+                    <label>* Your Club </label>
+                    <div id="wilaya" class="ui search">
+                      <div class="ui input">
+                        <input class="prompt" type="text" placeholder="Wilaya" name="Wilaya" ng-model="user.profile.wilaya">                
+                      </div>
+                      <div class="results"></div>
+                    </div>
+                  </div>
+          
+            </div>
+  
         </div>
+          
 
 
 

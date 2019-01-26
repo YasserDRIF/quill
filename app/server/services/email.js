@@ -1,7 +1,6 @@
 var path = require("path");
 var nodemailer = require("nodemailer");
 var smtpTransport = require("nodemailer-smtp-transport");
-var templatesDir = path.join(__dirname, "../templates");
 var Email = require("email-templates");
 
 var ROOT_URL = process.env.ROOT_URL;
@@ -15,6 +14,7 @@ var EMAIL_HOST = process.env.EMAIL_HOST;
 var EMAIL_USER = process.env.EMAIL_USER;
 var EMAIL_PASS = process.env.EMAIL_PASS;
 var EMAIL_PORT = process.env.EMAIL_PORT;
+var SCHEDULE_PDF = process.env.SCHEDULE_PDF;
 var EMAIL_CONTACT = process.env.EMAIL_CONTACT;
 var EMAIL_HEADER_IMAGE = process.env.EMAIL_HEADER_IMAGE;
 if (EMAIL_HEADER_IMAGE.indexOf("https") == -1) {
@@ -47,7 +47,8 @@ function sendOne(templateName, options, data, callback) {
 
   const email = new Email({
     message: {
-      from: EMAIL_ADDRESS
+      from: EMAIL_ADDRESS, 
+      attachments: options.attachments
     },
     send: true,
     transport: transporter
@@ -90,7 +91,7 @@ function sendOne(templateName, options, data, callback) {
 controller.sendVerificationEmail = function(email, token, callback) {
   var options = {
     to: email,
-    subject: "[" + HACKATHON_NAME + "] - Verify your email"
+    subject: "[" + HACKATHON_NAME + "] - Verify your email",
   };
 
   var locals = {
@@ -125,7 +126,8 @@ controller.sendVerificationEmail = function(email, token, callback) {
 controller.sendPasswordResetEmail = function(email, token, callback) {
   var options = {
     to: email,
-    subject: "[" + HACKATHON_NAME + "] - Password reset requested!"
+    subject: "[" + HACKATHON_NAME + "] - Password reset requested!",
+
   };
 
   var locals = {
@@ -217,7 +219,13 @@ controller.sendConfirmationEmail = function(user, callback) {
 controller.sendAdmittanceEmail = function(user, callback) {
   var options = {
     to: user.email,
-    subject: "[" + HACKATHON_NAME + "] - You have been admitted!"
+    subject: "[" + HACKATHON_NAME + "] - You have been admitted!",
+    attachments: [{
+      filename:"SCHEDULE " + HACKATHON_NAME + ".pdf",
+      path: path.join(__dirname, "..", "emails", "email-admittance", SCHEDULE_PDF),
+      contentType: 'application/pdf'
+    }]
+
   };
   var locals = {
     name: user.profile.name,
@@ -225,7 +233,7 @@ controller.sendAdmittanceEmail = function(user, callback) {
     qr: "https://api.qrserver.com/v1/create-qr-code/?size=350x350&margin=20&data="+user.id
   };
 
-  sendOne("email-qr", options, locals, function(err, info) {
+  sendOne("email-admittance", options, locals, function(err, info) {
     if (err) {
       console.log(err);
     }
