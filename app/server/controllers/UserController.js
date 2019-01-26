@@ -981,6 +981,29 @@ UserController.removeUserById = function(id, user, callback) {
 
 // Live Stats  **********************************************************
 
+UserController.getMealsList = function(callback) {
+  var List=[
+    {
+      id:1,
+      name:"Meal 1"
+    },
+    {
+      id:2,
+      name:"Meal 2"
+    },
+    {
+      id:3,
+      name:"Meal 3"
+    },
+    {
+      id:4,
+      name:"Meal 4"
+    },
+  ]
+
+  return callback(null, List);
+};  
+
 
 UserController.gotmeal = function(id, mealN, cb_succes, cb_err) {
     User.findOne({
@@ -1004,6 +1027,30 @@ UserController.gotmeal = function(id, mealN, cb_succes, cb_err) {
       .catch(err => cb_err("User doesnt exist"));
   };
   
+
+  UserController.getWorkshopsList = function(callback) {
+    var List=[
+      {
+        "id":1,
+        "name":"Workshop 1"
+      },
+      {
+        "id":2,
+        "name":"Workshop 2"
+      },
+      {
+        "id":3,
+        "name":"Workshop 3"
+      },
+      {
+        "id":4,
+        "name":"Workshop 4"
+      },
+    ]
+        
+
+    return callback(null, List);
+  };  
 
 
   UserController.workshop = function(id, workshopN, cb_succes, cb_err) {

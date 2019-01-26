@@ -395,6 +395,10 @@ module.exports = function(router) {
   // LIVE : This is the tracking functions used in stats
   // ---------------------------------------------
 
+  router.get("/meals", function(req, res) {
+    UserController.getMealsList(defaultResponse(req, res));
+  });
+
 
 router.get("/users/:id/gotmeal/:mealN", function(req, res) {
   var id = req.params.id;
@@ -406,6 +410,10 @@ router.get("/users/:id/gotmeal/:mealN", function(req, res) {
       res.send(JSON.stringify({ error: err }));
     }
   );
+});
+
+router.get("/workshops", function(req, res) {
+  UserController.getWorkshopsList(defaultResponse(req, res));
 });
 
 router.get("/users/:id/workshop/:workshopN", function(req, res) {

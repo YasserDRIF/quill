@@ -87,7 +87,6 @@ schema.statics.getRegistrationTimes = function(callback){
 
 schema.statics.getHostSchool = function(callback) {
   this.findOne({})
-    .select("hostSchool")
     .exec(function(err, settings) {
       callback(err, settings.hostSchool);
     });
