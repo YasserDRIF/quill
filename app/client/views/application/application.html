@@ -183,23 +183,22 @@
                       <option value="" disabled>How did you hear about us ?</option>
                       <option value="0">Event Facebook Page</option>
                       <option value="1">Email marketing</option>
-                      <option value="2">Your Club</option>
+                      <option value="2">My Club</option>
                     </select>
                   </div>
           
             </div>
 
-            <div class="eight wide column">
+            <div class="eight wide column" ng-show="UserSource=='2'">
                 <div class="field">
                     <label>* Your Club </label>
-                    <div id="wilaya" class="ui search">
+                    <div id="club" class="ui search">
                       <div class="ui input">
-                        <input class="prompt" type="text" placeholder="Wilaya" name="Wilaya" ng-model="user.profile.wilaya">                
+                        <input class="prompt" type="text" placeholder="Enter your club name.." name="club" ng-model="club">                
                       </div>
                       <div class="results"></div>
                     </div>
                   </div>
-          
             </div>
   
         </div>

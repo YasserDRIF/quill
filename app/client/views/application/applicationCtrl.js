@@ -27,6 +27,7 @@ angular.module('reg')
       _setupForm();
 
       populateWilayas();
+      populateClubs();
 
       $scope.regIsClosed = Date.now() > settings.data.timeClose;
 
@@ -88,11 +89,40 @@ angular.module('reg')
                 cache: true,
                 onSelect: function(result, response) {
                   $scope.user.profile.wilaya = result.title.trim();
-                  console.log ($scope.user.profile.wilaya)
                 }
               })
           });
       }
+      
+
+      function populateClubs(){
+        $http
+          .get('/assets/clubs.csv')
+          .then(function(res){
+            $scope.clubs = res.data.split('\n');
+            $scope.clubs.push('Other');
+
+            var content = [];
+
+            for(i = 0; i < $scope.clubs.length; i++) {
+              $scope.clubs[i] = $scope.clubs[i].trim();
+              content.push({title: $scope.clubs[i]})
+            }
+
+            $('#club.ui.search')
+              .search({
+                source: content,
+                cache: true,
+                onSelect: function(result, response) {
+                  $scope.club = result.title.trim();
+                }
+              })
+          });
+          if ($scope.user.profile.source != undefined){
+            $scope.UserSource = $scope.user.profile.source.split('#')[0];
+            $scope.club = $scope.user.profile.source.split('#')[1];  
+          }
+        }
 
 
       function removeDuplicates(myArr, prop) {
@@ -132,8 +162,11 @@ angular.module('reg')
         var sendMail = true;
         if (currentUser.data.status.completedProfile) {sendMail=false}        
 
+        // Get user Source
+        if ($scope.UserSource!='2'){$scope.user.profile.source=$scope.UserSource}
+          else{$scope.user.profile.source=$scope.UserSource+"#"+$scope.club}
+
         UserService
-          .updateProfile(Session.getUserId(), $scope.user.profile)
           .updateProfile(Session.getUserId(), $scope.user.profile)
           .then(response => {
             swal("Awesome!", "Your application has been saved.", "success").then(value => {

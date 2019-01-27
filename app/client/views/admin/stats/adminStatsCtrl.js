@@ -1,6 +1,16 @@
 const moment = require('moment');
 
-angular.module('reg').controller('AdminStatsCtrl',[
+
+angular.module('reg')
+
+.config(['ChartJsProvider', function (ChartJsProvider) {
+  // Configure all charts
+  ChartJsProvider.setOptions({
+    chartColors: ['#9B66FE', '#FF6484', '#FEA03F', '#FBD04D', '#4DBFC0', '#33A3EF', '#CACBCF'],
+    responsive: true
+  });
+}])
+.controller('AdminStatsCtrl',[
     '$scope',
     'UserService',
     function($scope, UserService){
@@ -51,6 +61,68 @@ angular.module('reg').controller('AdminStatsCtrl',[
               }
             }
            }
+
+          // clubs
+          $scope.clubs = {
+            labels : stats.data.source.clubsLabels,
+            series : ['Clubs'],
+            data : stats.data.source.clubs,
+            options:{
+              elements: {
+                line: {
+                  borderWidth: 0.5,                
+                },
+              },
+              title: {
+                display: true,
+                text: 'Applicants via Clubs'
+              },
+              legend: {
+                display: true,
+                position: 'right',
+              },
+            }
+           }
+
+           // Get the most active club
+           var arr =stats.data.source.clubs
+           var max = arr[0];
+           var maxIndex = 0;
+           for (var i = 1; i < arr.length; i++) {
+               if (arr[i] > max) {
+                   maxIndex = i;
+                   max = arr[i];
+               }
+           }
+
+           $scope.firstClub = stats.data.source.clubsLabels[maxIndex]
+
+       
+
+
+          // sources 
+          $scope.source = {
+            labels : ['Facebook','Email','Clubs'],
+            series : ['Sources'],
+            data : stats.data.source.general,
+            options:{
+              elements: {
+                line: {
+                  borderWidth: 0.5,                
+                },
+              },
+              title: {
+                display: true,
+                text: 'Applicants sources'
+              },
+              legend: {
+                display: true,
+                position: 'right',
+              },
+            }
+           }
+
+
 
           $scope.loading = false;
         });  

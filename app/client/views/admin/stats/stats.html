@@ -8,174 +8,186 @@
     </div>
 
 
-    <div class="content">
-      <em> Last updated: {{fromNow(stats.lastUpdated)}}</em>
-      <div class="ui list">
-        <div
-          class="item">
-          <i class="green circle check icon"></i>
-          <div class="content">
-            <strong>
-            Total Users
-            </strong> :
-            {{stats.total}}
-          </div>
-        </div>
-        <div
-          class="item">
-          <i class="green circle check icon"></i>
-          <div class="content">
-            <strong>
-            Verified Users
-            </strong> :
-            {{stats.verified}} ({{stats.verified / stats.total * 100 | number: 1}}%)
-          </div>
-        </div>
-        <div
-          class="item">
-          <i class="green circle check icon"></i>
-          <div class="content">
-            <strong>
-            Submitted Users
-            </strong> :
-            {{stats.submitted}} ({{stats.submitted / stats.total * 100 | number: 1}}%)
-          </div>
-        </div>
-        <div class="ui divider"></div>
-        <div
-          class="item">
-          <i class="green circle check icon"></i>
-          <div class="content">
-            <strong>
-              Soft Admitted
-            </strong> :
-            {{stats.softAdmitted}}
-          </div>
-        </div>
-        <div
-          class="item">
-          <i class="green circle check icon"></i>
-          <div class="content">
-            <strong>
-              Admitted
-            </strong> :
-            {{stats.admitted}} ({{stats.admitted / stats.softAdmitted * 100 | number: 1}}%)
-          </div>
-        </div>
-        <div
-          class="item">
-          <i class="green circle check icon"></i>
-          <div class="content">
-            <strong>
-              Confirmed (Total)
-            </strong> :
-            {{stats.confirmed}}
-          </div>
-        </div>
-        <div
-          class="item">
-          <i class="green circle check icon"></i>
-          <div class="content">
-            <strong>
-              Confirmed (Host School)
-            </strong> :
-            {{stats.confirmedHostSchool}}
-          </div>
-        </div>
-        <div class="item">
-          <i class="circle red icon"></i>
-          <div class="content">
-            <strong>
-              Declined
-            </strong> :
-              {{stats.declined}}
-          </div>
-        </div>
 
-        <div class="item">
-          <i class="green flag icon"></i>
-          <div class="content">
-            <strong>
-              Checked In
-            </strong> :
-              {{stats.checkedIn}}
-          </div>
+    <div class="ui grid">
+        <div class="six wide column">
+            <div class="content">
+                <em> Last updated: {{fromNow(stats.lastUpdated)}}</em>
+                <div class="ui list">
+                  <div
+                    class="item">
+                    <i class="green circle check icon"></i>
+                    <div class="content">
+                      <strong>
+                      Total Users
+                      </strong> :
+                      {{stats.total}}
+                    </div>
+                  </div>
+                  <div
+                    class="item">
+                    <i class="green circle check icon"></i>
+                    <div class="content">
+                      <strong>
+                      Verified Users
+                      </strong> :
+                      {{stats.verified}} ({{stats.verified / stats.total * 100 | number: 1}}%)
+                    </div>
+                  </div>
+                  <div
+                    class="item">
+                    <i class="green circle check icon"></i>
+                    <div class="content">
+                      <strong>
+                      Submitted Users
+                      </strong> :
+                      {{stats.submitted}} ({{stats.submitted / stats.total * 100 | number: 1}}%)
+                    </div>
+                  </div>
+                  <div class="ui divider"></div>
+                  <div
+                    class="item">
+                    <i class="green circle check icon"></i>
+                    <div class="content">
+                      <strong>
+                        Soft Admitted
+                      </strong> :
+                      {{stats.softAdmitted}}
+                    </div>
+                  </div>
+                  <div
+                    class="item">
+                    <i class="green circle check icon"></i>
+                    <div class="content">
+                      <strong>
+                        Admitted
+                      </strong> :
+                      {{stats.admitted}} ({{stats.admitted / stats.softAdmitted * 100 | number: 1}}%)
+                    </div>
+                  </div>
+                  <div
+                    class="item">
+                    <i class="green circle check icon"></i>
+                    <div class="content">
+                      <strong>
+                        Confirmed (Total)
+                      </strong> :
+                      {{stats.confirmed}}
+                    </div>
+                  </div>
+                  <div
+                    class="item">
+                    <i class="green circle check icon"></i>
+                    <div class="content">
+                      <strong>
+                        Confirmed (Host School)
+                      </strong> :
+                      {{stats.confirmedHostSchool}}
+                    </div>
+                  </div>
+                  <div class="item">
+                    <i class="circle red icon"></i>
+                    <div class="content">
+                      <strong>
+                        Declined
+                      </strong> :
+                        {{stats.declined}}
+                    </div>
+                  </div>
+          
+                  <div class="item">
+                    <i class="green flag icon"></i>
+                    <div class="content">
+                      <strong>
+                        Checked In
+                      </strong> :
+                        {{stats.checkedIn}}
+                    </div>
+                  </div>
+          
+                  <div class="item">
+                    <i class="green users icon"></i>
+                    <div class="content">
+                      <strong>
+                        Teams Total
+                      </strong> :
+                        {{teamstats.total-1}}
+                    </div>
+                  </div>
+          
+                  <!--
+                  <div class="item">
+                    <i class="child icon"></i>
+                    <div class="content">
+                      <strong>
+                        Unisex shirt sizes:
+                      </strong> :
+                        XS ({{stats.shirtSizes['XS']}})
+                        S ({{stats.shirtSizes['S']}})
+                        M ({{stats.shirtSizes['M']}})
+                        L ({{stats.shirtSizes['L']}})
+                        XL ({{stats.shirtSizes['XL']}})
+                        XXL ({{stats.shirtSizes['XXL']}})
+                    </div>
+                  </div>
+          
+                   <div class="item">
+                    <i class="child icon"></i>
+                    <div class="content">
+                      <strong>
+                        Women's shirt sizes:
+                      </strong> :
+                        XS ({{stats.shirtSizes['WXS']}})
+                        S ({{stats.shirtSizes['WS']}})
+                        M ({{stats.shirtSizes['WM']}})
+                        L ({{stats.shirtSizes['WL']}})
+                        XL ({{stats.shirtSizes['WXL']}})
+                        XXL ({{stats.shirtSizes['WXXL']}})
+                    </div>
+                  </div>
+          
+                  <div class="ui divider"></div>
+          
+                  <div class="item">
+                    <i class="green money icon"></i>
+                    <div class="content">
+                      <strong>
+                        Total Reimbursements:
+                      </strong>{{stats.reimbursementTotal}}
+                    </div>
+                  </div>
+          
+                  <div class="item">
+                    <i class="frown icon"></i>
+                    <div class="content">
+                      <strong>
+                        Still Need Reimbursement:
+                      </strong>{{stats.reimbursementMissing}}
+                    </div>
+                  </div> -->
+          
+                  <div class="ui divider"></div>
+          
+                  <div class="item">
+                    <i class="plug icon"></i>
+                    <div class="content">
+                      <strong>
+                        Need/Want Hardware:
+                      </strong>{{stats.wantsHardware}}
+                    </div>
+                  </div>
+          
+                </div>
+              </div>
         </div>
+        <div class="ten wide column ui list">
+          <strong>Most active club is : {{firstClub}} </strong>
+          <canvas class="item chart-polar-area" chart-data="clubs.data" chart-labels="clubs.labels" chart-options="clubs.options">
 
-        <div class="item">
-          <i class="green users icon"></i>
-          <div class="content">
-            <strong>
-              Teams Total
-            </strong> :
-              {{teamstats.total-1}}
-          </div>
-        </div>
-
-        <!--
-        <div class="item">
-          <i class="child icon"></i>
-          <div class="content">
-            <strong>
-              Unisex shirt sizes:
-            </strong> :
-              XS ({{stats.shirtSizes['XS']}})
-              S ({{stats.shirtSizes['S']}})
-              M ({{stats.shirtSizes['M']}})
-              L ({{stats.shirtSizes['L']}})
-              XL ({{stats.shirtSizes['XL']}})
-              XXL ({{stats.shirtSizes['XXL']}})
-          </div>
-        </div>
-
-         <div class="item">
-          <i class="child icon"></i>
-          <div class="content">
-            <strong>
-              Women's shirt sizes:
-            </strong> :
-              XS ({{stats.shirtSizes['WXS']}})
-              S ({{stats.shirtSizes['WS']}})
-              M ({{stats.shirtSizes['WM']}})
-              L ({{stats.shirtSizes['WL']}})
-              XL ({{stats.shirtSizes['WXL']}})
-              XXL ({{stats.shirtSizes['WXXL']}})
-          </div>
-        </div>
-
-        <div class="ui divider"></div>
-
-        <div class="item">
-          <i class="green money icon"></i>
-          <div class="content">
-            <strong>
-              Total Reimbursements:
-            </strong>{{stats.reimbursementTotal}}
-          </div>
-        </div>
-
-        <div class="item">
-          <i class="frown icon"></i>
-          <div class="content">
-            <strong>
-              Still Need Reimbursement:
-            </strong>{{stats.reimbursementMissing}}
-          </div>
-        </div> -->
-
-        <div class="ui divider"></div>
-
-        <div class="item">
-          <i class="plug icon"></i>
-          <div class="content">
-            <strong>
-              Need/Want Hardware:
-            </strong>{{stats.wantsHardware}}
-          </div>
-        </div>
-
-      </div>
+        </div>    
     </div>
+
+
   </div>
 
   <div
@@ -187,127 +199,134 @@
     </div>
 
     <div class="ui grid">
-        <div class="four wide column">
+
+        <div class="nine wide column ui grid">
+            <div class="five wide column">
           
-            <div class="content">
-                <strong> <i class="users icon"></i>
-                  Total users : {{stats.total}}
-                </strong>
-              </div>
-      
-            <div class="ui list">
-                <div class="item">
-                  <i class="female icon"></i>
-                  <div class="content">
-                    <strong>Female</strong>: {{stats.demo.gender['F']}} ({{stats.demo.gender['F'] / stats.total * 100 | number:1}}%)
+                <div class="content">
+                    <strong> <i class="users icon"></i>
+                      Total users : {{stats.total}}
+                    </strong>
                   </div>
-                </div>
-                <div class="item">
-                  <i class="male icon"></i>
-                  <div class="content">
-                    <strong>Male</strong>: {{stats.demo.gender['M']}} ({{stats.demo.gender['M'] / stats.total * 100 | number:1}}%)
-                  </div>
-                </div>
-                <div class="item">
-                  <i class="other gender icon"></i>
-                  <div class="content">
-                    <strong>Other</strong>: {{stats.demo.gender['O']}} ({{stats.demo.gender['O'] / stats.total * 100 | number:1}}%)
-                  </div>
-                </div>
-                <div class="item">
-                  <i class="question icon"></i>
-                  <div class="content">
-                    <strong>Did not respond</strong>: {{stats.demo.gender['N']}} ({{stats.demo.gender['N'] / stats.total * 100 | number:1 }}%)
-                  </div>
-                </div>
-              </div>
-        </div>
-    
-        <div class="three wide column">
           
-            <div class="content">
-                <strong> <i class="calendar icon"></i>
-                    Year :
-                </strong>
-              </div>
-      
-            <div class="ui list">
-                <div class="item">
-                  <strong>1CPI:</strong> {{stats.demo.year['2023']}} ({{stats.demo.year['2023'] / stats.total * 100 | number: 1}}%)
-                </div>
-                <div class="item">
-                  <strong>2CPI:</strong> {{stats.demo.year['2022']}} ({{stats.demo.year['2022'] / stats.total * 100 | number: 1}}%)
-                </div>
-                <div class="item">
-                 <strong>1CS:</strong> {{stats.demo.year['2021']}} ({{stats.demo.year['2021'] / stats.total * 100 | number: 1}}%)
-                </div>
-                <div class="item">
-                  <strong>2CS:</strong> {{stats.demo.year['2020']}} ({{stats.demo.year['2020'] / stats.total * 100 | number: 1}}%)
-                </div>
-                <div class="item">
-                  <strong>3CS:</strong> {{stats.demo.year['2019']}} ({{stats.demo.year['2019'] / stats.total * 100 | number: 1}}%)
-                </div>
-              </div>
-        </div>
-    
-        <div class="four wide column">
+                <div class="ui list">
+                    <div class="item">
+                      <i class="female icon"></i>
+                      <div class="content">
+                        <strong>Female</strong>: {{stats.demo.gender['F']}} ({{stats.demo.gender['F'] / stats.total * 100 | number:1}}%)
+                      </div>
+                    </div>
+                    <div class="item">
+                      <i class="male icon"></i>
+                      <div class="content">
+                        <strong>Male</strong>: {{stats.demo.gender['M']}} ({{stats.demo.gender['M'] / stats.total * 100 | number:1}}%)
+                      </div>
+                    </div>
+                    <div class="item">
+                      <i class="other gender icon"></i>
+                      <div class="content">
+                        <strong>Other</strong>: {{stats.demo.gender['O']}} ({{stats.demo.gender['O'] / stats.total * 100 | number:1}}%)
+                      </div>
+                    </div>
+                    <div class="item">
+                      <i class="question icon"></i>
+                      <div class="content">
+                        <strong>Did not respond</strong>: {{stats.demo.gender['N']}} ({{stats.demo.gender['N'] / stats.total * 100 | number:1 }}%)
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        
+            <div class="five wide column">
+              
+                <div class="content">
+                    <strong> <i class="calendar icon"></i>
+                        Year :
+                    </strong>
+                  </div>
           
-            <div class="content">
-                <strong> <i class="calendar icon"></i>
-                    Hackathons :
-                </strong>
-              </div>
-      
+                <div class="ui list">
+                    <div class="item">
+                      <strong>1CPI:</strong> {{stats.demo.year['2023']}} ({{stats.demo.year['2023'] / stats.total * 100 | number: 1}}%)
+                    </div>
+                    <div class="item">
+                      <strong>2CPI:</strong> {{stats.demo.year['2022']}} ({{stats.demo.year['2022'] / stats.total * 100 | number: 1}}%)
+                    </div>
+                    <div class="item">
+                     <strong>1CS:</strong> {{stats.demo.year['2021']}} ({{stats.demo.year['2021'] / stats.total * 100 | number: 1}}%)
+                    </div>
+                    <div class="item">
+                      <strong>2CS:</strong> {{stats.demo.year['2020']}} ({{stats.demo.year['2020'] / stats.total * 100 | number: 1}}%)
+                    </div>
+                    <div class="item">
+                      <strong>3CS:</strong> {{stats.demo.year['2019']}} ({{stats.demo.year['2019'] / stats.total * 100 | number: 1}}%)
+                    </div>
+                  </div>
+            </div>
+        
+            <div class="five wide column">
+              
+                <div class="content">
+                    <strong> <i class="calendar icon"></i>
+                        Hackathons :
+                    </strong>
+                  </div>
+          
+                <div class="ui list">
+                    <div class="item">
+                      <strong>0:</strong> {{stats.demo.howManyHackathons['0']}} ({{stats.demo.howManyHackathons['0'] / stats.total * 100 | number: 1}}%) 
+                    </div>
+                    <div class="item">
+                      <strong>1:</strong> {{stats.demo.howManyHackathons['1']}} ({{stats.demo.howManyHackathons['1'] / stats.total * 100 | number: 1}}%)
+                    </div>
+                    <div class="item">
+                      <strong>2-3:</strong> {{stats.demo.howManyHackathons['2']}} ({{stats.demo.howManyHackathons['2'] / stats.total * 100 | number: 1}}%) 
+                    </div>
+                    <div class="item">
+                      <strong>4-7:</strong> {{stats.demo.howManyHackathons['4']}} ({{stats.demo.howManyHackathons['4'] / stats.total * 100 | number: 1}}%)
+                    </div>
+                    <div class="item">
+                      <strong>7+:</strong> {{stats.demo.howManyHackathons['7']}} ({{stats.demo.howManyHackathons['7'] / stats.total * 100 | number: 1}}%)
+                    </div>
+                  </div>
+            </div>
+
+            <div class="ui divider"></div>
+
+
             <div class="ui list">
-                <div class="item">
-                  <strong>0:</strong> {{stats.demo.howManyHackathons['0']}} ({{stats.demo.howManyHackathons['0'] / stats.total * 100 | number: 1}}%) 
-                </div>
-                <div class="item">
-                  <strong>1:</strong> {{stats.demo.howManyHackathons['1']}} ({{stats.demo.howManyHackathons['1'] / stats.total * 100 | number: 1}}%)
-                </div>
-                <div class="item">
-                  <strong>2-3:</strong> {{stats.demo.howManyHackathons['2']}} ({{stats.demo.howManyHackathons['2'] / stats.total * 100 | number: 1}}%) 
-                </div>
-                <div class="item">
-                  <strong>4-7:</strong> {{stats.demo.howManyHackathons['4']}} ({{stats.demo.howManyHackathons['4'] / stats.total * 100 | number: 1}}%)
-                </div>
-                <div class="item">
-                  <strong>7+:</strong> {{stats.demo.howManyHackathons['7']}} ({{stats.demo.howManyHackathons['7'] / stats.total * 100 | number: 1}}%)
+              <div
+                class="item"
+                ng-repeat="school in stats.demo.schools | orderBy: '-count'">
+                <div class="content">
+                  <strong>{{school.email}}</strong> : {{school.count}} ({{school.count / stats.total * 100 | number: 1}}%)
+                  <p>
+                  <div class="ui purple mini label">
+                    Submitted: {{school.stats.submitted}}
+                  </div>
+                  <div class="ui pink mini label">
+                    Admitted: {{school.stats.admitted}}
+                  </div>
+                  <div class="ui green mini label">
+                    Confirmed: {{school.stats.confirmed}}
+                  </div>
+                  <div class="ui red mini label">
+                    Declined: {{school.stats.declined}}
+                  </div>
+                  </p>
                 </div>
               </div>
+            </div>
         </div>
 
-    
+        <div class="seven wide column">
+          <canvas class="item chart-polar-area" chart-data="source.data" chart-labels="source.labels" chart-options="source.options">
+        </div>
     
       </div>
       
 
-    <div class="ui divider"></div>
 
-
-    <div class="ui list">
-      <div
-        class="item"
-        ng-repeat="school in stats.demo.schools | orderBy: '-count'">
-        <div class="content">
-          <strong>{{school.email}}</strong> : {{school.count}} ({{school.count / stats.total * 100 | number: 1}}%)
-          <p>
-          <div class="ui purple mini label">
-            Submitted: {{school.stats.submitted}}
-          </div>
-          <div class="ui pink mini label">
-            Admitted: {{school.stats.admitted}}
-          </div>
-          <div class="ui green mini label">
-            Confirmed: {{school.stats.confirmed}}
-          </div>
-          <div class="ui red mini label">
-            Declined: {{school.stats.declined}}
-          </div>
-          </p>
-        </div>
-      </div>
-    </div>
   </div>
 
 

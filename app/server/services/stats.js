@@ -38,6 +38,12 @@ function calculateStats(){
       }
     },
 
+    source: {
+      clubs: [],
+      clubsLabels: [],
+      general: [0,0,0],
+    },
+
     live: {
       meal: {
         M: 0,
@@ -162,6 +168,38 @@ function calculateStats(){
         newStats.demo.schools[email].admitted += user.status.admitted ? 1 : 0;
         newStats.demo.schools[email].confirmed += user.status.confirmed ? 1 : 0;
         newStats.demo.schools[email].declined += user.status.declined ? 1 : 0;
+
+        // Track User Source
+
+
+        if (user.profile.source != undefined){
+
+          var source = user.profile.source.split('#')[0]
+          var club = user.profile.source.split('#')[1]
+
+          if (!newStats.source.clubs[club]){
+            newStats.source.clubs[club] = {
+              participants: 0,
+            };
+          }
+
+          newStats.source.general[0] += (source==0) ? 1 : 0;
+          newStats.source.general[1] += (source==1) ? 1 : 0;
+          newStats.source.general[2] += (source==2) ? 1 : 0;
+          if (source==2){
+            var index =newStats.source.clubsLabels.indexOf(club);
+            if (index==-1){
+              newStats.source.clubsLabels.push(club); 
+              newStats.source.clubs[newStats.source.clubs.length]=1
+            }else {
+              newStats.source.clubs[index]+=1
+            }
+          }
+
+          
+        }
+
+
 
         // Count graduation years
         if (user.profile.graduationYear){
