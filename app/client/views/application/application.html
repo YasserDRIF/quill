@@ -90,16 +90,32 @@
             </div>
         </div>
 
-        <div class="field">
-          <label>* Wilaya </label>
-          <div id="wilaya" class="ui search">
-            <div class="ui input">
-              <input class="prompt" type="text" placeholder="Wilaya" name="Wilaya" ng-model="user.profile.wilaya">                
-            </div>
-            <div class="results"></div>
+        <div class="ui grid">
+          <div class="eight wide column">
+            <div class="field">
+              <label>* Wilaya </label>
+              <div id="wilaya" class="ui search">
+                <div class="ui input">
+                  <input class="prompt" type="text" placeholder="Wilaya" name="Wilaya" ng-model="user.profile.wilaya">                
+                </div>
+                <div class="results"></div>
+              </div>
+            </div>    
           </div>
-        </div>
-
+          <div class="eight wide column">
+            <div class="field">
+              <label> What's your phone number? (required) </label>
+              <p>
+                We need this in case we need to get ahold of you!
+              </p>
+              <input type="tel"
+                     name="phone"
+                     ng-model="user.confirmation.phoneNumber"
+                     placeholder="(+213) 5 44 33 22 11"
+                     required>
+            </div>  
+            </div>
+      </div>
 
 
         <div class="ui grid">

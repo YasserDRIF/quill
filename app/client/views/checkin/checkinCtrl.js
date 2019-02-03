@@ -1,7 +1,3 @@
-const moment = require("moment");
-const swal = require("sweetalert");
-
-
 angular.module('reg')
 .controller('CheckinCtrl', [
   '$scope',
@@ -177,6 +173,7 @@ angular.module('reg')
               response.data.profile.name + " has been checked in.",
               "success"
             );
+            $state.reload();
           });
         });
       } else {

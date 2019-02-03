@@ -1,5 +1,3 @@
-const moment = require('moment');
-
 angular.module('reg')
   .factory('Utils', [
     function(){

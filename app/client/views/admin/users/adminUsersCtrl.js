@@ -1,8 +1,3 @@
-const moment = require("moment");
-const swal = require("sweetalert");
-var jsPDF = require('jspdf');
-require('jspdf-autotable');
-
 angular.module("reg").controller("AdminUsersCtrl", [
   "$scope",
   "$state",

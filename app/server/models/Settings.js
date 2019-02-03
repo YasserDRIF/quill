@@ -85,14 +85,6 @@ schema.statics.getRegistrationTimes = function(callback){
     });
 };
 
-schema.statics.getHostSchool = function(callback) {
-  this.findOne({})
-    .exec(function(err, settings) {
-      callback(err, settings.hostSchool);
-    });
-};
-
-
 schema.statics.getPublicSettings = function(callback){
   this
     .findOne({})

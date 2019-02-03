@@ -1,6 +1,7 @@
 # Project
 db/
 node_modules/
+app/client/plugins/
 semantic/
 
 # Output

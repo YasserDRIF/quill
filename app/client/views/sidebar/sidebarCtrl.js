@@ -1,6 +1,3 @@
-const angular = require('angular');
-const Utils = require('../../src/modules/Utils.js');
-
 angular.module('reg')
   .service('settings', function() {})
   .controller('SidebarCtrl', [

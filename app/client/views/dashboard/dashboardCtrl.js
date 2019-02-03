@@ -1,5 +1,3 @@
-const showdown = require('showdown');
-
 angular.module('reg')
   .controller('DashboardCtrl', [
     '$rootScope',
@@ -77,6 +75,21 @@ angular.module('reg')
             
           });
       };
+
+      // $scope.printConfirmation =function(ImageURL){
+
+      //   html2canvas($('#qrCode'), {
+      //     allowTaint: true,
+      //     onrendered: function (canvas) {
+      //         var imgData = canvas.toDataURL("image/jpeg", 1.0);
+      //         var pdf = new jsPDF('p', 'mm', 'a0');
+  
+      //         pdf.addImage(imgData, 'JPEG', 0, 0);
+      //         pdf.save("Current Data2.pdf")
+      //     }
+      // });
+      
+      // }
 
 
       // -----------------------------------------------------

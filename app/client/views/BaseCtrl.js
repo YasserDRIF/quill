@@ -1,5 +1,3 @@
-const angular = require('angular');
-
 angular.module('reg')
   .service('settings', function() {})
   .controller('BaseCtrl', [

@@ -1,9 +1,4 @@
-const moment = require('moment');
-
-
-angular.module('reg')
-
-.config(['ChartJsProvider', function (ChartJsProvider) {
+angular.module('reg') .config(['ChartJsProvider', function (ChartJsProvider) {
   // Configure all charts
   ChartJsProvider.setOptions({
     chartColors: ['#9B66FE', '#FF6484', '#FEA03F', '#FBD04D', '#4DBFC0', '#33A3EF', '#CACBCF'],

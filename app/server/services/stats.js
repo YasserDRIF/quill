@@ -92,12 +92,14 @@ function calculateStats(){
     checkedIn: 0
   };
 
-  Settings.getHostSchool(function(err, School) {
-    if (err) {
-      callback(err);
-    } else {
-      newStats.hostSchool = School;
-    }
+  Settings.findOne({})
+    .exec(function(err, settings) {
+      if (err || !settings){
+        throw err;
+      } else {
+        newStats.hostSchool = settings.hostSchool;
+      }
+      
   });
 
   User
@@ -264,7 +266,7 @@ function calculateStats(){
         newStats.lastUpdated = new Date();
         stats = newStats;
       });
-    });    
+  });    
 }
 
 

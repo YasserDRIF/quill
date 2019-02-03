@@ -1,6 +1,3 @@
-const moment = require('moment');
-const showdown = require('showdown');
-
 angular.module('reg')
   .controller('AdminSettingsCtrl', [
     '$scope',

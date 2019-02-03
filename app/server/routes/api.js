@@ -163,11 +163,11 @@ module.exports = function(router) {
   /**
    * [ADMIN ONLY]
    */
-  router.get("/users/stats", function(req, res) {
+  router.get("/users/stats", isAdmin, function(req, res) {
     UserController.getStats(defaultResponse(req, res));
   });
 
-  router.get("/users/teamStats", function(req, res) {
+  router.get("/users/teamStats", isAdmin, function(req, res) {
     UserController.getTeamStats(defaultResponse(req, res));
   });
 

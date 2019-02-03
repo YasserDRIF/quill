@@ -1,33 +1,3 @@
-const angular = require('angular');
-
-const SettingsService = require('./services/SettingsService.js');
-const UserService = require('./services/UserService.js');
-const ChallengeService = require('./services/ChallengeService.js');
-const SolvedCTFService = require('./services/SolvedCTFService.js');
-const TeamService = require('./services/TeamService.js');
-const MarketingService = require('./services/MarketingService.js');
-
-const HomeCtrl = require('../views/home/HomeCtrl.js');
-const AdminCtrl = require('../views/admin/AdminCtrl.js');
-const AdminSettingsCtrl = require('../views/admin/settings/AdminSettingsCtrl.js');
-const AdminStatsCtrl = require('../views/admin/stats/AdminStatsCtrl.js');
-const AdminMailCtrl = require('../views/admin/mail/AdminMailCtrl.js');
-const adminChallengesCtrl = require('../views/admin/challenges/adminChallengesCtrl.js');
-const adminChallengeCtrl = require('../views/admin/challenge/adminChallengeCtrl.js');
-const AdminUserCtrl = require('../views/admin/user/AdminUserCtrl.js');
-const AdminUsersCtrl = require('../views/admin/users/AdminUsersCtrl.js');
-const adminMarketingCtrl = require('../views/admin/marketing/adminMarketingCtrl.js');
-const CheckinCtrl = require('../views/checkin/CheckinCtrl.js');
-const ChallengesCtrl = require('../views/challenges/ChallengesCtrl.js');
-const DashboardCtrl = require('../views/dashboard/DashboardCtrl.js');
-const ApplicationCtrl = require('../views/application/ApplicationCtrl.js');
-const ConfirmationCtrl = require('../views/confirmation/ConfirmationCtrl.js');
-const LoginCtrl = require('../views/login/LoginCtrl.js');
-const ResetCtrl = require('../views/reset/ResetCtrl.js');
-const SidebarCtrl = require('../views/sidebar/SidebarCtrl.js');
-const BaseCtrl = require('../views/BaseCtrl.js');
-const TeamCtrl = require('../views/team/TeamCtrl.js');
-const VerifyCtrl = require('../views/verify/VerifyCtrl.js');
 
 angular.module('reg')
   .config([
@@ -265,38 +235,53 @@ angular.module('reg')
     });
 
   }])
-  .run($transitions => {
-    $transitions.onStart({}, transition => {
-      const Session = transition.injector().get("Session");
+  .run([
+    '$rootScope',
+    '$state',
+    'Session',
+    function(
+      $rootScope,
+      $state,
+      Session ){
 
-      var requireLogin = transition.to().data.requireLogin;
-      var requireAdmin = transition.to().data.requireAdmin;
-      var requireVolunteer = transition.to().data.requireVolunteer;
-      var requireVerified = transition.to().data.requireVerified;
-      var requireAdmitted = transition.to().data.requireAdmitted;
+      $rootScope.$on('$stateChangeSuccess', function() {
+         document.body.scrollTop = document.documentElement.scrollTop = 0;
+      });
 
-      if (requireLogin && !Session.getToken()) {
-        return transition.router.stateService.target("home");
-      }
+      $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
-      if (requireAdmin && !Session.getUser().admin) {
-        return transition.router.stateService.target("app.dashboard");
-      }
+        var requireLogin = toState.data.requireLogin;
+        var requireAdmin = toState.data.requireAdmin;
+        var requireVolunteer = toState.data.requireVolunteer;
+        var requireVerified = toState.data.requireVerified;
+        var requireAdmitted = toState.data.requireAdmitted;
+  
+        if (requireLogin && !Session.getToken()) {
+          event.preventDefault();
+          $state.go('home');
+        }
+  
+        if (requireAdmin && !Session.getUser().admin) {
+          event.preventDefault();           
+          $state.go('app.dashboard');
+        }
+  
+        if (requireVolunteer && !Session.getUser().volunteer && requireAdmin && !Session.getUser().admin) {
+          event.preventDefault();           
+          $state.go('app.dashboard');
+        }
+  
+        if (requireVerified && !Session.getUser().verified) {
+          event.preventDefault();           
+          $state.go('app.dashboard');
+        }
+  
+        if (requireAdmitted && !Session.getUser().status.admitted) {
+          event.preventDefault();           
+          $state.go('app.dashboard');
+        }
+  
 
-      if (requireVolunteer && !Session.getUser().volunteer && requireAdmin && !Session.getUser().admin) {
-        return transition.router.stateService.target("app.dashboard");
-      }
+      });
 
-      if (requireVerified && !Session.getUser().verified) {
-        return transition.router.stateService.target("app.dashboard");
-      }
-
-      if (requireAdmitted && !Session.getUser().status.admitted) {
-        return transition.router.stateService.target("app.dashboard");
-      }
-    });
-
-    $transitions.onSuccess({}, transition => {
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    });
-  });
+    }]);
