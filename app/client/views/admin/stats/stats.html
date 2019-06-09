@@ -180,12 +180,16 @@
                 </div>
               </div>
         </div>
-        <div class="ten wide column ui list">
-          <strong>Most active club is : {{firstClub}} </strong>
-          <canvas class="item chart-polar-area" chart-data="clubs.data" chart-labels="clubs.labels" chart-options="clubs.options">
 
+        <div class="ten wide column ui list">
+            <canvas class="item chart-line" chart-data="applicants.data" chart-labels="applicants.labels" chart-options="applicants.options">
         </div>    
+
     </div>
+
+      <div class="ten wide column ui list">
+          <canvas class="item chart-horizontalBar" chart-data="population.data" chart-labels="population.labels" chart-options="population.options">
+      </div>    
 
 
   </div>
@@ -320,9 +324,15 @@
         </div>
 
         <div class="seven wide column">
-          <canvas class="item chart-polar-area" chart-data="source.data" chart-labels="source.labels" chart-options="source.options">
+          <div>
+            <canvas class="item chart-polar-area" chart-data="source.data" chart-labels="source.labels" chart-options="source.options">
+          </div>
+          <br>
+          <div>
+            <strong>Most active club is : {{firstClub}} </strong>
+            <canvas class="item chart-polar-area" chart-data="clubs.data" chart-labels="clubs.labels" chart-options="clubs.options">
+          </div>
         </div>
-    
       </div>
       
 

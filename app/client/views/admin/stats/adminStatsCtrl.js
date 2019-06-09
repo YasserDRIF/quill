@@ -10,6 +10,100 @@ angular.module('reg') .config(['ChartJsProvider', function (ChartJsProvider) {
     'UserService',
     function($scope, UserService){
       
+
+
+      var timeFormat = 'MM/DD/YYYY';
+
+
+      UserService
+      .getAll()
+      .then(response => {
+        var users = response.data;
+        var result=[ [],[] ];
+
+
+        function newDate(Day) {
+          return moment(Day).toDate();
+        } 
+  
+
+        users.forEach(user => {
+
+          if (result[0].includes(moment(user.timestamp).format(timeFormat))){
+            var index = result[0].indexOf(moment(user.timestamp).format(timeFormat))
+            result[1][index]++
+
+          }else{
+            result[0].push(moment(user.timestamp).format(timeFormat))
+            result[1].push(1)
+          }
+
+
+        });
+        console.log(result)
+
+        $scope.applicants = {
+          labels : result[0],
+          series : ['Application Timeline'],
+          data : result[1],
+          options: {
+            title: {
+              display: true,
+              text: 'Applications timeline'
+            },
+            scales: {
+              xAxes: [{
+                type: 'time',
+                time: {
+                  format: timeFormat,
+                  // round: 'day'
+                  tooltipFormat: 'll'
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Date'
+                }
+              }],
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Applicants number '
+                }
+              }]
+            },
+          }
+         }
+
+      })
+
+
+      $scope.population = {
+        labels : ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
+        series : ['Application Timeline'],
+        data : [
+          [65, 59, 90, 81, 56, 55, 40],
+          [-28, -48, -40, -19, -67, -27, -90]
+        ],
+        options: {
+          title: {
+            display: true,
+            text: 'Applications timeline'
+          },
+          scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+              stacked: true,
+              tickFormat: function(d){
+                return d3.format(',f')(Math.abs(d));   // Use Math.abs() to get the absolute value
+            }
+        
+						}]
+					},
+        }
+       }
+
       UserService
         .getStats()
         .then(stats => {
@@ -38,8 +132,9 @@ angular.module('reg') .config(['ChartJsProvider', function (ChartJsProvider) {
           // Workshops 
           labels=[]
           for (let i = 0; i < stats.data.live.workshop.length; i++) {
-            labels.push('Workshop '+(i+1))      
+            labels.push('Workshop '+(i+1))
           }
+
           $scope.workshops = { 
             labels : labels,
             series : ['Workshops'],
