@@ -138,7 +138,7 @@ angular.module('reg')
         views: {
           '': {
             templateUrl: "views/admin/admin.html",
-            controller: 'AdminCtrl'
+            controller: 'adminCtrl'
           }
         },
         data: {
