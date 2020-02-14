@@ -3,6 +3,9 @@
   "description": "mean stack registration system",
   "version": "0.0.1",
   "private": "true",
+  "engines": {
+    "node": "11.2.0"
+  },
   "dependencies": {
     "acorn": "^6.0.5",
     "angular-chart.js": "^1.1.1",
