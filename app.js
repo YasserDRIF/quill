@@ -21,7 +21,7 @@ var app = express();
 // Connect to mongodb
 console.log(database);
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://cse:cse2019@ds237337.mlab.com:37337/quill', { useNewUrlParser: true , useUnifiedTopology: true  });
+mongoose.connect(database, { useNewUrlParser: true , useUnifiedTopology: true  });
 console.log('rhhd')
 app.use(morgan('dev'));
 
