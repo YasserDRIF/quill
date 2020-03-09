@@ -1,26 +1,28 @@
 // Load the dotfiles.
-require('dotenv').load({silent: true});
+require('dotenv').load({ silent: true });
 
-var express         = require('express');
+var express = require('express');
 
 // Middleware!
-var bodyParser      = require('body-parser');
-var methodOverride  = require('method-override');
-var morgan          = require('morgan');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var morgan = require('morgan');
 var compression = require('compression')
 
-var mongoose        = require('mongoose');
-var port            = process.env.PORT || 3000;
-var database        = process.env.DATABASE || process.env.MONGODB_URI || "mongodb://localhost:27017";
+var mongoose = require('mongoose');
+var port = process.env.PORT || 3000;
+var database = process.env.DATABASE || process.env.MONGODB_URI || "mongodb://localhost:27017";
 
-var settingsConfig  = require('./config/settings');
-var adminConfig     = require('./config/admin');
+var settingsConfig = require('./config/settings');
+var adminConfig = require('./config/admin');
 
-var app             = express();
+var app = express();
 
 // Connect to mongodb
-mongoose.connect(database);
-
+console.log(database);
+mongoose.set('useCreateIndex', true);
+mongoose.connect('mongodb://cse:cse2019@ds237337.mlab.com:37337/quill', { useNewUrlParser: true , useUnifiedTopology: true  });
+console.log('rhhd')
 app.use(morgan('dev'));
 
 app.use(compression());

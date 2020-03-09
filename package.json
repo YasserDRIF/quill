@@ -10,8 +10,8 @@
     "async": "^2.6.1",
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
+    "bower": "latest",
     "browserify": "^16.2.3",
-    "bower":"latest",
     "browserify-ngannotate": "^2.0.0",
     "compression": "^1.7.3",
     "dotenv": "^6.1.0",
@@ -24,7 +24,7 @@
     "jsonwebtoken": "^5.0.4",
     "method-override": "^3.0.0",
     "moment": "^2.22.2",
-    "mongoose": "^5.3.14",
+    "mongoose": "^5.9.3",
     "morgan": "^1.9.1",
     "nodemailer": "^4.7.0",
     "nodemailer-smtp-transport": "^2.7.4",
@@ -55,5 +55,5 @@
   },
   "engines": {
     "node": "10.13.0"
-  } 
+  }
 }
