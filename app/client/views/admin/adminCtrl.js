@@ -1,5 +1,5 @@
 angular.module('reg')
-  .controller('AdminCtrl', [
+  .controller('adminCtrl', [
     '$scope',
     'UserService',
     function($scope, UserService){
