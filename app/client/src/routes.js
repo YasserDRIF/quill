@@ -29,8 +29,8 @@ angular.module('reg')
       })
       .state('home', {
         url: "/",
-        templateUrl: "views/home/home.html",
-        controller: 'HomeCtrl',
+        templateUrl: "views/login/login.html",
+        controller: 'LoginCtrl',
         data: {
           requireLogin: false
         },
@@ -40,6 +40,21 @@ angular.module('reg')
           }
         }
       })
+
+      // .state('home', {
+      //   url: "/",
+      //   templateUrl: "views/home/home.html",
+      //   controller: 'HomeCtrl',
+      //   data: {
+      //     requireLogin: false
+      //   },
+      //   resolve: {
+      //     'settings': function(SettingsService){
+      //       return SettingsService.getPublicSettings();
+      //     }
+      //   }
+      // })
+
       .state('app', {
         views: {
           '': {
