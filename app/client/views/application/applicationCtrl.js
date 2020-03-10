@@ -267,6 +267,15 @@ angular.module('reg')
                   prompt: 'You must be an adult, or an ESI student.'
                 }
               ]
+            },
+            cvLink: {
+              identifier: 'cvLink',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'You must add a link to your CV.'
+                }
+              ]
             }
           }
         });

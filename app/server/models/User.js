@@ -68,6 +68,7 @@ var profile = {
   linkedin: String,
   resume: String,
   source: String,
+  cvLink: String,
 
 };
 

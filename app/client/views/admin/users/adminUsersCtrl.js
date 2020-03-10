@@ -535,6 +535,10 @@ angular.module("reg").controller("AdminUsersCtrl", [
             {
               name: "Linkedin",
               value: user.profile.linkedin
+            },
+            {
+              name:"CV link",
+              value: user.profile.cvLink
             }
           ]
         },
