@@ -19,7 +19,8 @@ angular.module('reg')
         templateUrl: "views/login/login.html",
         controller: 'LoginCtrl',
         data: {
-          requireLogin: false
+          requireLogin: false,
+          requireLogout: true
         },
         resolve: {
           'settings': function(SettingsService){
@@ -32,7 +33,8 @@ angular.module('reg')
         templateUrl: "views/login/login.html",
         controller: 'LoginCtrl',
         data: {
-          requireLogin: false
+          requireLogin: false,
+          requireLogout: true
         },
         resolve: {
           'settings': function(SettingsService){
@@ -266,6 +268,7 @@ angular.module('reg')
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
         var requireLogin = toState.data.requireLogin;
+        var requireLogout = toState.data.requireLogout;
         var requireAdmin = toState.data.requireAdmin;
         var requireVolunteer = toState.data.requireVolunteer;
         var requireVerified = toState.data.requireVerified;
@@ -276,6 +279,11 @@ angular.module('reg')
           $state.go('home');
         }
   
+        if (requireLogout && Session.getToken()) {
+          event.preventDefault();
+          $state.go('app.dashboard');
+        }
+        
         if (requireAdmin && !Session.getUser().admin) {
           event.preventDefault();           
           $state.go('app.dashboard');
