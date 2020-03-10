@@ -23,6 +23,17 @@ angular.module('reg')
 
       $scope.user = currentUser.data;
 
+      function isTeamMember(teams,Userid) {
+        var test = false;
+        teams.forEach(team => {
+          team.members.forEach(member => {            
+            if (member.id==Userid) test = true;
+          });
+        });        
+        return test;
+      }
+
+      
       TeamService.getAll().then(teams => {
         $scope.isTeamAdmin=false;
         $scope.isTeamMember=false;
