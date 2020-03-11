@@ -1,8 +1,4 @@
-/*
-*
-* TODO: Revise isJoined
-*
-*/
+
 
 angular.module('reg')
   .controller('TeamCtrl', [
@@ -34,6 +30,14 @@ angular.module('reg')
       }
 
       
+      $scope.isjoined = function(team){
+        var test = false;
+        team.joinRequests.forEach(member =>{
+          if(member.id==currentUser.data._id)test = true;
+        })
+        return test;
+      }
+      
       TeamService.getAll().then(teams => {
         $scope.isTeamAdmin=false;
         $scope.isTeamMember=false;
@@ -45,9 +49,8 @@ angular.module('reg')
             team.isMaxteam = true;
           }
 
-          team.isjoined=false;
           if(team.members[0].id==currentUser.data._id){
-            team.joinRequests.forEach(member => {              
+            team.joinRequests.forEach(member => {                            
               if (isTeamMember(teams.data,member.id)){
                 member.unavailable=true;
               }else{member.unavailable=false}
@@ -59,11 +62,6 @@ angular.module('reg')
               if(member.id==currentUser.data._id){
                 $scope.userMemberTeam = team;
                 $scope.isTeamMember=true;
-              }
-            })
-            team.joinRequests.forEach(member =>{
-              if(member.id==currentUser.data._id){
-                team.isjoined=true;                
               }
             })
           }
