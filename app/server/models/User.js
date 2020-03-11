@@ -109,6 +109,7 @@ var confirmation = {
   signatureLiability: String,
   signaturePhotoRelease: String,
   signatureCodeOfConduct: String,
+  nationalCardID: String,
 };
 
 var status = {

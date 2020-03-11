@@ -96,6 +96,15 @@ angular.module('reg')
                 }
               ]
             },
+            nationalCardID: {
+              identifier: 'nationalCardID',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please type your National Card ID.'
+                }
+              ]
+            },
           }
         });
       }

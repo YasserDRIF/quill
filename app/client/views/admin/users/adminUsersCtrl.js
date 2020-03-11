@@ -539,7 +539,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
             {
               name:"CV link",
               value: user.profile.cvLink
-            }
+            },
           ]
         },
         {
@@ -557,6 +557,10 @@ angular.module("reg").controller("AdminUsersCtrl", [
             {
               name: "Hardware Requested",
               value: user.confirmation.hardware
+            },
+            {
+              name:"National Card ID",
+              value: user.confirmation.nationalCardID
             }
           ]
         },
