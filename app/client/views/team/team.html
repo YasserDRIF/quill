@@ -75,14 +75,24 @@
                   <div class="ui left floated">
                       <div class="ui toggle checkbox">
                         <input type="checkbox"
-                        name="allowMinors"
                         ng-model="userAdminTeam.isColosed"
                         ng-change="toggleCloseTeam(userAdminTeam._id,userAdminTeam.isColosed)"
                         ng-disabled="userAdminTeam.isMaxteam">
                         <label>Close Team</label>
                       </div>
-                    </div>    
+                      <br>
+                      <div class="ui toggle checkbox">
+                        <input type="checkbox"
+                        ng-model="userAdminTeam.isPrivate"
+                        ng-change="toggleHideTeam(userAdminTeam._id,userAdminTeam.isPrivate)"
+                        ng-disabled="userAdminTeam.isMaxteam">
+                        <label>Hide Team</label>
+                      </div>
+                    </div> 
+                       
               </div>
+
+              
             </div>
 
             <div class="ui stackable grid">
@@ -435,7 +445,7 @@
         <br>
 
         <div class="ui four stackable cards doubling cards">
-          <div Team-Card class="teamcard ui card" ng-repeat="team in teams">
+          <div Team-Card class="teamcard ui card" ng-repeat="team in teams" ng-show="!team.isPrivate">
               <div Team-Card id="1607" class="teamcard__anchor"></div>
               <ul Team-Card class="teamcard__wanted">
                   <li Team-Card ng-show="team.skills.code" style="border: 2px solid rgb(221, 41, 20); color: rgb(221, 41, 20);">

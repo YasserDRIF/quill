@@ -814,6 +814,15 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
     TeamController.toggleCloseTeam(id, status, defaultResponse(req, res));
   });
 
+  /**
+   * PUT - Update hide team Statuss
+   */
+  router.post("/teams/:id/toggleHideTeam", function(req, res) {
+    const id = req.params.id;
+    const status = req.body.status;
+    TeamController.toggleHideTeam(id, status, defaultResponse(req, res));
+  });
+
 
 
 

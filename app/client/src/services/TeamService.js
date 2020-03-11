@@ -102,6 +102,12 @@ angular.module('reg').factory("TeamService", [
           });
         },
 
+        toggleHideTeam: function(id, status) {
+          return $http.post(base + id + "/toggleHideTeam", {
+            status: status
+          });
+        },
+
         getSelectedTeams: function(text,skillsFilters) {
           return $http.get( teams + "?" + $.param({
                 text: text,

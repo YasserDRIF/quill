@@ -282,6 +282,23 @@ TeamController.toggleCloseTeam = function(id, isColosed, callback) {
   );
 };
 
+TeamController.toggleHideTeam = function(id, isPrivate, callback) {
+  Team.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      $set: {
+        isPrivate: isPrivate
+      }
+    },
+    {
+      new: true
+    },
+    callback
+  );
+};
+
 
 
 

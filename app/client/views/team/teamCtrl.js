@@ -405,6 +405,44 @@ angular.module('reg')
       }
 
 
+
+      $scope.toggleHideTeam = function(teamID,status) {
+        if (status==true){text="You are about to Hide this team. This won't allow other members to see your team!"
+        }else{text="You are about to Show this team. This will allow other members to see your team!"}
+
+        swal({
+          title: "Whoa, wait a minute!",
+          text: text,
+          icon: "warning",
+          buttons: {
+            cancel: {
+              text: "No",
+              value: null,
+              visible: true
+            },
+            checkIn: {
+              className: "danger-button",
+              closeModal: false,
+              text: "Yes",
+              value: true,
+              visible: true
+            }
+          }
+        }).then(value => {
+          if (!value) {
+            return;
+          }
+          TeamService.toggleHideTeam(teamID,status).then(response => {
+            swal(
+              "Done",
+              "Operation successfully Completed.",
+              "success"
+            );
+            $state.reload();
+          });
+        });      
+      }
+
       $scope.$watch("queryText", function(queryText) {
         TeamService.getSelectedTeams(queryText, $scope.skillsFilters).then(
           response => {            
