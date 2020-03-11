@@ -509,10 +509,10 @@
               <!---->
               <div Team-Card class="spacer"></div>
               <!---->
-              <div Team-Card class="teamcard__button" ng-click="joinTeam(team._id)" ng-show="!isTeamMember && !isTeamAdmin && !team.isjoined && !team.isColosed ">
+              <div Team-Card class="teamcard__button" ng-click="joinTeam(team._id)" ng-show="!isTeamMember && !isTeamAdmin && !isjoined(team) && !team.isColosed ">
                 <p Team-Card> <i class="add icon"></i> Join Team</p>
               </div>
-              <div Team-Card class="teamcard__button" ng-click="canceljoinTeam(team)" ng-show="!isTeamMember && !isTeamAdmin && team.isjoined">
+              <div Team-Card class="teamcard__button" ng-click="canceljoinTeam(team)" ng-show="!isTeamMember && !isTeamAdmin && isjoined(team)">
                 <p Team-Card> <i class="minus icon"></i> Cancel Request</p>
               </div>
               <div Team-Card="" class="teamcard__button teamcard__button--closed" ng-show="team.isColosed">
