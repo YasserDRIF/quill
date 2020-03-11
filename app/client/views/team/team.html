@@ -286,21 +286,21 @@
           <div class="ui divider"></div>
 
           <div class="ui header">
-              New Team Description 
+              New Team name 
             </div>
              
           <div class="field">
             <input
               class="ui input"
               type="text"
-              placeholder="Enter a short description about the team/project.."
+              placeholder="Enter a short name that describes the team/project.."
               ng-model="newTeam_description">
           </div>
           <div class="grouped fields">
               <div class="field">
                 <p>Select the skills that you need in your team:</p>
                   <div class="ui checkbox" style="margin-right:30px;">
-                      <input 
+                      <input
                       type="checkbox"
                       name="code"
                       ng-model="skillcode"
@@ -519,7 +519,7 @@
               <!---->
               <div Team-Card class="spacer"></div>
               <!---->
-              <div Team-Card class="teamcard__button" ng-click="joinTeam(team._id)" ng-show="!isTeamMember && !isTeamAdmin && !isjoined(team) && !team.isColosed ">
+              <div Team-Card class="teamcard__button" ng-click="joinTeam(team)" ng-show="!isTeamMember && !isTeamAdmin && !isjoined(team) && !team.isColosed ">
                 <p Team-Card> <i class="add icon"></i> Join Team</p>
               </div>
               <div Team-Card class="teamcard__button" ng-click="canceljoinTeam(team)" ng-show="!isTeamMember && !isTeamAdmin && isjoined(team)">

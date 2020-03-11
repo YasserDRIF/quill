@@ -97,11 +97,66 @@ angular.module('reg')
       }
 
 
-      $scope.joinTeam = function(teamID) {
-        newuser= {id:currentUser.data._id, name:currentUser.data.profile.name, skill:"design"};
-        TeamService.join(teamID,newuser); 
+      $scope.joinTeam = function (team) {
 
-        $state.reload();
+        var value;
+         const select = document.createElement('select');
+         select.className = 'select-custom'
+
+
+         var option = document.createElement('option');
+         option.disabled = true;
+         option.innerHTML = 'Select a skill';
+         option.value = "code"
+         select.appendChild(option);
+
+
+         if(team.skills.code){
+           option = document.createElement('option');
+           option.innerHTML = 'Code';
+           option.value = "code"
+           select.appendChild(option);
+         }
+         if(team.skills.design){
+          option = document.createElement('option');
+          option.innerHTML = 'Design';
+          option.value = "design"
+          select.appendChild(option);
+         }
+         if(team.skills.hardware){
+          option = document.createElement('option');
+          option.innerHTML = 'Hardware';
+          option.value = "hardware"
+          select.appendChild(option);
+         }
+         if(team.skills.idea){
+          option = document.createElement('option');
+          option.innerHTML = 'Idea';
+          option.value = "idea"
+          select.appendChild(option);
+         }
+        
+        select.onchange = function selectChanged(e) {
+          value = e.target.value
+        }
+        
+        swal({
+          title: "Please select your skill to join",
+
+          content: {
+            element: select,
+          }
+        }).then(function() {
+
+          newuser= {id:currentUser.data._id, name:currentUser.data.profile.name, skill:value};
+          TeamService.join(team._id,newuser); 
+          swal(
+            "Joined",
+            "You have appliced to join this team, wait for the Team-Admin to accept your application.",
+            "success"
+          );  
+          $state.reload();
+        })        
       }
 
 
