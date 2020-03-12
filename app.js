@@ -22,19 +22,6 @@ var app = express();
 mongoose.set('useCreateIndex', true);
 mongoose.connect(database, { useNewUrlParser: true , useUnifiedTopology: true  });
 
-app.use(function (req, res, next) {
-  var sslUrl;
-
-  if (process.env.NODE_ENV === 'dev' &&
-    req.headers['x-forwarded-proto'] !== 'https') {
-
-    sslUrl = ['https://http://hackit.cse.club', req.url].join('');
-    return res.redirect(sslUrl);
-  }
-
-  return next();
-});
-
 app.use(morgan('dev'));
 
 app.use(compression());
