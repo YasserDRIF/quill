@@ -52,7 +52,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
 
     $scope.applyStatusFilter = function () {
       UserService
-        .getPage($stateParams.page, $stateParams.size, $scope.queryText, $scope.statusFilters).then(
+        .getPage($stateParams.page, $stateParams.size, $scope.queryText, $scope.statusFilters,$scope.NotstatusFilters).then(
           response => {
             updatePage(response.data);
         });
