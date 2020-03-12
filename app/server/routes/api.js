@@ -407,7 +407,7 @@ router.get("/users/:id/gotmeal/:mealN", function(req, res) {
       res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
     },
     err => {
-      res.send(JSON.stringify({ error: err }));
+      res.status(404).send(JSON.stringify({ error: err }));
     }
   );
 });
@@ -423,7 +423,7 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
       res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
     },
     err => {
-      res.send(JSON.stringify({ error: err }));
+      res.status(404).send(JSON.stringify({ error: err }));
     }
   ); 
 });
