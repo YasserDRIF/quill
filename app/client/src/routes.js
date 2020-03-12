@@ -223,6 +223,22 @@ angular.module('reg')
         templateUrl: "views/admin/settings/settings.html",
         controller: 'AdminSettingsCtrl',
       })
+      .state('app.admin.teams', {
+        url: "/admin/teams",
+        templateUrl: "views/admin/teams/teams.html",
+        controller: 'AdminTeamCtrl',
+        data: {
+          requireVerified: true
+        },
+        resolve: {
+          currentUser: function(UserService){
+            return UserService.getCurrentUser();
+          },
+          settings: function(SettingsService){
+            return SettingsService.getPublicSettings();
+          }
+        }
+      })
       .state('reset', {
         url: "/reset/:token",
         templateUrl: "views/reset/reset.html",

@@ -10,6 +10,7 @@
         <li>When you apply to join you need to wait for the team leader to accept you.</li>
         <li>You can't be a member of two teams at the same time. and when you'll accepted in one <b>you'll be shown as unavailable</b> in the other teams you applied for.</li>
         <li>It's recommended to request to join multiple teams at first, And then if you get accepted in a team you don't really like you can leave it.</li>
+        <li>When you apply to join a team we show other team members<b> some of your data (Name, Github, Linkedin)</b> to help them select the best members.</li>
       </ul>
   
       <div class="ui one cards" ng-show="isTeamAdmin">
@@ -462,7 +463,7 @@
           </div>
         </div>
 
-      <div class="field"  ng-show="!ShowNewTeamFrom && !ShowJoinTeamFrom">
+      <div class="field"  ng-show="!ShowNewTeamFrom && !ShowJoinTeamFrom && !isTeamAdmin && !isTeamMember">
         <button class="ui fluid pink button" ng-click="ShowcreateTeam()" ng-show="!isTeamAdmin && !isTeamMember">
           Create a New Team
         </button>
