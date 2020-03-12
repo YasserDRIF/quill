@@ -68,6 +68,7 @@ var profile = {
   linkedin: String,
   resume: String,
   source: String,
+  cvLink: String,
 
 };
 
@@ -108,6 +109,7 @@ var confirmation = {
   signatureLiability: String,
   signaturePhotoRelease: String,
   signatureCodeOfConduct: String,
+  nationalCardID: String,
 };
 
 var status = {

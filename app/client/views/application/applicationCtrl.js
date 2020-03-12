@@ -332,6 +332,15 @@ angular.module('reg')
                 }
               ]
             },
+            cvLink: {
+              identifier: 'cvLink',
+              rules: [
+                {
+                  type: 'url',
+                  prompt: 'You must add a link to your CV.'
+                }
+              ]
+            }
           }
         });
       }

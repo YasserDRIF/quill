@@ -32,7 +32,7 @@
     <div
       ui-sref-active="active"
       ui-sref="app.challenges"
-      ng-show="pastSatart && currentUser.status.admitted && !currentUser.status.declined"
+      ng-show="false"
       class="item">
       CTF challenges
     </div>
@@ -40,7 +40,7 @@
     <div
       ui-sref-active="active"
       ui-sref="app.team"
-      ng-show="currentUser.status.admitted && !currentUser.status.declined"
+      ng-show="currentUser.status.completedProfile && !currentUser.status.declined && !currentUser.status.rejected"
       class="item">
       Team
     </div>

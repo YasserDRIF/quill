@@ -1,8 +1,4 @@
-/*
-*
-* TODO: Revise isJoined
-*
-*/
+
 
 angular.module('reg')
   .controller('TeamCtrl', [
@@ -23,6 +19,25 @@ angular.module('reg')
 
       $scope.user = currentUser.data;
 
+      function isTeamMember(teams,Userid) {
+        var test = false;
+        teams.forEach(team => {
+          team.members.forEach(member => {            
+            if (member.id==Userid) test = true;
+          });
+        });        
+        return test;
+      }
+
+      
+      $scope.isjoined = function(team){
+        var test = false;
+        team.joinRequests.forEach(member =>{
+          if(member.id==currentUser.data._id)test = true;
+        })
+        return test;
+      }
+      
       TeamService.getAll().then(teams => {
         $scope.isTeamAdmin=false;
         $scope.isTeamMember=false;
@@ -34,9 +49,8 @@ angular.module('reg')
             team.isMaxteam = true;
           }
 
-          team.isjoined=false;
           if(team.members[0].id==currentUser.data._id){
-            team.joinRequests.forEach(member => {              
+            team.joinRequests.forEach(member => {                            
               if (isTeamMember(teams.data,member.id)){
                 member.unavailable=true;
               }else{member.unavailable=false}
@@ -48,11 +62,6 @@ angular.module('reg')
               if(member.id==currentUser.data._id){
                 $scope.userMemberTeam = team;
                 $scope.isTeamMember=true;
-              }
-            })
-            team.joinRequests.forEach(member =>{
-              if(member.id==currentUser.data._id){
-                team.isjoined=true;                
               }
             })
           }
@@ -88,11 +97,66 @@ angular.module('reg')
       }
 
 
-      $scope.joinTeam = function(teamID) {
-        newuser= {id:currentUser.data._id, name:currentUser.data.profile.name, skill:"design"};
-        TeamService.join(teamID,newuser); 
+      $scope.joinTeam = function (team) {
 
-        $state.reload();
+        var value;
+         const select = document.createElement('select');
+         select.className = 'select-custom'
+
+
+         var option = document.createElement('option');
+         option.disabled = true;
+         option.innerHTML = 'Select a skill';
+         option.value = "code"
+         select.appendChild(option);
+
+
+         if(team.skills.code){
+           option = document.createElement('option');
+           option.innerHTML = 'Code';
+           option.value = "code"
+           select.appendChild(option);
+         }
+         if(team.skills.design){
+          option = document.createElement('option');
+          option.innerHTML = 'Design';
+          option.value = "design"
+          select.appendChild(option);
+         }
+         if(team.skills.hardware){
+          option = document.createElement('option');
+          option.innerHTML = 'Hardware';
+          option.value = "hardware"
+          select.appendChild(option);
+         }
+         if(team.skills.idea){
+          option = document.createElement('option');
+          option.innerHTML = 'Idea';
+          option.value = "idea"
+          select.appendChild(option);
+         }
+        
+        select.onchange = function selectChanged(e) {
+          value = e.target.value
+        }
+        
+        swal({
+          title: "Please select your skill to join",
+
+          content: {
+            element: select,
+          }
+        }).then(function() {
+
+          newuser= {id:currentUser.data._id, name:currentUser.data.profile.name, skill:value};
+          TeamService.join(team._id,newuser); 
+          swal(
+            "Joined",
+            "You have appliced to join this team, wait for the Team-Admin to accept your application.",
+            "success"
+          );  
+          $state.reload();
+        })        
       }
 
 
@@ -395,6 +459,44 @@ angular.module('reg')
         });      
       }
 
+
+
+      $scope.toggleHideTeam = function(teamID,status) {
+        if (status==true){text="You are about to Hide this team. This won't allow other members to see your team!"
+        }else{text="You are about to Show this team. This will allow other members to see your team!"}
+
+        swal({
+          title: "Whoa, wait a minute!",
+          text: text,
+          icon: "warning",
+          buttons: {
+            cancel: {
+              text: "No",
+              value: null,
+              visible: true
+            },
+            checkIn: {
+              className: "danger-button",
+              closeModal: false,
+              text: "Yes",
+              value: true,
+              visible: true
+            }
+          }
+        }).then(value => {
+          if (!value) {
+            return;
+          }
+          TeamService.toggleHideTeam(teamID,status).then(response => {
+            swal(
+              "Done",
+              "Operation successfully Completed.",
+              "success"
+            );
+            $state.reload();
+          });
+        });      
+      }
 
       $scope.$watch("queryText", function(queryText) {
         TeamService.getSelectedTeams(queryText, $scope.skillsFilters).then(

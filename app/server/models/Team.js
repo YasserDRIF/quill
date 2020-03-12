@@ -59,6 +59,11 @@ var schema = new mongoose.Schema({
     type: Boolean,
     required: true,
     default: false,
+  },
+  isPrivate: {
+    type: Boolean,
+    required: true,
+    default: false,
   }
 });
 
