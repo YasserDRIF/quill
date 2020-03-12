@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var morgan = require('morgan');
 var compression = require('compression')
-var sslRedirect = require('strong-ssl-redirect');
+var sslRedirect = require('heroku-ssl-redirect');
 
 var mongoose = require('mongoose');
 var port = process.env.PORT || 3000;
@@ -18,12 +18,10 @@ var settingsConfig = require('./config/settings');
 var adminConfig = require('./config/admin');
 
 var app = express();
-var environment  = 'production'
-app.use(sslRedirect({
-  environment,
-  www: false,
-  status: 301
-}));
+
+// enable ssl redirect
+app.use(sslRedirect());
+
 // Connect to mongodb
 mongoose.set('useCreateIndex', true);
 mongoose.connect(database, { useNewUrlParser: true , useUnifiedTopology: true  });
