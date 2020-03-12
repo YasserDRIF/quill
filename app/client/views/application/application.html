@@ -13,7 +13,7 @@
         <fieldset ng-disabled="regIsClosed">
 
         <div class="field">
-          <label> Email </label>
+          <label>* Email </label>
           <input type="email"
                  name="email"
                  disabled="disabled"
@@ -102,19 +102,6 @@
               </div>
             </div>    
           </div>
-          <div class="eight wide column">
-            <div class="field">
-              <label> What's your phone number? (required) </label>
-              <!-- <p>
-                We need this in case we need to get ahold of you!
-              </p> -->
-              <input type="tel"
-                     name="phone"
-                     ng-model="user.confirmation.phoneNumber"
-                     placeholder="(+213) 5 44 33 22 11"
-                     required>
-            </div>  
-            </div>
       </div>
 
 
@@ -123,6 +110,7 @@
                 <div class="field">
                     <label>* I would describe myself as a...</label>
                     <input type="text"
+                          name="description"
                            placeholder="Designer, Data Scientist, iOS Wizard, Hacker Extraordinaire"
                            ng-model="user.profile.description">
                   </div>
@@ -152,9 +140,9 @@
 
         <div class="field">
           <label>
-              * What would you like to learn or get out of HackIT? (optional)
+              * What would you like to learn or get out of HackIT?
           </label>
-          <textarea ng-model="user.profile.essay">
+          <textarea name="essay" ng-model="user.profile.essay">
           </textarea>
         </div>
 
@@ -231,11 +219,15 @@
 
 
         <div class="field" ng-hide="regIsClosed">
-          <button type="submit"
-                  class="fluid ui purple button"
-                  ng-click="submitForm()">
+          <button type="button"
+                  class="fluid ui submit button purple"
+                  ng-click="submitForm()"
+
+                  >
             Submit
           </button>
+          <div class="ui error message"></div>
+
         </div>
 
         </fieldset>
