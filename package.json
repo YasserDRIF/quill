@@ -17,7 +17,6 @@
     "dotenv": "^6.1.0",
     "email-templates": "^5.0.2",
     "express": "^4.16.4",
-    "express-sslify": "^1.2.0",
     "gulp-buffer": "0.0.2",
     "gulp-tap": "^1.0.1",
     "gulp-uglify-es": "^1.0.4",
@@ -30,6 +29,7 @@
     "nodemailer": "^4.7.0",
     "nodemailer-smtp-transport": "^2.7.4",
     "request": "^2.88.0",
+    "ssl-express-www": "^3.0.6",
     "underscore": "^1.9.1",
     "validator": "^10.9.0"
   },

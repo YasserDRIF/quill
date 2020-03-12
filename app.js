@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var morgan = require('morgan');
 var compression = require('compression')
-var enforce = require('express-sslify');
+var enforce = require('ssl-express-www');
 
 var mongoose = require('mongoose');
 var port = process.env.PORT || 3000;
@@ -48,8 +48,7 @@ app.use('/auth', authRouter);
 
 require('./app/server/routes')(app);
 
-app.use(enforce.HTTPS());
-
+app.use(secure);
 // listen (start app with node server.js) ======================================
 app.listen(port);
 console.log("App listening on port " + port);
