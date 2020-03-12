@@ -141,6 +141,27 @@ angular.module('reg')
       }
 
 
+      $scope.ShowJoinTeam = function(){
+        $scope.ShowJoinTeamFrom = true;  
+      }
+
+
+      $scope.joinTeamCode = function () {
+
+        teamID = $scope.newTeam_Code;
+        newTeam_skill= $scope.newTeam_skill;
+
+        newuser= {id:currentUser.data._id, name:currentUser.data.profile.name, skill:newTeam_skill};
+        TeamService.join(teamID,newuser); 
+        swal(
+          "Joined",
+          "You have appliced to join this team, wait for the Team-Admin to accept your application.",
+          "success"
+        );  
+        $state.reload();
+   
+      }
+      
       $scope.joinTeam = function (team) {
 
         var value;

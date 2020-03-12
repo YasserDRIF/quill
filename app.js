@@ -19,10 +19,8 @@ var adminConfig = require('./config/admin');
 var app = express();
 
 // Connect to mongodb
-console.log(database);
 mongoose.set('useCreateIndex', true);
 mongoose.connect(database, { useNewUrlParser: true , useUnifiedTopology: true  });
-console.log('rhhd')
 app.use(morgan('dev'));
 
 app.use(compression());

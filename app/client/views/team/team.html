@@ -208,8 +208,15 @@
               <p Team-Card> <i class="x icon"></i> Remove Team</p>
             </div>
           </div>
-      </div>
 
+      </div>
+      
+      <div class="ui form" style="text-align: center;"  ng-show="isTeamAdmin">
+        <div class="divided title">Invite members </div>
+        <p>You can send your team code to other members and ask them to enter it to joint your tean.</p>
+
+        <h2>{{userAdminTeam._id}}</h2>
+      </div>
       
       <div class="ui one cards" ng-show="isTeamMember">
         <div Team-Card class="teamcard ui card">
@@ -286,7 +293,7 @@
                     </thead>
                     <tbody>
                       <tr ng-repeat="member in userMemberTeam.members "> 
-                        <td>{{ member.name }}</td>
+                        <td ng-click='selectMember(member.id)'>{{ member.name }}</td>
                         <td class="center aligned">
                           <strong> {{ member.skill }} </strong>
                         </td>
@@ -402,10 +409,69 @@
           </div>
         </div>
   
-      <div class="field"  ng-show="!ShowNewTeamFrom">
+        <div class="ui form centered" ng-show="ShowJoinTeamFrom">
+          <div class="ui divider"></div>
+
+          <div class="ui header">
+              New Team code 
+            </div>
+             
+          <div class="field">
+            <input
+              class="ui input"
+              type="text"
+              placeholder="Enter your team code given by team admin"
+              ng-model="newTeam_Code">
+          </div>
+
+          <div class="form-group inline fields" >
+            <label class="field">Select your Skill?</label>
+    
+            <div class="radio field">
+                <label>
+                    <input type="radio" value="code" ng-model="newTeam_skill">
+                    Code
+                </label>
+            </div>
+            <div class="radio field">
+                <label>
+                    <input type="radio" value="design" ng-model="newTeam_skill">
+                    Design
+                </label>
+            </div>
+            <div class="radio field">
+                <label>
+                    <input type="radio" value="hardware" ng-model="newTeam_skill">
+                    Hardware
+                </label>
+            </div>
+            <div class="radio field">
+                <label>
+                    <input type="radio" value="idea" ng-model="newTeam_skill">
+                    Idea
+                </label>
+            </div>
+        </div>
+
+          <div class="field">
+            <div
+              class="ui fluid green button"
+              ng-click="joinTeamCode(newTeam_ID)">
+              Join Team
+            </div>
+          </div>
+        </div>
+
+      <div class="field"  ng-show="!ShowNewTeamFrom && !ShowJoinTeamFrom">
         <button class="ui fluid pink button" ng-click="ShowcreateTeam()" ng-show="!isTeamAdmin && !isTeamMember">
           Create a New Team
         </button>
+        <br>
+        <p>You can request to join a team using a team code that the user admin gives to you.</p>
+        <button class="ui fluid pink button" ng-click="ShowJoinTeam()" ng-show="!isTeamAdmin && !isTeamMember">
+          Join a team via Team code
+        </button>
+
       </div>
     </div>
   </div>
