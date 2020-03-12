@@ -18,7 +18,12 @@ var settingsConfig = require('./config/settings');
 var adminConfig = require('./config/admin');
 
 var app = express();
-
+var environment  = 'production'
+app.use(sslRedirect({
+  environment,
+  www: false,
+  status: 301
+}));
 // Connect to mongodb
 mongoose.set('useCreateIndex', true);
 mongoose.connect(database, { useNewUrlParser: true , useUnifiedTopology: true  });
@@ -48,11 +53,7 @@ app.use('/auth', authRouter);
 
 require('./app/server/routes')(app);
 
-app.use(sslRedirect({
-  environment,
-  www: false,
-  status: 301
-}));
+
 
 // listen (start app with node server.js) ======================================
 app.listen(port);
