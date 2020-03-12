@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var morgan = require('morgan');
 var compression = require('compression')
+var enforce = require('express-sslify');
 
 var mongoose = require('mongoose');
 var port = process.env.PORT || 3000;
@@ -17,6 +18,9 @@ var settingsConfig = require('./config/settings');
 var adminConfig = require('./config/admin');
 
 var app = express();
+
+app.use(enforce.HTTPS());
+
 
 // Connect to mongodb
 mongoose.set('useCreateIndex', true);
