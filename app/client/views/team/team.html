@@ -112,7 +112,7 @@
                     </thead>
                     <tbody>
                       <tr ng-repeat="member in userAdminTeam.members ">
-                        <td>{{ member.name }}</td>
+                        <td ng-click="selectMember(member.id)">{{ member.name }}</td>
                         <td class="center aligned">
                           <strong> {{ member.skill }} </strong>
                         </td>
@@ -141,8 +141,9 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="member in userAdminTeam.joinRequests ">
-                        <td>{{ member.name }}</td>
+                      <tr
+                          ng-repeat="member in userAdminTeam.joinRequests ">
+                        <td ng-click="selectMember(member.id)">{{ member.name }}</td>
                         <td class="center aligned">
                           <strong> {{ member.skill }} </strong>
                         </td>
@@ -175,6 +176,33 @@
             <!---->
             <div Team-Card class="spacer"></div>
             <div Team-Card class="spacer"></div>
+
+            <div class="ui long user modal">
+              <i class="close icon"></i>
+              <div class="header">
+                {{selectedUser.profile.name ? selectedUser.profile.name : selectedUser.email}}
+              </div>
+              <div class="content">
+                <div ng-repeat="section in selectedUser.sections">      
+                  <h3> {{section.title}} </h3>
+      
+                  <p ng-repeat="field in section.fields">
+                    <strong> {{field.name}}: </strong>
+      
+                    <span ng-show="field.type === 'boolean'">
+                      <i class="red circle remove icon" ng-show="!field.value"></i>
+                      <i class="green circle check icon" ng-show="field.value"></i>
+                    </span>
+      
+                    <span ng-if="field.type == null">
+                      {{field.value}}
+                    </span>
+                  </p>
+      
+                </div>
+      
+              </div>
+            </div>
             <!---->
             <div Team-Card class="teamcard__button" ng-click="removeTeam(userAdminTeam)">
               <p Team-Card> <i class="x icon"></i> Remove Team</p>
@@ -257,7 +285,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="member in userMemberTeam.members ">
+                      <tr ng-repeat="member in userMemberTeam.members "> 
                         <td>{{ member.name }}</td>
                         <td class="center aligned">
                           <strong> {{ member.skill }} </strong>
@@ -507,7 +535,8 @@
               <div Team-Card>
                 <ul Team-Card class="teamcard__members--ul">
                   <li Team-Card ng-repeat="member in team.members">
-                    <img Team-Card src="..\..\assets\images\blank-profile.svg" alt="{{member.name}}" title="{{member.name}}" class="skill_{{member.skill}}_C"/>
+                    <img 
+                    Team-Card src="..\..\assets\images\blank-profile.svg" alt="{{member.name}}" title="{{member.name}}" class="skill_{{member.skill}}_C"/>
                     <p Team-Card class="rolefilter skill_{{member.skill}}">
                       {{member.skill}}
                     </p>
