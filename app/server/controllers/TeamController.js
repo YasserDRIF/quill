@@ -168,24 +168,27 @@ TeamController.updateById = function(id, teamData, callback) {
 /**
  * Update the challenge options objects, given an id and the options.
  */
-TeamController.updatejoined = function(id, newjoinRequests, callback) {
+TeamController.updatejoined = function(id, newjoinRequest, cb_succes, cb_err) {
 
-  Team.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      $set: {
-        joinRequests: newjoinRequests
-      }
-    },
-    {
-      new: true
-    },
-    callback
-  );
-
+  console.log(id);
+  
+  Team.findOne({
+    _id: id
+  })
+    .then(team => {    
+        Team.findOneAndUpdate(
+          { _id: id },
+          {
+            $push: {
+             joinRequests: newjoinRequest
+            }
+          },
+        ).then(cb_succes)
+          .catch(err => cb_err(err));
+    })
+    .catch(err => cb_err(err));
 };
+
 
 
 /**

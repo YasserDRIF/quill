@@ -127,7 +127,7 @@ module.exports = function(router) {
               });
             }
           );
-        } else {
+        } else {          
           return res.status(500).send(err);
         }
       } else {
@@ -750,18 +750,26 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
    */
   router.get("/teams/:id", function(req, res) {
     TeamController.getById(req.params.id, defaultResponse(req, res));
+    
   });
-
 
 
   /**
    * PUT - Add a member to a team (Request Join).
    */
   router.post("/teams/:id/updatejoined", function(req, res) {
-    var newjoinRequests = req.body.newjoinRequests;
+    var newjoinRequest = req.body.newjoinRequest;
     var id = req.params.id;
 
-    TeamController.updatejoined(id, newjoinRequests, defaultResponse(req, res));
+    TeamController.updatejoined(id, newjoinRequest, () => { 
+      res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
+    },
+    err => {
+      console.log(err);
+      
+      res.status(404).send(JSON.stringify({ error: err }));
+    });
+
   });
 
 

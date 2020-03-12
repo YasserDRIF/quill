@@ -26,13 +26,9 @@ angular.module('reg').factory("TeamService", [
         },
 
         join: function(id, newuser) {
-          return $http.get(base + id)
-          .then(team => {
-            team.data.joinRequests.push(newuser)
-            return $http.post(base + id + "/updatejoined", {
-              newjoinRequests: team.data.joinRequests
-            });
-          })
+          return $http.post(base + id + "/updatejoined", {
+            newjoinRequest: newuser
+          });
         },
 
         removejoin: function(id, index, user) {

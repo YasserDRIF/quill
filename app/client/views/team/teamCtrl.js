@@ -152,14 +152,20 @@ angular.module('reg')
         newTeam_skill= $scope.newTeam_skill;
 
         newuser= {id:currentUser.data._id, name:currentUser.data.profile.name, skill:newTeam_skill};
-        TeamService.join(teamID,newuser); 
-        swal(
+        TeamService.join(teamID,newuser).then( e=>         
+          swal(
           "Joined",
           "You have appliced to join this team, wait for the Team-Admin to accept your application.",
           "success"
-        );  
+        )
+        ).catch(err=> 
+          swal(
+            "Team not found",
+            "The team code you entered doesn't exist.",
+            "error"
+          )
+          ); 
         $state.reload();
-   
       }
       
       $scope.joinTeam = function (team) {
@@ -214,12 +220,21 @@ angular.module('reg')
         }).then(function () {
 
           newuser = { id: currentUser.data._id, name: currentUser.data.profile.name, skill: value };
-          TeamService.join(team._id, newuser);
-          swal(
+          console.log(team._id);
+          
+          TeamService.join(team._id, newuser).then( e=>         
+            swal(
             "Joined",
             "You have appliced to join this team, wait for the Team-Admin to accept your application.",
             "success"
-          );
+          )
+          ).catch(err=> 
+            swal(
+              "Team not found",
+              "The team code you entered doesn't exist.",
+              "error"
+            )
+            ); 
           $state.reload();
         })
       }
