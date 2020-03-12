@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var morgan = require('morgan');
 var compression = require('compression')
-var enforce = require('ssl-express-www');
+var secure = require('ssl-express-www');
 
 var mongoose = require('mongoose');
 var port = process.env.PORT || 3000;
