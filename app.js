@@ -19,9 +19,6 @@ var adminConfig = require('./config/admin');
 
 var app = express();
 
-app.use(enforce.HTTPS());
-
-
 // Connect to mongodb
 mongoose.set('useCreateIndex', true);
 mongoose.connect(database, { useNewUrlParser: true , useUnifiedTopology: true  });
@@ -50,6 +47,8 @@ require('./app/server/routes/auth')(authRouter);
 app.use('/auth', authRouter);
 
 require('./app/server/routes')(app);
+
+app.use(enforce.HTTPS());
 
 // listen (start app with node server.js) ======================================
 app.listen(port);
