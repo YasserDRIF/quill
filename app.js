@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var morgan = require('morgan');
 var compression = require('compression')
-var secure = require('ssl-express-www');
+var sslRedirect = require('strong-ssl-redirect');
 
 var mongoose = require('mongoose');
 var port = process.env.PORT || 3000;
@@ -48,7 +48,12 @@ app.use('/auth', authRouter);
 
 require('./app/server/routes')(app);
 
-app.use(secure);
+app.use(sslRedirect({
+  environment,
+  www: false,
+  status: 301
+}));
+
 // listen (start app with node server.js) ======================================
 app.listen(port);
 console.log("App listening on port " + port);
