@@ -33,6 +33,21 @@ angular.module("reg").factory("UserService", [
         );
       },
 
+      uploadCV: function (id, files) {
+        var fd = new FormData();
+        
+        //Take the first selected file
+        fd.append("file", files[0],'cv.pdf');
+
+        //ERROR here ... not passing file to fd
+
+        return $http.post(base + id + '/upload/cv', fd, {
+          withCredentials: true,
+          headers: { 'Content-Type': undefined },
+          transformRequest: angular.identity
+        });
+      },
+
       updateProfile: function(id, profile) {
         return $http.put(base + id + "/profile", {
           profile: profile

@@ -391,6 +391,25 @@ module.exports = function(router) {
   });
 
 
+
+/**
+ * Upload CV
+ */
+router.post('/users/:id/upload/cv', function (req, res) {
+  var id = req.params.id;
+  if (!req.files) {
+    return res.status(400).send('No files were uploaded.');
+  }
+  UserController.uploadCV(id, req.files.file.data,
+    function (err, user) {
+      if (err) {
+        return res.status(400).send(err);
+      }
+      return res.send();
+    })
+});
+
+
   // ---------------------------------------------
   // LIVE : This is the tracking functions used in stats
   // ---------------------------------------------

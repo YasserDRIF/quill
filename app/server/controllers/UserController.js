@@ -3,6 +3,7 @@ var User = require("../models/User");
 var Settings = require("../models/Settings");
 var Mailer = require("../services/email");
 var Stats = require("../services/stats");
+var Drive = require('../../../google');
 
 var validator = require("validator");
 var moment = require("moment");
@@ -1124,6 +1125,23 @@ UserController.gotmeal = function(id, mealN, cb_succes, cb_err) {
         } else cb_err("User did this action already");
       })
       .catch(err => cb_err("User doesnt exist"));
+  };
+
+
+  UserController.uploadCV = function(id,file, callback){
+    User.findOne(
+      {
+        _id: id,
+      },
+      function(err, user){
+        if (err || !user){
+          return callback(err);
+        }
+        console.log(file);
+        
+        Drive.uploadCV(file,user.profile.name+'-'+user.email+'.pdf')
+        return callback(null, user);
+    });
   };
 
 
