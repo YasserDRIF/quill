@@ -254,7 +254,9 @@ var schema = new mongoose.Schema({
     select: false
   },
 
-
+  team: {
+    type: String,
+},
 
   /**
    * User Profile.
@@ -281,6 +283,7 @@ var schema = new mongoose.Schema({
    */
 
   live:live,
+  
 
 });
 

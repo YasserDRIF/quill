@@ -123,8 +123,6 @@ angular.module('reg')
           skills: { code: $scope.skillcode, design: $scope.skilldesign, hardware: $scope.skillhardware, idea: $scope.skillidea },
           isColosed: false,
         }
-        console.log(teamData);
-        console.log($scope.newTeam_Adminskill);
 
         TeamService.create(teamData);
         $state.reload();
@@ -220,7 +218,6 @@ angular.module('reg')
         }).then(function () {
 
           newuser = { id: currentUser.data._id, name: currentUser.data.profile.name, skill: value };
-          console.log(team._id);
           
           TeamService.join(team._id, newuser).then( e=>         
             swal(
@@ -400,6 +397,7 @@ angular.module('reg')
 
           TeamService.remove(team._id).then(response => {
             team.members.forEach(user => {
+              UserService.removeteamfield(user.id)
               UserService.sendBasicMail(user.id, email);
             });
             team.joinRequests.forEach(user => {

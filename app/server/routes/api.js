@@ -323,7 +323,7 @@ module.exports = function(router) {
   /**
    * Send basic email
    */
-  router.post("/users/:id/sendBasicMail/", isAdmin, function(req, res) {
+  router.post("/users/:id/sendBasicMail/", function(req, res) {
     var id = req.params.id;
     UserController.sendBasicMail(id, req.body, defaultResponse(req, res));
   });
@@ -370,6 +370,14 @@ module.exports = function(router) {
     var id = req.params.id;
     var user = req.user;
     UserController.removeUserById(id, user, defaultResponse(req, res));
+  });
+
+    /**
+   * Remove team field from User. 
+   */
+  router.post("/users/:id/removeteamfield", function(req, res) {
+    var id = req.params.id;
+    UserController.removeteamfield(id, defaultResponse(req, res));
   });
 
   /**
@@ -776,11 +784,30 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
   /**
    * PUT - Add a member to a team (Request Join).
    */
-  router.post("/teams/:id/updatejoined", function(req, res) {
+  router.post("/teams/:id/joinTeam", function(req, res) {
     var newjoinRequest = req.body.newjoinRequest;
     var id = req.params.id;
+    TeamController.joinTeam(id, newjoinRequest, () => { 
+      res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
+    },
+    err => {
+      res.status(404).send(JSON.stringify({ error: err }));
+    });
+  });
 
-    TeamController.updatejoined(id, newjoinRequest, () => { 
+
+  router.post("/teams/:id/removeJoinTeam", function(req, res) {
+    var newjoinRequests = req.body.newjoinRequests;
+    var id = req.params.id;
+    TeamController.removeJoinTeam(id, newjoinRequests, defaultResponse(req, res));
+  });
+
+
+
+  router.post("/teams/:id/addMember", function(req, res) {
+    var newMember = req.body.newMember;
+    var id = req.params.id;
+    TeamController.addMember(id, newMember, () => { 
       res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
     },
     err => {
@@ -788,19 +815,17 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
       
       res.status(404).send(JSON.stringify({ error: err }));
     });
-
   });
 
 
-  /**
-   * PUT - Accept a member to a team (members).
-   */
-  router.post("/teams/:id/updateMembers", function(req, res) {
+  router.post("/teams/:id/removeMember", function(req, res) {
     var newMembers = req.body.newMembers;
+    var removeduserID = req.body.removeduserID;
     var id = req.params.id;
-
-    TeamController.updateMembers(id, newMembers, defaultResponse(req, res));
+    TeamController.removeMember(id, newMembers,removeduserID, defaultResponse(req, res));
   });
+
+
 
   router.post("/teams/sendAcceptedTeam", function(req, res) {
     const id = req.body.id;

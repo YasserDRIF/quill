@@ -1030,6 +1030,27 @@ UserController.removeUserById = function(id, user, callback) {
   );
 };
 
+UserController.removeteamfield = function(id, callback) {  
+  User.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      $unset: {
+        team: 1
+      }
+    },
+    {
+      new: true
+    },
+    callback
+  );
+  
+};
+
+
+
+
 
 // Live Stats  **********************************************************
 

@@ -26,7 +26,7 @@ angular.module('reg').factory("TeamService", [
         },
 
         join: function(id, newuser) {
-          return $http.post(base + id + "/updatejoined", {
+          return $http.post(base + id + "/joinTeam", {
             newjoinRequest: newuser
           });
         },
@@ -40,7 +40,7 @@ angular.module('reg').factory("TeamService", [
                 id: user.id,
               });
             }
-            return $http.post(base + id + "/updatejoined", {
+            return $http.post(base + id + "/removeJoinTeam", {
               newjoinRequests: team.data.joinRequests
             });
           })
@@ -49,14 +49,13 @@ angular.module('reg').factory("TeamService", [
         acceptMember: function(id, newuser,maxTeamSize) {
           return $http.get(base + id)
           .then(team => {
-            if (team.data.members.length>=maxTeamSize){ return 'maxTeamSize' }
 
-            team.data.members.push(newuser)
+            if (team.data.members.length>=maxTeamSize){ return 'maxTeamSize' }
             $http.post(teams + "/sendAcceptedTeam", {
               id: newuser.id,
             });
-            return $http.post(base + id + "/updateMembers", {
-              newMembers: team.data.members,
+            return $http.post(base + id + "/addMember", {
+              newMember: newuser,
             });
           })
         },
@@ -77,8 +76,9 @@ angular.module('reg').factory("TeamService", [
                 id: userID,
               });  
             }
-            return $http.post(base + id + "/updateMembers", {
+            return $http.post(base + id + "/removeMember", {
               newMembers: team.data.members,
+              removeduserID: removedUser.id
             });
           })
         },

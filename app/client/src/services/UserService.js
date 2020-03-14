@@ -112,6 +112,10 @@ angular.module("reg").factory("UserService", [
         return $http.post(base + id + "/removeuser");
       },
 
+      removeteamfield: function(id) {        
+        return $http.post(base + id + "/removeteamfield");
+      },
+
       makeAdmin: function(id) {
         return $http.post(base + id + "/makeadmin");
       },

@@ -1,7 +1,7 @@
 var Team = require("../models/Team");
 var User = require("../models/User");
 var Mailer = require("../services/email");
-
+var UserController = require("./UserController")
 var TeamController = {};
 
 /**
@@ -18,6 +18,21 @@ TeamController.createTeam = function( teamData, callback) {
   t.save(function(err){
     if (err){
       console.log(err);
+    } else {
+      User.findOneAndUpdate(
+        {
+          _id: t.members[0].id,
+        },
+        {
+          $set: {
+            team: t._id
+          }
+        },
+        {
+          new: true
+        },
+        callback
+      );  
     }
   });
 };
@@ -168,10 +183,8 @@ TeamController.updateById = function(id, teamData, callback) {
 /**
  * Update the challenge options objects, given an id and the options.
  */
-TeamController.updatejoined = function(id, newjoinRequest, cb_succes, cb_err) {
+TeamController.joinTeam = function(id, newjoinRequest, cb_succes, cb_err) {
 
-  console.log(id);
-  
   Team.findOne({
     _id: id
   })
@@ -190,11 +203,65 @@ TeamController.updatejoined = function(id, newjoinRequest, cb_succes, cb_err) {
 };
 
 
+TeamController.removeJoinTeam = function(id, newjoinRequests, callback) {
+
+  Team.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      $set: {
+        joinRequests: newjoinRequests
+      }
+    },
+    {
+      new: true
+    },
+    callback
+  );
+
+};
+
+
+TeamController.addMember = function(id, newMember, cb_succes, cb_err) {
+
+  Team.findOne({
+    _id: id
+  })
+    .then(team => {    
+        Team.findOneAndUpdate(
+          { _id: id },
+          {
+            $push: {
+              members: newMember
+            }
+          },
+        ).then(e=> {
+          User.findOneAndUpdate(
+            {
+              _id: newMember.id,
+            },
+            {
+              $set: {
+                team: id
+              }
+            },
+            {
+              new: true
+            },
+            cb_succes
+          );  
+        })
+          .catch(err => cb_err(err));
+    })
+    .catch(err => cb_err(err));  
+};
+
 
 /**
  * Update the challenge options objects, given an id and the options.
  */
-TeamController.updateMembers = function(id, newMembers, callback) {
+TeamController.removeMember = function(id, newMembers, removeduserID, callback) {
 
   Team.findOneAndUpdate(
     {
@@ -207,9 +274,23 @@ TeamController.updateMembers = function(id, newMembers, callback) {
     },
     {
       new: true
-    },
-    callback
-  );
+    }
+  ).then(e => {
+    User.findOneAndUpdate(
+      {
+        _id: removeduserID,
+      },
+      {
+        $unset: {
+          team: 1
+        }
+      },
+      {
+        new: true
+      },
+      callback
+    );  
+  })
   
 };
 
