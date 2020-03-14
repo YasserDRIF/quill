@@ -440,7 +440,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
 
     function formatTime(time) {
       if (time) {
-        return moment(time).format("MMMM Do YYYY, h:mm:ss a");
+        return moment(time).locale('en').format("MMMM Do YYYY, h:mm:ss a");
       }
     }
 

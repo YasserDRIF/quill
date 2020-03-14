@@ -4,15 +4,17 @@
     class="ui green segment"
     ng-class="{'loading': loading}">
     <div class="ui header">
-      Stats
+      Stats 
+      <div class="ui label" ng-click="updatestats()">
+        <i class="sync alternate icon"></i>Last updated: {{fromNow(stats.lastUpdated)}}
+      </div>
     </div>
 
 
 
     <div class="ui grid">
         <div class="six wide column">
-            <div class="content">
-                <em> Last updated: {{fromNow(stats.lastUpdated)}}</em>
+            <div class="content">              
                 <div class="ui list">
                   <div
                     class="item">

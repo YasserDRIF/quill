@@ -62,7 +62,7 @@ angular.module('reg')
         }
 
         // Hack for timezone
-        return moment(date).format('dddd, MMMM Do YYYY, h:mm a') +
+        return moment(date).locale('en').format('dddd, MMMM Do YYYY, h:mm a') +
           " " + date.toTimeString().split(' ')[2];
       };
 

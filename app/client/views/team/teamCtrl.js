@@ -65,12 +65,6 @@ angular.module('reg')
         ];
       }
 
-      function formatTime(time) {
-        if (time) {
-          return moment(time).format("MMMM Do YYYY, h:mm:ss a");
-        }
-      }
-
       $scope.selectMember = selectMember;
 
 

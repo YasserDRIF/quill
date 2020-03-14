@@ -336,4 +336,11 @@ Stats.getTeamStats = function(){
   return teamStats;
 };
 
+
+Stats.updatestats = function(){
+  calculateStats();
+  calculateTeamStats();
+  return teamStats;
+};
+
 module.exports = Stats;

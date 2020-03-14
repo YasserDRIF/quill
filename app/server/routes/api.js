@@ -171,6 +171,10 @@ module.exports = function(router) {
     UserController.getTeamStats(defaultResponse(req, res));
   });
 
+  router.get("/users/updatestats", function(req, res) {
+    UserController.updatestats(defaultResponse(req, res));
+  });
+
   router.post("/users/massReject", isAdmin, function(req, res) {
     UserController.massReject(defaultResponse(req, res));
   });

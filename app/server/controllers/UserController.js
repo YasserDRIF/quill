@@ -42,7 +42,7 @@ function canRegister(email, password, callback) {
     if (now < times.timeOpen) {
       return callback({
         message:
-          "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+          "Registration opens in " + moment(times.timeOpen).locale('en').fromNow() + "!"
       });
     }
 
@@ -400,7 +400,7 @@ UserController.updateAllById = function(id, profile, confirmation, callback) {
       if (now < times.timeOpen) {
         return callback({
           message:
-            "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+            "Registration opens in " + moment(times.timeOpen).locale('en').fromNow() + "!"
         });
       }
 
@@ -458,7 +458,7 @@ UserController.updateProfileById = function(id, profile, callback) {
       if (now < times.timeOpen) {
         return callback({
           message:
-            "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+            "Registration opens in " + moment(times.timeOpen).locale('en').fromNow() + "!"
         });
       }
 
@@ -1178,5 +1178,9 @@ UserController.getTeamStats = function(callback) {
   return callback(null, Stats.getTeamStats());
 };
 
+
+UserController.updatestats = function(callback) {
+  return callback(null, Stats.updatestats());
+};
 
 module.exports = UserController;
