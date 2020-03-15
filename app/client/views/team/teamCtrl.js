@@ -398,13 +398,15 @@ angular.module('reg')
           email = {
             subject: "Your team has been removed",
             title: "Time for a backup plan",
-            body: "The team you have been part (Member/requested to join) of has been removed. Please check your dashboard and try to find another team to work with before the hackathon starts."
+            body: "The team you have been part of (Member/requested to join) has been removed. Please check your dashboard and try to find another team to work with before the hackathon starts."
           }
 
           TeamService.remove(team._id).then(response => {
             team.members.forEach(user => {
               UserService.removeteamfield(user.id)
-              UserService.sendBasicMail(user.id, email);
+              if (user.id != currentUser.data._id) {
+                UserService.sendBasicMail(user.id, email);
+              }
             });
             team.joinRequests.forEach(user => {
               UserService.sendBasicMail(user.id, email);
