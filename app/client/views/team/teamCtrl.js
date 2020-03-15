@@ -118,8 +118,20 @@ angular.module('reg')
           isColosed: false,
         }
 
-        TeamService.create(teamData);
-        $state.reload();
+        UserService.get(currentUser.data._id).then(user=>{
+          console.log(user.data.team);
+          
+          if (typeof(user.data.team)=== "undefined") {
+            TeamService.create(teamData);
+            $state.reload();
+          } else {
+            swal(
+              "You've another team",
+              "You can't be part of two teams at the same time, please leave your current team to create another one.",
+              "error"
+            )
+          }
+        })
       };
 
 
