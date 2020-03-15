@@ -556,17 +556,15 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
     );
   });
 
-    /**
-   * Update the confirmation date.
-   * body: {
-   *   time: Number
-   * }
+  /**
+   * Update the event start/end times.
    */
-  router.put("/settings/timeStart", isAdmin, function(req, res) {
-    var time = req.body.time;
-    SettingsController.updateField(
-      "timeStart",
-      time,
+  router.put("/settings/eventtimes", isAdmin, function(req, res) {
+    var start = req.body.timeStart;
+    var end = req.body.timeEnd;
+    SettingsController.updateEventTimes(
+      start,
+      end,
       defaultResponse(req, res)
     );
   });

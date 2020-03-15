@@ -434,7 +434,6 @@ angular.module("reg").controller("AdminUsersCtrl", [
           var count = 0;
           response.data.forEach(user => {
             if (user.admin) count++;
-            console.log(user.profile.email);
           });
           if (count>1) {
             UserService.removeAdmin(user._id).then(response => {

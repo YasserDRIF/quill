@@ -72,6 +72,32 @@ SettingsController.updateRegistrationTimes = function(open, close, callback){
     }, {new: true}, callback);
 };
 
+
+
+SettingsController.updateEventTimes = function(start, end, callback){
+  var updatedTimes = {};
+
+  if (end <= start){
+    return callback({
+      message: "Event cannot end before or at exactly the same time it starts."
+    });
+  }
+
+  if (start){
+    updatedTimes.timeStart = start;
+  }
+
+  if (end){
+    updatedTimes.timeEnd = end;
+  }
+
+  Settings
+    .findOneAndUpdate({},{
+      $set: updatedTimes
+    }, {new: true}, callback);
+};
+
+
 /**
  * Get the open and close time for registration.
  * @param  {Function} callback args(err, times : {timeOpen, timeClose})

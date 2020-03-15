@@ -20,9 +20,10 @@ angular.module('reg')
           time: time
         });
       },
-      updateStartTime: function(time){
-        return $http.put(base + 'timeStart', {
-          time: time
+      updateEventTimes: function(start,end){
+        return $http.put(base + 'eventtimes', {
+          timeStart: start,
+          timeEnd: end,
         });
       },
       getWhitelistedEmails: function(){
