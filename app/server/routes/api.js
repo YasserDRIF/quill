@@ -127,7 +127,7 @@ module.exports = function(router) {
               });
             }
           );
-        } else {
+        } else {          
           return res.status(500).send(err);
         }
       } else {
@@ -169,6 +169,10 @@ module.exports = function(router) {
 
   router.get("/users/teamStats", isAdmin, function(req, res) {
     UserController.getTeamStats(defaultResponse(req, res));
+  });
+
+  router.get("/users/updatestats", function(req, res) {
+    UserController.updatestats(defaultResponse(req, res));
   });
 
   router.post("/users/massReject", isAdmin, function(req, res) {
@@ -311,6 +315,12 @@ module.exports = function(router) {
     UserController.softAdmitUser(id, user, defaultResponse(req, res));
   });
 
+  router.post("/users/:id/updateconfirmby", isAdmin, function(req, res) {
+    // Soft Accept the hacker. Admin only
+    var id = req.params.id;
+    var user = req.user;
+    UserController.updateConfirmationTime(id, user, defaultResponse(req, res));
+  });
 
   router.post("/users/:id/softReject", isAdmin, function(req, res) {
     // Soft Reject the hacker. Admin only
@@ -323,7 +333,7 @@ module.exports = function(router) {
   /**
    * Send basic email
    */
-  router.post("/users/:id/sendBasicMail/", isAdmin, function(req, res) {
+  router.post("/users/:id/sendBasicMail/", function(req, res) {
     var id = req.params.id;
     UserController.sendBasicMail(id, req.body, defaultResponse(req, res));
   });
@@ -372,6 +382,14 @@ module.exports = function(router) {
     UserController.removeUserById(id, user, defaultResponse(req, res));
   });
 
+    /**
+   * Remove team field from User. 
+   */
+  router.post("/users/:id/removeteamfield", function(req, res) {
+    var id = req.params.id;
+    UserController.removeteamfield(id, defaultResponse(req, res));
+  });
+
   /**
    * Make user an admin
    */
@@ -391,6 +409,25 @@ module.exports = function(router) {
   });
 
 
+
+/**
+ * Upload CV
+ */
+router.post('/users/:id/upload/cv', function (req, res) {
+  var id = req.params.id;
+  if (!req.files) {
+    return res.status(400).send('No files were uploaded.');
+  }
+  UserController.uploadCV(id, req.files.file.data,
+    function (err, user) {
+      if (err) {
+        return res.status(400).send(err);
+      }
+      return res.send();
+    })
+});
+
+
   // ---------------------------------------------
   // LIVE : This is the tracking functions used in stats
   // ---------------------------------------------
@@ -407,7 +444,7 @@ router.get("/users/:id/gotmeal/:mealN", function(req, res) {
       res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
     },
     err => {
-      res.send(JSON.stringify({ error: err }));
+      res.status(404).send(JSON.stringify({ error: err }));
     }
   );
 });
@@ -423,7 +460,7 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
       res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
     },
     err => {
-      res.send(JSON.stringify({ error: err }));
+      res.status(404).send(JSON.stringify({ error: err }));
     }
   ); 
 });
@@ -525,17 +562,15 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
     );
   });
 
-    /**
-   * Update the confirmation date.
-   * body: {
-   *   time: Number
-   * }
+  /**
+   * Update the event start/end times.
    */
-  router.put("/settings/timeStart", isAdmin, function(req, res) {
-    var time = req.body.time;
-    SettingsController.updateField(
-      "timeStart",
-      time,
+  router.put("/settings/eventtimes", isAdmin, function(req, res) {
+    var start = req.body.timeStart;
+    var end = req.body.timeEnd;
+    SettingsController.updateEventTimes(
+      start,
+      end,
       defaultResponse(req, res)
     );
   });
@@ -750,30 +785,55 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
    */
   router.get("/teams/:id", function(req, res) {
     TeamController.getById(req.params.id, defaultResponse(req, res));
+    
   });
-
 
 
   /**
    * PUT - Add a member to a team (Request Join).
    */
-  router.post("/teams/:id/updatejoined", function(req, res) {
+  router.post("/teams/:id/joinTeam", function(req, res) {
+    var newjoinRequest = req.body.newjoinRequest;
+    var id = req.params.id;
+    TeamController.joinTeam(id, newjoinRequest, () => { 
+      res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
+    },
+    err => {
+      res.status(404).send(JSON.stringify({ error: err }));
+    });
+  });
+
+
+  router.post("/teams/:id/removeJoinTeam", function(req, res) {
     var newjoinRequests = req.body.newjoinRequests;
     var id = req.params.id;
-
-    TeamController.updatejoined(id, newjoinRequests, defaultResponse(req, res));
+    TeamController.removeJoinTeam(id, newjoinRequests, defaultResponse(req, res));
   });
 
 
-  /**
-   * PUT - Accept a member to a team (members).
-   */
-  router.post("/teams/:id/updateMembers", function(req, res) {
-    var newMembers = req.body.newMembers;
+
+  router.post("/teams/:id/addMember", function(req, res) {
+    var newMember = req.body.newMember;
     var id = req.params.id;
-
-    TeamController.updateMembers(id, newMembers, defaultResponse(req, res));
+    TeamController.addMember(id, newMember, () => { 
+      res.send(JSON.stringify({ message: "Recorded in succesfuly" }));
+    },
+    err => {
+      console.log(err);
+      
+      res.status(404).send(JSON.stringify({ error: err }));
+    });
   });
+
+
+  router.post("/teams/:id/removeMember", function(req, res) {
+    var newMembers = req.body.newMembers;
+    var removeduserID = req.body.removeduserID;
+    var id = req.params.id;
+    TeamController.removeMember(id, newMembers,removeduserID, defaultResponse(req, res));
+  });
+
+
 
   router.post("/teams/sendAcceptedTeam", function(req, res) {
     const id = req.body.id;
@@ -812,6 +872,15 @@ router.get("/users/:id/workshop/:workshopN", function(req, res) {
     const id = req.params.id;
     const status = req.body.status;
     TeamController.toggleCloseTeam(id, status, defaultResponse(req, res));
+  });
+
+  /**
+   * PUT - Update hide team Statuss
+   */
+  router.post("/teams/:id/toggleHideTeam", function(req, res) {
+    const id = req.params.id;
+    const status = req.body.status;
+    TeamController.toggleHideTeam(id, status, defaultResponse(req, res));
   });
 
 

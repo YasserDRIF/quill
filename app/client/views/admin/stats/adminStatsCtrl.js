@@ -7,8 +7,9 @@ angular.module('reg') .config(['ChartJsProvider', function (ChartJsProvider) {
 }])
 .controller('AdminStatsCtrl',[
     '$scope',
+    "$state",
     'UserService',
-    function($scope, UserService){
+    function($scope, $state, UserService){
       
 
 
@@ -226,9 +227,13 @@ angular.module('reg') .config(['ChartJsProvider', function (ChartJsProvider) {
 
 
       $scope.fromNow = function(date){
-        return moment(date).fromNow();
+        return moment(date).locale('en').fromNow();
       };
 
+      $scope.updatestats = function(){
+        UserService.updatestats()
+        $state.reload();
+      };
 
       Chart.defaults.global.colors = [
         {

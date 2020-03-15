@@ -10,6 +10,7 @@
         <li>When you apply to join you need to wait for the team leader to accept you.</li>
         <li>You can't be a member of two teams at the same time. and when you'll accepted in one <b>you'll be shown as unavailable</b> in the other teams you applied for.</li>
         <li>It's recommended to request to join multiple teams at first, And then if you get accepted in a team you don't really like you can leave it.</li>
+        <li>When you apply to join a team we show other team members<b> some of your data (Name, Github, Linkedin)</b> to help them select the best members.</li>
       </ul>
   
       <div class="ui one cards" ng-show="isTeamAdmin">
@@ -75,14 +76,23 @@
                   <div class="ui left floated">
                       <div class="ui toggle checkbox">
                         <input type="checkbox"
-                        name="allowMinors"
                         ng-model="userAdminTeam.isColosed"
                         ng-change="toggleCloseTeam(userAdminTeam._id,userAdminTeam.isColosed)"
                         ng-disabled="userAdminTeam.isMaxteam">
                         <label>Close Team</label>
                       </div>
-                    </div>    
+                      <br>
+                      <div class="ui toggle checkbox">
+                        <input type="checkbox"
+                        ng-model="userAdminTeam.isPrivate"
+                        ng-change="toggleHideTeam(userAdminTeam._id,userAdminTeam.isPrivate)"
+                        ng-disabled="userAdminTeam.isMaxteam">
+                        <label>Make private</label>
+                      </div>
+                    </div> 
+                       
               </div>
+              
             </div>
 
             <div class="ui stackable grid">
@@ -103,7 +113,7 @@
                     </thead>
                     <tbody>
                       <tr ng-repeat="member in userAdminTeam.members ">
-                        <td>{{ member.name }}</td>
+                        <td ng-click="selectMember(member.id)">{{ member.name }}</td>
                         <td class="center aligned">
                           <strong> {{ member.skill }} </strong>
                         </td>
@@ -132,8 +142,9 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="member in userAdminTeam.joinRequests ">
-                        <td>{{ member.name }}</td>
+                      <tr
+                          ng-repeat="member in userAdminTeam.joinRequests ">
+                        <td ng-click="selectMember(member.id)">{{ member.name }}</td>
                         <td class="center aligned">
                           <strong> {{ member.skill }} </strong>
                         </td>
@@ -166,13 +177,47 @@
             <!---->
             <div Team-Card class="spacer"></div>
             <div Team-Card class="spacer"></div>
+
+            <div class="ui long user modal">
+              <i class="close icon"></i>
+              <div class="header">
+                {{selectedUser.profile.name ? selectedUser.profile.name : selectedUser.email}}
+              </div>
+              <div class="content">
+                <div ng-repeat="section in selectedUser.sections">      
+                  <h3> {{section.title}} </h3>
+      
+                  <p ng-repeat="field in section.fields">
+                    <strong> {{field.name}}: </strong>
+      
+                    <span ng-show="field.type === 'boolean'">
+                      <i class="red circle remove icon" ng-show="!field.value"></i>
+                      <i class="green circle check icon" ng-show="field.value"></i>
+                    </span>
+      
+                    <span ng-if="field.type == null">
+                      {{field.value}}
+                    </span>
+                  </p>
+      
+                </div>
+      
+              </div>
+            </div>
             <!---->
             <div Team-Card class="teamcard__button" ng-click="removeTeam(userAdminTeam)">
               <p Team-Card> <i class="x icon"></i> Remove Team</p>
             </div>
           </div>
-      </div>
 
+      </div>
+      
+      <div class="ui form" style="text-align: center;"  ng-show="isTeamAdmin">
+        <div class="divided title">Invite members </div>
+        <p>You can send your team code to other members and ask them to enter it to joint your tean.</p>
+
+        <h2>{{userAdminTeam._id}}</h2>
+      </div>
       
       <div class="ui one cards" ng-show="isTeamMember">
         <div Team-Card class="teamcard ui card">
@@ -248,8 +293,8 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="member in userMemberTeam.members ">
-                        <td>{{ member.name }}</td>
+                      <tr ng-repeat="member in userMemberTeam.members "> 
+                        <td ng-click='selectMember(member.id)'>{{ member.name }}</td>
                         <td class="center aligned">
                           <strong> {{ member.skill }} </strong>
                         </td>
@@ -276,21 +321,21 @@
           <div class="ui divider"></div>
 
           <div class="ui header">
-              New Team Description 
+              New Team name 
             </div>
              
           <div class="field">
             <input
               class="ui input"
               type="text"
-              placeholder="Enter a short description about the team/project.."
+              placeholder="Enter a short name that describes the team/project.."
               ng-model="newTeam_description">
           </div>
           <div class="grouped fields">
               <div class="field">
                 <p>Select the skills that you need in your team:</p>
                   <div class="ui checkbox" style="margin-right:30px;">
-                      <input 
+                      <input
                       type="checkbox"
                       name="code"
                       ng-model="skillcode"
@@ -365,10 +410,69 @@
           </div>
         </div>
   
-      <div class="field"  ng-show="!ShowNewTeamFrom">
+        <div class="ui form centered" ng-show="ShowJoinTeamFrom">
+          <div class="ui divider"></div>
+
+          <div class="ui header">
+              New Team code 
+            </div>
+             
+          <div class="field">
+            <input
+              class="ui input"
+              type="text"
+              placeholder="Enter your team code given by team admin"
+              ng-model="newTeam_Code">
+          </div>
+
+          <div class="form-group inline fields" >
+            <label class="field">Select your Skill?</label>
+    
+            <div class="radio field">
+                <label>
+                    <input type="radio" value="code" ng-model="newTeam_skill">
+                    Code
+                </label>
+            </div>
+            <div class="radio field">
+                <label>
+                    <input type="radio" value="design" ng-model="newTeam_skill">
+                    Design
+                </label>
+            </div>
+            <div class="radio field">
+                <label>
+                    <input type="radio" value="hardware" ng-model="newTeam_skill">
+                    Hardware
+                </label>
+            </div>
+            <div class="radio field">
+                <label>
+                    <input type="radio" value="idea" ng-model="newTeam_skill">
+                    Idea
+                </label>
+            </div>
+        </div>
+
+          <div class="field">
+            <div
+              class="ui fluid green button"
+              ng-click="joinTeamCode(newTeam_ID)">
+              Join Team
+            </div>
+          </div>
+        </div>
+
+      <div class="field"  ng-show="!ShowNewTeamFrom && !ShowJoinTeamFrom && !isTeamAdmin && !isTeamMember">
         <button class="ui fluid pink button" ng-click="ShowcreateTeam()" ng-show="!isTeamAdmin && !isTeamMember">
           Create a New Team
         </button>
+        <br>
+        <p>You can request to join a team using a team code that the user admin gives to you.</p>
+        <button class="ui fluid pink button" ng-click="ShowJoinTeam()" ng-show="!isTeamAdmin && !isTeamMember">
+          Join a team via Team code
+        </button>
+
       </div>
     </div>
   </div>
@@ -435,7 +539,7 @@
         <br>
 
         <div class="ui four stackable cards doubling cards">
-          <div Team-Card class="teamcard ui card" ng-repeat="team in teams">
+          <div Team-Card class="teamcard ui card" ng-repeat="team in teams" ng-show="!team.isPrivate">
               <div Team-Card id="1607" class="teamcard__anchor"></div>
               <ul Team-Card class="teamcard__wanted">
                   <li Team-Card ng-show="team.skills.code" style="border: 2px solid rgb(221, 41, 20); color: rgb(221, 41, 20);">
@@ -498,7 +602,8 @@
               <div Team-Card>
                 <ul Team-Card class="teamcard__members--ul">
                   <li Team-Card ng-repeat="member in team.members">
-                    <img Team-Card src="..\..\assets\images\blank-profile.svg" alt="{{member.name}}" title="{{member.name}}" class="skill_{{member.skill}}_C"/>
+                    <img 
+                    Team-Card src="..\..\assets\images\blank-profile.svg" alt="{{member.name}}" title="{{member.name}}" class="skill_{{member.skill}}_C"/>
                     <p Team-Card class="rolefilter skill_{{member.skill}}">
                       {{member.skill}}
                     </p>
@@ -509,10 +614,10 @@
               <!---->
               <div Team-Card class="spacer"></div>
               <!---->
-              <div Team-Card class="teamcard__button" ng-click="joinTeam(team._id)" ng-show="!isTeamMember && !isTeamAdmin && !team.isjoined && !team.isColosed ">
+              <div Team-Card class="teamcard__button" ng-click="joinTeam(team)" ng-show="!isTeamMember && !isTeamAdmin && !isjoined(team) && !team.isColosed ">
                 <p Team-Card> <i class="add icon"></i> Join Team</p>
               </div>
-              <div Team-Card class="teamcard__button" ng-click="canceljoinTeam(team)" ng-show="!isTeamMember && !isTeamAdmin && team.isjoined">
+              <div Team-Card class="teamcard__button" ng-click="canceljoinTeam(team)" ng-show="!isTeamMember && !isTeamAdmin && isjoined(team)">
                 <p Team-Card> <i class="minus icon"></i> Cancel Request</p>
               </div>
               <div Team-Card="" class="teamcard__button teamcard__button--closed" ng-show="team.isColosed">

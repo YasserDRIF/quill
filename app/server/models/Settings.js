@@ -24,7 +24,11 @@ var schema = new mongoose.Schema({
   },
   timeStart: {
     type: Number,
-    default: 604800000 // Date of confirmation
+    default: 604800000 // Date of event start
+  },
+  timeEnd: {
+    type: Number,
+    default: 604800000 // Date of event ending
   },
   whitelistedEmails: {
     type: [String],
@@ -69,18 +73,19 @@ schema.statics.getWhitelistedEmails = function(callback){
 
 /**
  * Get the open and close time for registration.
- * @param  {Function} callback args(err, times : {timeOpen, timeClose, timeConfirm})
+ * @param  {Function} callback args(err, times : {timeOpen, timeClose, timeConfirm, timeStart, timeEnd})
  */
 schema.statics.getRegistrationTimes = function(callback){
   this
     .findOne({})
-    .select('timeOpen timeClose timeConfirm timeStart')
+    .select('timeOpen timeClose timeConfirm timeStart timeEnd')
     .exec(function(err, settings){
       callback(err, {
         timeOpen: settings.timeOpen,
         timeClose: settings.timeClose,
         timeConfirm: settings.timeConfirm,
-        timeStart: settings.timeStart
+        timeStart: settings.timeStart,
+        timeEnd: settings.timeEnd
       });
     });
 };

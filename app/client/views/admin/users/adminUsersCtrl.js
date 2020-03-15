@@ -32,6 +32,10 @@ angular.module("reg").controller("AdminUsersCtrl", [
       for (var i = 0; i < data.totalPages; i++) {
         p.push(i);
       }
+      $state.go("app.admin.users", {
+        page: 0,
+        size: $stateParams.size || 20
+      });
       $scope.pages = p;
     }
 
@@ -52,7 +56,7 @@ angular.module("reg").controller("AdminUsersCtrl", [
 
     $scope.applyStatusFilter = function () {
       UserService
-        .getPage($stateParams.page, $stateParams.size, $scope.queryText, $scope.statusFilters).then(
+        .getPage($stateParams.page, $stateParams.size, $scope.queryText, $scope.statusFilters,$scope.NotstatusFilters).then(
           response => {
             updatePage(response.data);
         });
@@ -430,17 +434,28 @@ angular.module("reg").controller("AdminUsersCtrl", [
           });
         });
       } else {
-        UserService.removeAdmin(user._id).then(response => {
-          $scope.users[index] = response.data;
-          swal("Removed", response.data.profile.name + " as admin", "success");
-          $state.reload();
-        });
+        UserService.getAll().then(response=>{
+          var count = 0;
+          response.data.forEach(user => {
+            if (user.admin) count++;
+          });
+          if (count>1) {
+            UserService.removeAdmin(user._id).then(response => {
+              $scope.users[index] = response.data;
+              swal("Removed", response.data.profile.name + " as admin", "success");
+              $state.reload();
+            });
+          }else {
+            swal("No other Admin","You can't remove all admins.", "error");
+          }
+        })
+
       }
     };
 
     function formatTime(time) {
       if (time) {
-        return moment(time).format("MMMM Do YYYY, h:mm:ss a");
+        return moment(time).locale('en').format("MMMM Do YYYY, h:mm:ss a");
       }
     }
 
@@ -535,7 +550,11 @@ angular.module("reg").controller("AdminUsersCtrl", [
             {
               name: "Linkedin",
               value: user.profile.linkedin
-            }
+            },
+            {
+              name:"CV link",
+              value: user.profile.cvLink
+            },
           ]
         },
         {
@@ -553,6 +572,10 @@ angular.module("reg").controller("AdminUsersCtrl", [
             {
               name: "Hardware Requested",
               value: user.confirmation.hardware
+            },
+            {
+              name:"National Card ID",
+              value: user.confirmation.nationalCardID
             }
           ]
         },

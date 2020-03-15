@@ -5,34 +5,99 @@
     <div
       ng-class="{'loading': loading}"
       class="ui red segment">
+        <div class="ui form">
+
+          <div class="ui header">
+            Open/Close Registration
+          </div>
+
+          <p>
+            Users will be able to register new accounts within the time period of registration specified.
+          </p>
+          <div class="ui blue labels">
+            <a class="ui label" ng-click="SuggestRegistrationTime(12)">
+              3days <i class="icon"></i>
+            </a>
+            <a class="ui label" ng-click="SuggestRegistrationTime(120)">
+              5days
+            </a>
+            <a class="ui label" ng-click="SuggestRegistrationTime(168)">
+              One week
+            </a>
+          </div>
+          <div class="field">
+            <label>
+              Opens: {{ formatDate(settings.timeOpen) }}
+            </label>
+            <input type="datetime-local" ng-model="settings.timeOpen">
+          </div>
+
+          <div class="field">
+            <label>
+              Closes: {{ formatDate(settings.timeClose) }}
+            </label>
+            <input type="datetime-local" ng-model="settings.timeClose">
+          </div>
+
+          <div class="ui field">
+            <div
+              class="ui green button"
+              ng-click="updateRegistrationTimes()">
+              Update
+            </div>
+          </div>
+        </div>
+    </div>
+
+  </div>
+
+  <div class="column">
+
+    <!-- Event Start Date -->
+    <div
+      ng-class="{'loading': loading}"
+      class="ui blue segment">
       <div class="ui form">
 
         <div class="ui header">
-          Open/Close Registration
+          Event Start/End
         </div>
 
         <p>
-          Users will be able to register new accounts within the time period specified.
+          Users will be able to check challenges after the events starts and submit feedback after it ends.
         </p>
-
+        <div class="ui blue labels">
+          <a class="ui label" ng-click="SuggestStartTime(12)">
+            12h <i class="icon"></i>
+          </a>
+          <a class="ui label" ng-click="SuggestStartTime(48)">
+            2days
+            <div class="detail">48h</div>
+          </a>
+          <a class="ui label" ng-click="SuggestStartTime(168)">
+            One week
+            <div class="detail">168h</div>
+          </a>
+        </div>
+        
         <div class="field">
           <label>
-            Opens: {{ formatDate(settings.timeOpen) }}
+            Starts: {{ formatDate(settings.timeStart) }}
           </label>
-          <input type="datetime-local" ng-model="settings.timeOpen">
+          <input type="datetime-local" ng-model="settings.timeStart">
         </div>
 
         <div class="field">
           <label>
-            Closes: {{ formatDate(settings.timeClose) }}
+            Ends: {{ formatDate(settings.timeEnd) }}
           </label>
-          <input type="datetime-local" ng-model="settings.timeClose">
+          <input type="datetime-local" ng-model="settings.timeEnd">
         </div>
 
         <div class="ui field">
           <div
             class="ui green button"
-            ng-click="updateRegistrationTimes()">
+            ng-click="updateEventTimes()">
             Update
           </div>
         </div>
@@ -40,6 +105,7 @@
     </div>
 
   </div>
+  
   <div class="column">
 
     <!-- Confirmation Date -->
@@ -49,12 +115,24 @@
       <div class="ui form">
 
         <div class="ui header">
-          Confirmation Date
+          Confirmation Deadline
         </div>
 
         <p>
           Any users that are accepted will have to confirm by the date selected.
         </p>
+
+        <div class="ui blue labels">
+          <a class="ui label" ng-click="SuggestConfirmationTime(24)">
+            1 day <i class="icon"></i>
+          </a>
+          <a class="ui label" ng-click="SuggestConfirmationTime(120)">
+            3days
+          </a>
+          <a class="ui label" ng-click="SuggestConfirmationTime(0)">
+            Event start
+          </a>
+        </div>
 
         <div class="field">
           <label>
@@ -69,45 +147,19 @@
             ng-click="updateConfirmationTime()">
             Update
           </div>
-        </div>
-      </div>
-    </div>
 
-  </div>
-  <div class="column">
-
-    <!-- Event Start Date -->
-    <div
-      ng-class="{'loading': loading}"
-      class="ui blue segment">
-      <div class="ui form">
-
-        <div class="ui header">
-          Event Start Date
-        </div>
-
-        <p>
-          The event and CTF Challenges will start by the date selected.
-        </p>
-
-        <div class="field">
-          <label>
-            Event Starts By: {{ formatDate(settings.timeStart) }}
-          </label>
-          <input type="datetime-local" ng-model="settings.timeStart">
-        </div>
-
-        <div class="ui field">
           <div
             class="ui green button"
-            ng-click="updateStartTime()">
-            Update
+            ng-click="updateConfirmationUsers()">
+            Update confitmation for all users
           </div>
+
         </div>
       </div>
     </div>
 
   </div>
+
 </div>
 
 <!-- Additional Options -->

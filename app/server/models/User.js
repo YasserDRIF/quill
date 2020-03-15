@@ -68,6 +68,7 @@ var profile = {
   linkedin: String,
   resume: String,
   source: String,
+  cvLink: String,
 
 };
 
@@ -108,6 +109,7 @@ var confirmation = {
   signatureLiability: String,
   signaturePhotoRelease: String,
   signatureCodeOfConduct: String,
+  nationalCardID: String,
 };
 
 var status = {
@@ -252,7 +254,9 @@ var schema = new mongoose.Schema({
     select: false
   },
 
-
+  team: {
+    type: String,
+},
 
   /**
    * User Profile.
@@ -279,6 +283,7 @@ var schema = new mongoose.Schema({
    */
 
   live:live,
+  
 
 });
 

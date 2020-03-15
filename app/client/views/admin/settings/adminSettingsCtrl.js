@@ -3,7 +3,8 @@ angular.module('reg')
     '$scope',
     '$sce',
     'SettingsService',
-    function($scope, $sce, SettingsService){
+    'UserService',
+    function($scope, $sce, SettingsService,UserService){
 
       $scope.settings = {};
       SettingsService
@@ -19,6 +20,7 @@ angular.module('reg')
         settings.timeClose = new Date(settings.timeClose);
         settings.timeConfirm = new Date(settings.timeConfirm);
         settings.timeStart = new Date(settings.timeStart);
+        settings.timeEnd = new Date(settings.timeEnd);
 
         $scope.settings = settings;
       }
@@ -62,7 +64,7 @@ angular.module('reg')
         }
 
         // Hack for timezone
-        return moment(date).format('dddd, MMMM Do YYYY, h:mm a') +
+        return moment(date).locale('en').format('dddd, MMMM Do YYYY, h:mm a') +
           " " + date.toTimeString().split(' ')[2];
       };
 
@@ -98,6 +100,37 @@ angular.module('reg')
           });
       };
 
+      $scope.SuggestRegistrationTime = function (hours) {
+        $scope.settings.timeClose = new Date( moment($scope.settings.timeOpen).add(hours, 'h'))
+      }
+
+      // Event Start Time -----------------------------
+
+      $scope.updateEventTimes = function(){
+        // Clean the dates and turn them to ms.
+        var start = cleanDate($scope.settings.timeStart).getTime();
+        var end = cleanDate($scope.settings.timeEnd).getTime();
+
+        if (start < 0 || end < 0 || start === undefined || end === undefined){
+          return swal('Oops...', 'You need to enter valid times.', 'error');
+        }
+        if (start >= end){
+          swal('Oops...', 'Event cannot start after it ends.', 'error');
+          return;
+        }
+
+        SettingsService
+          .updateEventTimes(start, end)
+          .then(response => {
+            updateSettings(response.data);
+            swal("Looks good!", "Event Times Updated", "success");
+          });
+      };
+
+      $scope.SuggestStartTime = function (hours) {
+        $scope.settings.timeEnd = new Date( moment($scope.settings.timeStart).add(hours, 'h'))
+      }
+
       // Confirmation Time -----------------------------
 
       $scope.updateConfirmationTime = function(){
@@ -111,20 +144,33 @@ angular.module('reg')
           });
       };
 
-      // Event Start Time -----------------------------
+      
+      $scope.SuggestConfirmationTime = function (hours) {
+        $scope.settings.timeConfirm = new Date( moment($scope.settings.timeStart).subtract(hours, 'h'))
+      }
 
-      $scope.updateStartTime = function(){
-        var startBy = cleanDate($scope.settings.timeStart).getTime();
+      $scope.updateConfirmationUsers = function(){
+        var confirmBy = cleanDate($scope.settings.timeConfirm).getTime();
 
         SettingsService
-          .updateStartTime(startBy)
+          .updateConfirmationTime(confirmBy)
           .then(response => {
             updateSettings(response.data);
-            swal("Sounds good!", "Event Start Date Updated", "success");
+            // get all users soft admitted and update confirmation time foreach
+
+            UserService.getPage(0, 0, "", {softAdmitted:true})
+            .then(response => {
+              console.log(response.data);
+              response.data.users.forEach(user => {
+                UserService.updateConfirmationTime(user._id)
+              });
+              //update confirmation time foreach
+              swal("Sounds good!", "Confirmation Date Updated for all users", "success");            
+            });
+
           });
       };
-
-
+      
       // Acceptance / Confirmation Text ----------------
 
       var converter = new showdown.Converter();

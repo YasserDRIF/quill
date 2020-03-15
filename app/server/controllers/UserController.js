@@ -3,6 +3,7 @@ var User = require("../models/User");
 var Settings = require("../models/Settings");
 var Mailer = require("../services/email");
 var Stats = require("../services/stats");
+var Drive = require('../../../google');
 
 var validator = require("validator");
 var moment = require("moment");
@@ -41,7 +42,7 @@ function canRegister(email, password, callback) {
     if (now < times.timeOpen) {
       return callback({
         message:
-          "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+          "Registration opens in " + moment(times.timeOpen).locale('en').fromNow() + "!"
       });
     }
 
@@ -237,6 +238,27 @@ function buildStatusQueries(statusFilters) {
   }
   return queries;
 }
+
+
+function buildNotStatusQueries(NotstatusFilters) {
+  const queries = [];
+  for (var key in NotstatusFilters) {
+    if (NotstatusFilters.hasOwnProperty(key)) {
+      // Convert to boolean
+      const hasStatus = (NotstatusFilters[key] === 'true');
+      if (hasStatus) {
+        var q = {};
+        // Verified is a prop on user object
+        var queryKey = (key === 'verified' ? key : 'status.' + key);
+        q[queryKey] = false;
+        queries.push(q);
+      }
+    }
+  }
+  
+  return queries;
+}
+
  /**
  * Builds a find query.
  * The root changes according to the following:
@@ -248,18 +270,43 @@ function buildStatusQueries(statusFilters) {
  * @param   {[type]} statusQueries size of the page
  * @returns {Object} findQuery     query object
  */
-function buildFindQuery(textQueries, statusQueries) {
+function buildFindQuery(textQueries, statusQueries, NotstatusQueries) {  
   const findQuery = {};
-  if (textQueries.length > 0 && statusQueries.length > 0) {
-    var queryRoot = [];
+  var queryRoot = [];
+
+  if (textQueries.length > 0 && statusQueries.length > 0 && NotstatusQueries.length > 0) {
+    queryRoot.push({ '$or': textQueries });
+    queryRoot.push({ '$and': statusQueries });
+    queryRoot.push({ '$and': NotstatusQueries });
+
+    findQuery.$and = queryRoot;
+
+  } else if (textQueries.length > 0 && statusQueries.length > 0) {
     queryRoot.push({ '$or': textQueries });
     queryRoot.push({ '$and': statusQueries });
     findQuery.$and = queryRoot;
+
+  } else if (textQueries.length > 0 && NotstatusQueries.length > 0) {
+    queryRoot.push({ '$or': textQueries });
+    queryRoot.push({ '$and': NotstatusQueries });
+    findQuery.$and = queryRoot;
+
+  } else if (statusQueries.length > 0 && NotstatusQueries.length > 0) {
+    queryRoot.push({ '$and': statusQueries });
+    queryRoot.push({ '$and': NotstatusQueries });
+    findQuery.$and = queryRoot;
+
   } else if (textQueries.length > 0) {
     findQuery.$or = textQueries;
+
+  } else if (NotstatusQueries.length > 0) {
+    findQuery.$and = NotstatusQueries;
+
   } else if (statusQueries.length > 0) {
     findQuery.$and = statusQueries;
   }
+
+  
   return findQuery;
 }
 
@@ -275,18 +322,41 @@ UserController.getPage = function(query, callback) {
   var size = parseInt(query.size);
   var searchText = query.text;
   var statusFilters = query.statusFilters;
+  var NotstatusFilters=query.NotstatusFilters;
 
   // Build a query for the search text
   var textQueries = buildTextQueries(searchText);
 
   // Build a query for each status
   var statusQueries = buildStatusQueries(statusFilters);
+  var NotstatusQueries=buildNotStatusQueries(NotstatusFilters)
+
   
    // Build find query
-  var findQuery = buildFindQuery(textQueries, statusQueries);
+  var findQuery = buildFindQuery(textQueries, statusQueries,NotstatusQueries);
 
+  
+  if (size==0 && page==0){
 
-  User.find(findQuery)
+    User.find(findQuery)
+    .sort({
+      "profile.name": "asc"
+    })
+    .select("+status.reviewedBy")
+    .exec(function(err, users) {
+      if (err || !users) {
+        return callback(err);
+      }
+
+      callback(null, {
+        users: users,
+      });
+      
+    });
+    
+  }else {
+
+    User.find(findQuery)
     .sort({
       "profile.name": "asc"
     })
@@ -311,6 +381,9 @@ UserController.getPage = function(query, callback) {
         });
       });
     });
+
+  }
+
 };
 
 /**
@@ -348,7 +421,7 @@ UserController.updateAllById = function(id, profile, confirmation, callback) {
       if (now < times.timeOpen) {
         return callback({
           message:
-            "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+            "Registration opens in " + moment(times.timeOpen).locale('en').fromNow() + "!"
         });
       }
 
@@ -406,7 +479,7 @@ UserController.updateProfileById = function(id, profile, callback) {
       if (now < times.timeOpen) {
         return callback({
           message:
-            "Registration opens in " + moment(times.timeOpen).fromNow() + "!"
+            "Registration opens in " + moment(times.timeOpen).locale('en').fromNow() + "!"
         });
       }
 
@@ -718,6 +791,27 @@ UserController.softAdmitUser = function(id, user, callback) {
 
 
 
+UserController.updateConfirmationTime = function(id, user, callback) {
+  Settings.getRegistrationTimes(function(err, times) {
+    User.findOneAndUpdate(
+      {
+        _id: id,
+        verified: true
+      },
+      {
+        $set: {
+          "status.confirmBy": times.timeConfirm
+        }
+      },
+      {
+        new: true
+      },
+      callback
+    );
+  });
+};
+
+
 
 UserController.softRejectUser = function(id, user, callback) {
   Settings.getRegistrationTimes(function(err, times) {
@@ -978,6 +1072,27 @@ UserController.removeUserById = function(id, user, callback) {
   );
 };
 
+UserController.removeteamfield = function(id, callback) {  
+  User.findOneAndUpdate(
+    {
+      _id: id,
+    },
+    {
+      $unset: {
+        team: 1
+      }
+    },
+    {
+      new: true
+    },
+    callback
+  );
+  
+};
+
+
+
+
 
 // Live Stats  **********************************************************
 
@@ -1076,6 +1191,23 @@ UserController.gotmeal = function(id, mealN, cb_succes, cb_err) {
   };
 
 
+  UserController.uploadCV = function(id,file, callback){
+    User.findOne(
+      {
+        _id: id,
+      },
+      function(err, user){
+        if (err || !user){
+          return callback(err);
+        }
+        console.log(file);
+        
+        Drive.uploadCV(file,user.profile.name+'-'+user.email+'.pdf')
+        return callback(null, user);
+    });
+  };
+
+
 /**
  * [ADMIN ONLY]
  */
@@ -1088,5 +1220,9 @@ UserController.getTeamStats = function(callback) {
   return callback(null, Stats.getTeamStats());
 };
 
+
+UserController.updatestats = function(callback) {
+  return callback(null, Stats.updatestats());
+};
 
 module.exports = UserController;

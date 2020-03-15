@@ -1,0 +1,190 @@
+<div id="teams">
+
+    <div
+      class="ui green segment">
+      <div class="ui header">
+        Teams
+      </div>
+      
+      <div class="ui stackable grid">
+        <div class="column">
+          <div class="ui form">
+            <div class="divided title">Review teams </div>
+    
+            <div class="ui form">
+              <div class="field">
+                <div class="ui icon fluid input">
+                  <input type="text"
+                         placeholder="Search..."
+                         ng-model="queryText"
+                         ng-model-options="{debounce: 300}">
+                    <i class="search icon"></i>
+                </div>
+              </div>
+      
+              <div class="ui form">
+                <div class="grouped fields">
+                    <div class="field">
+                        <div class="ui checkbox" style="margin-right:30px;">
+                            <input 
+                            type="checkbox"
+                            name="code"
+                            ng-model="skillsFilters.code"
+                            ng-change="applyskillsFilter()">
+                            <label>Code</label>
+                        </div>
+                        <div class="ui checkbox" style="margin-right:30px;">
+                            <input 
+                            type="checkbox"
+                            name="design"
+                            ng-model="skillsFilters.design"
+                            ng-change="applyskillsFilter()">
+                            <label>Design</label>
+                        </div>
+                        <div class="ui checkbox" style="margin-right:30px;">
+                            <input 
+                            type="checkbox"
+                            name="hardware"
+                            ng-model="skillsFilters.hardware"
+                            ng-change="applyskillsFilter()">
+                            <label>Hardware</label>
+                        </div>
+                        <div class="ui checkbox" style="margin-right:30px;">
+                            <input 
+                            type="checkbox"
+                            name="idea"
+                            ng-model="skillsFilters.idea"
+                            ng-change="applyskillsFilter()">
+                            <label>Idea</label>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        
+            </div>
+      
+            <div class="ui divider"></div>
+            
+            <br>
+    
+            <div class="ui four stackable cards doubling cards">
+              <div Team-Card class="teamcard ui card" ng-repeat="team in teams" ng-show="!team.isPrivate">
+                  <div Team-Card id="1607" class="teamcard__anchor"></div>
+                  <ul Team-Card class="teamcard__wanted">
+                      <li Team-Card ng-show="team.skills.code" style="border: 2px solid rgb(221, 41, 20); color: rgb(221, 41, 20);">
+                          <img Team-Card src="..\..\assets\images\teams\icon--coder-color.svg"/>
+                          <p Team-Card>code</p>
+                      </li>
+                      <li Team-Card ng-show="!team.skills.code">
+                          <img Team-Card src="..\..\assets\images\teams\icon--coder-grey.svg"/>
+                          <p Team-Card>code</p>
+                      </li>
+    
+                      <li Team-Card ng-show="team.skills.design" style="border: 2px solid rgb(16, 131, 232); color: rgb(16, 131, 232);">
+                          <img Team-Card src="..\..\assets\images\teams\icon--design-color.svg"/>
+                          <p Team-Card>design</p>
+                      </li>
+                      <li Team-Card ng-show="!team.skills.design">
+                          <img Team-Card src="..\..\assets\images\teams\icon--design-grey.svg"/>
+                          <p Team-Card>design</p>
+                      </li>
+    
+    
+                      <li Team-Card ng-show="team.skills.hardware" style="border: 2px solid rgb(255, 153, 102); color: rgb(255, 153, 102);">
+                          <img Team-Card src="..\..\assets\images\teams\icon--hardware-color.svg"/>
+                          <p Team-Card>hardware</p>
+                      </li>
+                      <li Team-Card ng-show="!team.skills.hardware">
+                          <img Team-Card src="..\..\assets\images\teams\icon--hardware-grey.svg"/>
+                          <p Team-Card>hardware</p>
+                      </li>
+    
+                      <li Team-Card ng-show="team.skills.idea" style="border: 2px solid  rgb(0, 204, 204); color: rgb(0, 204, 204);">
+                          <img Team-Card src="..\..\assets\images\teams\icon--expert-color.svg"/>
+                          <p Team-Card>idea</p>
+                      </li>
+                      <li Team-Card ng-show="!team.skills.idea">
+                          <img Team-Card src="..\..\assets\images\teams\icon--expert-grey.svg"/>
+                          <p Team-Card>idea</p>
+                      </li>
+    
+    
+                  </ul>
+                  <div Team-Card class="teamcard__ownerinfo">
+                    <div Team-Card class="teamcard__ownerinfo--left">
+                      <img Team-Card src="..\..\assets\images\blank-profile.svg" class="skill_{{team.members[0].skill}}_C"/>
+                      <div Team-Card>
+                        <p Team-Card class="teamcard__ownerinfo--left--name">
+                          {{team.members[0].name}}
+                        </p>
+                        <p Team-Card class="teamcard__ownerinfo--left--role skill_{{team.members[0].skill}}">
+                            {{team.members[0].skill}}
+                        </p>
+                        <!---->
+                      </div>
+                    </div>
+                    <div Team-Card class="teamcard__ownerinfo--right"><!----></div>
+                  </div>
+                  <div Team-Card class="teamcard__description">
+                    <p Team-Card> {{team.description}} </p>
+                  </div>
+                  <div Team-Card>
+                    <ul Team-Card class="teamcard__members--ul">
+                      <li Team-Card ng-repeat="member in team.members">
+                        <img 
+                        Team-Card src="..\..\assets\images\blank-profile.svg" alt="{{member.name}}" title="{{member.name}}" class="skill_{{member.skill}}_C" ng-click="selectMember(member.id)" />
+                        <p Team-Card class="rolefilter skill_{{member.skill}}">
+                          {{member.skill}}
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                  <!---->
+                  <!---->
+                  <div Team-Card class="spacer"></div>
+                  <!---->
+                  <div Team-Card class="teamcard__button" ng-click="acceptTeam(team)" ng-show="!team.isAccepted">
+                    <p Team-Card> <i class="add icon"></i> Accept Team</p>
+                  </div>
+                  <div Team-Card="" class="teamcard__button teamcard__button--closed" ng-show="team.isAccepted">
+                    <img Team-Card="" src="..\..\assets\images\padlock-color.svg" class="teamcard__button--padlock padlock-show"> 
+                    <p Team-Card="">Team Accepted</p>
+                     <span Team-Card="" class="teamcard__button--balance"></span>
+                  </div>
+                </div>
+
+                <div class="ui long user modal">
+                    <i class="close icon"></i>
+                    <div class="header">
+                      {{selectedUser.profile.name ? selectedUser.profile.name : selectedUser.email}}
+                    </div>
+                    <div class="content">
+                      <div ng-repeat="section in selectedUser.sections">      
+                        <h3> {{section.title}} </h3>
+            
+                        <p ng-repeat="field in section.fields">
+                          <strong> {{field.name}}: </strong>
+            
+                          <span ng-show="field.type === 'boolean'">
+                            <i class="red circle remove icon" ng-show="!field.value"></i>
+                            <i class="green circle check icon" ng-show="field.value"></i>
+                          </span>
+            
+                          <span ng-if="field.type == null">
+                            {{field.value}}
+                          </span>
+                        </p>
+            
+                      </div>
+            
+                    </div>
+                  </div>
+    
+          </div>
+          </div>
+        </div>
+      </div>
+
+  
+    </div>
+</div>

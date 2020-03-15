@@ -53,16 +53,30 @@ angular.module('reg')
           }
         });
         confirmation.dietaryRestrictions = drs;
+        
+
+        // UserService.uploadCV(user._id, angular.element(document.querySelector('#cv'))[0].files).then(response => {
+        //   swal("Uploaded", "CV uploaded.", "success")
+
 
         UserService
-          .updateConfirmation(user._id, confirmation)
-          .then(response => {
-            swal("Woo!", "You're confirmed!", "success").then(value => {
-              $state.go("app.dashboard");
-            });
-          }, response => {
-            swal("Uh oh!", "Something went wrong.", "error");
+        .updateConfirmation(user._id, confirmation)
+        .then(response => {
+          swal("Woo!", "You're confirmed!", "success").then(value => {
+            $state.go("app.dashboard");
           });
+        }, response => {
+          swal("Uh oh!", "Something went wrong.", "error");
+        })
+
+
+        // }, response => {
+        //   swal("Uh oh!", "Something went wrong. (File)", "error");
+        // })
+  
+        
+
+        
       }
 
       function _setupForm(){
@@ -93,6 +107,15 @@ angular.module('reg')
                 {
                   type: 'empty',
                   prompt: 'Please type your digital signature.'
+                }
+              ]
+            },
+            nationalCardID: {
+              identifier: 'nationalCardID',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please type your National Card ID.'
                 }
               ]
             },

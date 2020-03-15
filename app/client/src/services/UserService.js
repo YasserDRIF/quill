@@ -21,15 +21,31 @@ angular.module("reg").factory("UserService", [
         return $http.get(base);
       },
 
-      getPage: function(page, size, text,statusFilters) {
+      getPage: function(page, size, text,statusFilters,NotstatusFilters) {
         return $http.get( users + "?" + $.param({
               text: text,
               page: page ? page : 0,
               size: size ? size : 20,
-              statusFilters: statusFilters ? statusFilters : {}
+              statusFilters: statusFilters ? statusFilters : {},
+              NotstatusFilters: NotstatusFilters ? NotstatusFilters : {}
 
             })
         );
+      },
+
+      uploadCV: function (id, files) {
+        var fd = new FormData();
+        
+        //Take the first selected file
+        fd.append("file", files[0],'cv.pdf');
+
+        //ERROR here ... not passing file to fd
+
+        return $http.post(base + id + '/upload/cv', fd, {
+          withCredentials: true,
+          headers: { 'Content-Type': undefined },
+          transformRequest: angular.identity
+        });
       },
 
       updateProfile: function(id, profile) {
@@ -66,6 +82,10 @@ angular.module("reg").factory("UserService", [
         return $http.get(base + "teamStats");
       },
 
+      updatestats: function() {
+        return $http.get(base + "updatestats");
+      },
+
       admitUser: function(id) {
         return $http.post(base + id + "/admit");
       },
@@ -74,6 +94,10 @@ angular.module("reg").factory("UserService", [
       },
       softAdmittUser: function(id) {
         return $http.post(base + id + "/softAdmit");
+      },
+
+      updateConfirmationTime: function(id) {
+        return $http.post(base + id + "/updateconfirmby");
       },
 
       softRejectUser: function(id) {
@@ -94,6 +118,10 @@ angular.module("reg").factory("UserService", [
 
       removeUser: function(id) {
         return $http.post(base + id + "/removeuser");
+      },
+
+      removeteamfield: function(id) {        
+        return $http.post(base + id + "/removeteamfield");
       },
 
       makeAdmin: function(id) {

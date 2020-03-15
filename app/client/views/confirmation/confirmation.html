@@ -106,42 +106,16 @@
                    ng-model="user.confirmation.major">
           </div>
 
-          <div class="field">
-            <label> Github </label>
-            <input type="text"
-                   name="github"
-                   placeholder="https://github.com/foobar"
-                   ng-model="user.confirmation.github">
-          </div>
+ -->
 
           <div class="field">
-            <label> Facebook </label>
-            <input type="text"
-                   name="facebook"
-                   placeholder="https://facebook.com/foobar"
-                   ng-model="user.confirmation.facebook">
-          </div>
-
-          <div class="field">
-            <label> Linkedin </label>
-            <input type="text"
-                   name="linkedin"
-                   placeholder="https://linkedin.com/in/foobar"
-                   ng-model="user.confirmation.linkedin">
-          </div>
-
-          <div class="field">
-            <label> Skill Sheet (required) </label>
+            <label> Skill Sheet PDF Only</label>
             <p>
-              Upload a document outlining any skills or experience you'd like to share (ex. resume). PDF preferred!
+              Upload a document outlining any skills or experience you'd like to share (ex. resume). PDF Only!
             </p>
-            <a
-              target="_blank"
-              href="https://go.hackmit.org/skill-sheets"
-              class="ui pink button">
-              Upload
-            </a>
-          </div> -->
+            <input id="cv" type="file" class="ui pink button" accept="application/pdf" name="file"/>
+
+          </div>
 
           <br>
           <br>
@@ -384,6 +358,17 @@
                    name="signatureCodeOfConduct"
                    placeholder="Your Full Legal Name"
                    ng-model="user.confirmation.signatureCodeOfConduct">
+          </div>
+
+          <div class="field">
+            <label> National Card ID </label>
+            <p>
+              For some safety reasons, we have to collect all national card ID's of our participants
+            </p>
+            <input type="text"
+                   name="nationalCardID"
+                   placeholder="Your national card ID"
+                   ng-model="user.confirmation.nationalCardID">
           </div>
 
           <br>

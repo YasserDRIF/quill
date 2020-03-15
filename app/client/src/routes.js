@@ -19,7 +19,8 @@ angular.module('reg')
         templateUrl: "views/login/login.html",
         controller: 'LoginCtrl',
         data: {
-          requireLogin: false
+          requireLogin: false,
+          requireLogout: true
         },
         resolve: {
           'settings': function(SettingsService){
@@ -29,10 +30,11 @@ angular.module('reg')
       })
       .state('home', {
         url: "/",
-        templateUrl: "views/home/home.html",
-        controller: 'HomeCtrl',
+        templateUrl: "views/login/login.html",
+        controller: 'LoginCtrl',
         data: {
-          requireLogin: false
+          requireLogin: false,
+          requireLogout: true
         },
         resolve: {
           'settings': function(SettingsService){
@@ -40,6 +42,21 @@ angular.module('reg')
           }
         }
       })
+
+      // .state('home', {
+      //   url: "/",
+      //   templateUrl: "views/home/home.html",
+      //   controller: 'HomeCtrl',
+      //   data: {
+      //     requireLogin: false
+      //   },
+      //   resolve: {
+      //     'settings': function(SettingsService){
+      //       return SettingsService.getPublicSettings();
+      //     }
+      //   }
+      // })
+
       .state('app', {
         views: {
           '': {
@@ -138,7 +155,7 @@ angular.module('reg')
         views: {
           '': {
             templateUrl: "views/admin/admin.html",
-            controller: 'AdminCtrl'
+            controller: 'adminCtrl'
           }
         },
         data: {
@@ -206,6 +223,22 @@ angular.module('reg')
         templateUrl: "views/admin/settings/settings.html",
         controller: 'AdminSettingsCtrl',
       })
+      .state('app.admin.teams', {
+        url: "/admin/teams",
+        templateUrl: "views/admin/teams/teams.html",
+        controller: 'AdminTeamCtrl',
+        data: {
+          requireVerified: true
+        },
+        resolve: {
+          currentUser: function(UserService){
+            return UserService.getCurrentUser();
+          },
+          settings: function(SettingsService){
+            return SettingsService.getPublicSettings();
+          }
+        }
+      })
       .state('reset', {
         url: "/reset/:token",
         templateUrl: "views/reset/reset.html",
@@ -251,6 +284,7 @@ angular.module('reg')
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
         var requireLogin = toState.data.requireLogin;
+        var requireLogout = toState.data.requireLogout;
         var requireAdmin = toState.data.requireAdmin;
         var requireVolunteer = toState.data.requireVolunteer;
         var requireVerified = toState.data.requireVerified;
@@ -261,6 +295,11 @@ angular.module('reg')
           $state.go('home');
         }
   
+        if (requireLogout && Session.getToken()) {
+          event.preventDefault();
+          $state.go('app.dashboard');
+        }
+        
         if (requireAdmin && !Session.getUser().admin) {
           event.preventDefault();           
           $state.go('app.dashboard');

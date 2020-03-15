@@ -13,7 +13,7 @@
         <fieldset ng-disabled="regIsClosed">
 
         <div class="field">
-          <label> Email </label>
+          <label>* Email </label>
           <input type="email"
                  name="email"
                  disabled="disabled"
@@ -80,11 +80,11 @@
                       name="year"
                       ng-model="user.profile.graduationYear">
                       <option value="" disabled>Graduation Year</option>
-                      <option value="2023">2023 (First year)</option>
-                      <option value="2022">2022 (Second year)</option>
-                      <option value="2021">2021 (Third year)</option>
-                      <option value="2020">2020 (Fourth year)</option>
-                      <option value="2019">2019 (Final year)</option>
+                      <option value="2023">2024 (First year)</option>
+                      <option value="2022">2023 (Second year)</option>
+                      <option value="2021">2022 (Third year)</option>
+                      <option value="2020">2021 (Fourth year)</option>
+                      <option value="2019">2020 (Final year)</option>
                     </select>
                   </div>          
             </div>
@@ -102,19 +102,6 @@
               </div>
             </div>    
           </div>
-          <div class="eight wide column">
-            <div class="field">
-              <label> What's your phone number? (required) </label>
-              <p>
-                We need this in case we need to get ahold of you!
-              </p>
-              <input type="tel"
-                     name="phone"
-                     ng-model="user.confirmation.phoneNumber"
-                     placeholder="(+213) 5 44 33 22 11"
-                     required>
-            </div>  
-            </div>
       </div>
 
 
@@ -123,6 +110,7 @@
                 <div class="field">
                     <label>* I would describe myself as a...</label>
                     <input type="text"
+                          name="description"
                            placeholder="Designer, Data Scientist, iOS Wizard, Hacker Extraordinaire"
                            ng-model="user.profile.description">
                   </div>
@@ -152,15 +140,23 @@
 
         <div class="field">
           <label>
-              * What would you like to learn or get out of ESIHack? (optional)
+              * What would you like to learn or get out of HackIT?
           </label>
-          <textarea ng-model="user.profile.essay">
+          <textarea name="essay" ng-model="user.profile.essay">
           </textarea>
         </div>
 
         <br>
 
         <div class="divided title"> Skills & Accomplishments </div>
+
+        <div class="field">
+          <label>* CV </label>
+          <input type="text"
+                 name="cvLink"
+                 placeholder="https://drive.com/foobar"
+                 ng-model="user.profile.cvLink">
+        </div>
 
         <div class="field">
           <label>* Github </label>
@@ -223,11 +219,15 @@
 
 
         <div class="field" ng-hide="regIsClosed">
-          <button type="submit"
-                  class="fluid ui purple button"
-                  ng-click="submitForm()">
+          <button type="button"
+                  class="fluid ui submit button purple"
+                  ng-click="submitForm()"
+
+                  >
             Submit
           </button>
+          <div class="ui error message"></div>
+
         </div>
 
         </fieldset>
