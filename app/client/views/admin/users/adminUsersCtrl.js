@@ -32,6 +32,10 @@ angular.module("reg").controller("AdminUsersCtrl", [
       for (var i = 0; i < data.totalPages; i++) {
         p.push(i);
       }
+      $state.go("app.admin.users", {
+        page: 0,
+        size: $stateParams.size || 20
+      });
       $scope.pages = p;
     }
 
