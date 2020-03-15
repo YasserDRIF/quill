@@ -115,12 +115,24 @@
       <div class="ui form">
 
         <div class="ui header">
-          Confirmation Date
+          Confirmation Deadline
         </div>
 
         <p>
           Any users that are accepted will have to confirm by the date selected.
         </p>
+
+        <div class="ui blue labels">
+          <a class="ui label" ng-click="SuggestConfirmationTime(24)">
+            1 day <i class="icon"></i>
+          </a>
+          <a class="ui label" ng-click="SuggestConfirmationTime(120)">
+            3days
+          </a>
+          <a class="ui label" ng-click="SuggestConfirmationTime(0)">
+            Event start
+          </a>
+        </div>
 
         <div class="field">
           <label>
@@ -135,6 +147,13 @@
             ng-click="updateConfirmationTime()">
             Update
           </div>
+
+          <div
+            class="ui green button"
+            ng-click="updateConfirmationUsers()">
+            Update confitmation for all users
+          </div>
+
         </div>
       </div>
     </div>

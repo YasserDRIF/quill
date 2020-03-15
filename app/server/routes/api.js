@@ -315,6 +315,12 @@ module.exports = function(router) {
     UserController.softAdmitUser(id, user, defaultResponse(req, res));
   });
 
+  router.post("/users/:id/updateconfirmby", isAdmin, function(req, res) {
+    // Soft Accept the hacker. Admin only
+    var id = req.params.id;
+    var user = req.user;
+    UserController.updateConfirmationTime(id, user, defaultResponse(req, res));
+  });
 
   router.post("/users/:id/softReject", isAdmin, function(req, res) {
     // Soft Reject the hacker. Admin only

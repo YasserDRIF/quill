@@ -64,6 +64,7 @@ angular.module('reg')
     $scope.users = [];
     $scope.sortBy = 'timestamp'
     $scope.sortDir = false
+    $scope.statusFilters= {verified:true,completedProfile:true,admitted: true,confirmed:true}
 
     $scope.filter = deserializeFilters($stateParams.filter);
     $scope.filter.text = $stateParams.query || "";
@@ -107,10 +108,9 @@ angular.module('reg')
       }
       $scope.pages = p;
     }
-
+    
     UserService.getPage($stateParams.page, $stateParams.size, $stateParams.query, $scope.statusFilters)
     .then(response => {
-
       updatePage(response.data);
     });
 
@@ -124,6 +124,7 @@ angular.module('reg')
 
 
     $scope.applyStatusFilter = function () {
+
       UserService
         .getPage($stateParams.page, $stateParams.size, $scope.queryText, $scope.statusFilters).then(
           response => {

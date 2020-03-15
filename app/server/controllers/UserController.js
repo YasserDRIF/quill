@@ -335,10 +335,28 @@ UserController.getPage = function(query, callback) {
    // Build find query
   var findQuery = buildFindQuery(textQueries, statusQueries,NotstatusQueries);
 
-  //console.log(findQuery);
   
+  if (size==0 && page==0){
 
-  User.find(findQuery)
+    User.find(findQuery)
+    .sort({
+      "profile.name": "asc"
+    })
+    .select("+status.reviewedBy")
+    .exec(function(err, users) {
+      if (err || !users) {
+        return callback(err);
+      }
+
+      callback(null, {
+        users: users,
+      });
+      
+    });
+    
+  }else {
+
+    User.find(findQuery)
     .sort({
       "profile.name": "asc"
     })
@@ -363,6 +381,9 @@ UserController.getPage = function(query, callback) {
         });
       });
     });
+
+  }
+
 };
 
 /**
@@ -768,6 +789,27 @@ UserController.softAdmitUser = function(id, user, callback) {
   });
 };
 
+
+
+UserController.updateConfirmationTime = function(id, user, callback) {
+  Settings.getRegistrationTimes(function(err, times) {
+    User.findOneAndUpdate(
+      {
+        _id: id,
+        verified: true
+      },
+      {
+        $set: {
+          "status.confirmBy": times.timeConfirm
+        }
+      },
+      {
+        new: true
+      },
+      callback
+    );
+  });
+};
 
 
 

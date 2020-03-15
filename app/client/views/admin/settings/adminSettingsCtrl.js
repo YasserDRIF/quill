@@ -3,7 +3,8 @@ angular.module('reg')
     '$scope',
     '$sce',
     'SettingsService',
-    function($scope, $sce, SettingsService){
+    'UserService',
+    function($scope, $sce, SettingsService,UserService){
 
       $scope.settings = {};
       SettingsService
@@ -143,7 +144,33 @@ angular.module('reg')
           });
       };
 
+      
+      $scope.SuggestConfirmationTime = function (hours) {
+        $scope.settings.timeConfirm = new Date( moment($scope.settings.timeStart).subtract(hours, 'h'))
+      }
 
+      $scope.updateConfirmationUsers = function(){
+        var confirmBy = cleanDate($scope.settings.timeConfirm).getTime();
+
+        SettingsService
+          .updateConfirmationTime(confirmBy)
+          .then(response => {
+            updateSettings(response.data);
+            // get all users soft admitted and update confirmation time foreach
+
+            UserService.getPage(0, 0, "", {softAdmitted:true})
+            .then(response => {
+              console.log(response.data);
+              response.data.users.forEach(user => {
+                UserService.updateConfirmationTime(user._id)
+              });
+              //update confirmation time foreach
+              swal("Sounds good!", "Confirmation Date Updated for all users", "success");            
+            });
+
+          });
+      };
+      
       // Acceptance / Confirmation Text ----------------
 
       var converter = new showdown.Converter();

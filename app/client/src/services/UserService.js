@@ -96,6 +96,10 @@ angular.module("reg").factory("UserService", [
         return $http.post(base + id + "/softAdmit");
       },
 
+      updateConfirmationTime: function(id) {
+        return $http.post(base + id + "/updateconfirmby");
+      },
+
       softRejectUser: function(id) {
         return $http.post(base + id + "/softReject");
       },
