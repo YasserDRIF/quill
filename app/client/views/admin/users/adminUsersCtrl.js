@@ -430,11 +430,23 @@ angular.module("reg").controller("AdminUsersCtrl", [
           });
         });
       } else {
-        UserService.removeAdmin(user._id).then(response => {
-          $scope.users[index] = response.data;
-          swal("Removed", response.data.profile.name + " as admin", "success");
-          $state.reload();
-        });
+        UserService.getAll().then(response=>{
+          var count = 0;
+          response.data.forEach(user => {
+            if (user.admin) count++;
+            console.log(user.profile.email);
+          });
+          if (count>1) {
+            UserService.removeAdmin(user._id).then(response => {
+              $scope.users[index] = response.data;
+              swal("Removed", response.data.profile.name + " as admin", "success");
+              $state.reload();
+            });
+          }else {
+            swal("No other Admin","You can't remove all admins.", "error");
+          }
+        })
+
       }
     };
 
